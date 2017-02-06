@@ -1,7 +1,6 @@
 angular.module("carte").service("Carte",
 	["$http",
-		function($http)
-		{
+		function($http) {
 			var Carte = function(data)
 			{
 				/*this.id = data.id;

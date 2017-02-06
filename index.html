@@ -15,10 +15,20 @@
 		<![endif]-->
     </head>
     <body ng-app="carte">
-        Bonjour !
+        <div ng-controller="carteController">
+            <div ng-show="!token" ng-cloak>
+                <!-- Pas de token, inscription -->
+                Pseudo : <input type="text" ng-model="pseudo" />
+                <button ng-click="creerPartie()">Jouer</button>
+            </div>
 
-        <!-- Affichage de la carte 700*700 -->
-        <div id="mapid"></div>
+            <div ng-show="token" ng-cloak>
+                <!-- Token ok, on peut jouer -->
+
+                <!-- Affichage de la carte 700*700 -->
+                <div id="mapid"></div>
+            </div>
+        </div>
 
         <!-- Génération de la carte -->
         <script type="text/javascript">

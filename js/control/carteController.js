@@ -2,28 +2,47 @@ angular.module("carte")
 	.controller("carteController", ["$scope", "$http",
 	function($scope, $http)
 	{
-		$scope.tab = [];
+		$scope.points = [];
+		$scope.destination;
+		$scope.token = false;
+		$scope.score;
 
-		{
-			response.data.forEach(function(data)
-			{
-				var newListe = new Liste(data);
-				$scope.tab.push(newListe);
-			});
-		},
-		function(error) {
-			console.log(error);
+		function storageAvailable(type) {
+			try {
+				var storage = window[type],
+					x = '__storage_test__';
+				storage.setItem(x, x);
+				storage.removeItem(x);
+				return true;
+			}
+			catch(e) {
+				return false;
+			}
+		}
 
-		/*$scope.create = function() {
-			$http.post("api/" , '{"label": "' + document.getElementById("liste-createbox").value + '"}', { headers : {'Authorization' : 'Token token=0cbd83dabea346dab268bf13ce476ae1'} }).then(function(response)
-			{
-				var newListe = new Liste(response.data);
-				$scope.tab.push(newListe);
-				document.getElementById("liste-createbox").value = "";
-			},function(error)
-			{
+		if(!storageAvailable('localStorage')) {
+			alert('localStorage indisponible sur votre navigateur !');
+			return false;
+		}
+
+		if(!localStorage.getItem('carteToken')) {
+			// Nouvelle partie
+			console.log("créer nouvelle partie");
+		}
+		else {
+			// Partie en cours ? on initialise token
+			console.log("partie en cours");
+			$scope.token = localStorage.getItem('carteToken');
+		}
+
+		$scope.creerPartie = function() {
+			$http.post("api/newGame", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
+				$scope.token = response.data.token;
+				localStorage.setItem('carteToken', $scope.token);
+			},
+			function(error) {
 				console.log(error);
 			});
-		};*/
+		}
 	}
 ]);

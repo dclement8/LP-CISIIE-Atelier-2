@@ -2,6 +2,7 @@ angular.module("carte")
 	.controller("carteController", ["$scope", "$http",
 	function($scope, $http)
 	{
+		$scope.point = 1;
 		$scope.points = [];
 		$scope.destination;
 		$scope.token = false;
@@ -39,6 +40,10 @@ angular.module("carte")
 			$http.post("api/newGame", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
 				$scope.token = response.data.token;
 				localStorage.setItem('carteToken', $scope.token);
+
+				$scope.getPoints();
+				$scope.getDestination();
+				$scope.point = 1;
 			},
 			function(error) {
 				console.log(error);
@@ -70,6 +75,10 @@ angular.module("carte")
 			function(error) {
 				console.log(error);
 			});
+		}
+
+		$scope.verifierPoint = function(coords) {
+			console.log(coords);
 		}
 	}
 ]);

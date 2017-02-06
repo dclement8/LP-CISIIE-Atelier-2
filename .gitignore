@@ -2,3 +2,5 @@
 conf/config.ini
 conf\config.ini
 *.scssc
+./scss
+.vscode/launch.json

@@ -1,0 +1,13 @@
+Sujet : FindYourWay
+
+Jeu où on donne des indications (texte) pour placer des points (5 points) sur la carte pour former un chemin et aller à une destination finale.
+
+Chaque lieu bien placé = nouvel indice pour attendre la destination finale.
+
+Maximum de 5 indices pour atteindre la destination finale.
+
+Score final calculé en fonction de la précision du placement de la destination finale.
+
+- Interface admin : ajout chemins (points) ; destination finale (indices, géolocalisation du point final)
+- Application jeu (JS) : création de partie (token), déroulement des parties (indications, coordonées <= pour chaque points ; et indices et coordonées du point final) + scores calculé et envoyé
+- BDD MySQL + API REST (retours JSON) : gestion des lieux, chemins, destinations, scores.

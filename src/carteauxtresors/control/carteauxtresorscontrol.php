@@ -24,5 +24,7 @@ class carteauxtresorscontrol
 		return (new \quizzbox\view\quizzboxview(null))->render('exemple', $req, $resp, $args);
     }*/
 
+    
+
 	
 }

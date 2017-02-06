@@ -1,7 +1,7 @@
 <?php
 session_start();
 // Autoloaders
-require_once("./vendor/autoload.php");
+require_once("../vendor/autoload.php");
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;

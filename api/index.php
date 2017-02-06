@@ -22,6 +22,8 @@ $app = new \Slim\App($c);
 	}
 )->setName('exemple');*/
 
-
-
-$app->run();
+$app->get('/newGame/',
+	function (Request $req, Response $resp, $args) {
+			return (new carteauxtresors\control\carteauxtresorscontrol($this))->newGame($req, $resp, $args);
+	}
+)->$app->run();

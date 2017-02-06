@@ -5,7 +5,7 @@ angular.module("carte")
 		$scope.points = [];
 		$scope.destination;
 		$scope.token = false;
-		$scope.score;
+		$scope.score = 0;
 
 		function storageAvailable(type) {
 			try {
@@ -39,6 +39,33 @@ angular.module("carte")
 			$http.post("api/newGame", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
 				$scope.token = response.data.token;
 				localStorage.setItem('carteToken', $scope.token);
+			},
+			function(error) {
+				console.log(error);
+			});
+		}
+
+		$scope.getPoints = function() {
+			$http.get("api/points", '{"token": "'+ $scope.token +'"}').then(function(response) {
+				$scope.points = response.data.points;
+			},
+			function(error) {
+				console.log(error);
+			});
+		}
+
+		$scope.getDestination = function() {
+			$http.get("api/destination", '{"token": "'+ $scope.token +'"}').then(function(response) {
+				$scope.destination = response.data.destination;
+			},
+			function(error) {
+				console.log(error);
+			});
+		}
+
+		$scope.sendScore = function() {
+			$http.post("api/score", '{"token": "'+ $scope.token +'", "score": "'+ $scope.score +'"}').then(function(response) {
+				//
 			},
 			function(error) {
 				console.log(error);

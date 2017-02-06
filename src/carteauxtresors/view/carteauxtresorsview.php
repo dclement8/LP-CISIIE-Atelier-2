@@ -86,6 +86,32 @@ class carteauxtresorsview
     }*/
 
 
+	private function newGame($req, $resp, $args)
+	{
+		if(is_array($this->data))
+		{
+			$json = json_encode($this->data);
+			$resp = $resp->withHeader('Content-Type', 'application/json');
+		}
+		else
+		{
+			$json = $this->data;
+			$resp = $resp->withHeader('Content-Type', 'application/json');
+		}
+		$resp->getBody()->write($json);
+		return $resp;
+	}
+
+
+
+
+
+
+
+
+
+
+
 	// -----------
 
 	public function render($selector, $req, $resp, $args)

@@ -1,1 +1,98 @@
 #mapid { height: 700px; width: 700px; }
+
+body
+{
+	background-color:#F1F1F1;
+}
+
+textarea
+{
+	resize:none;
+	width:100%;
+	box-sizing:border-box;
+}
+
+header
+{
+	background-color:#3366FF;
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+	padding:15px;
+	box-sizing:border-box;
+	box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
+	color:white;
+	margin-bottom:20px;
+}
+
+header h1
+{
+	font-weight:bold;
+	font-size:2.5em;
+	margin:0px;
+}
+
+#content
+{
+	width:90%;
+	box-sizing:border-box;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#content > div
+{
+	box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
+	padding:20px;
+	box-sizing:border-box;
+	background-color:white;
+	margin-bottom:20px;
+	font-size:1em;
+}
+
+#content > div > h2
+{
+	font-size:2em;
+	font-weight:bold;
+	margin-top:0px;
+	margin-left:0px;
+	margin-right:0px;
+	margin-bottom:10px;
+}
+
+#message
+{
+	text-align:left;
+	padding:5px;
+	background-color: #444;
+	color:white;
+	box-sizing:border-box;
+	margin-top:-20px;
+	margin-bottom:20px;
+	box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
+}
+
+footer
+{
+	background-color: #444;
+	color: #b3b3b3;
+	text-align:center;
+	padding: 25px 0;
+	border-top-color: #a3a3a3;
+	border-top-style: solid;
+	border-top-width: 1px;
+	box-sizing:border-box;
+}
+
+button.btn-floating.btn-large.waves-effect.waves-light.blue
+{
+	font-size:2em;
+	font-weight:bold;
+}
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked
+{
+	position:relative;
+	left:0px;
+	opacity:1;
+}

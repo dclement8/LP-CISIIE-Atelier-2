@@ -22,8 +22,12 @@ $app = new \Slim\App($c);
 	}
 )->setName('exemple');*/
 
-$app->get('/newGame/',
-	function (Request $req, Response $resp, $args) {
-			return (new carteauxtresors\control\carteauxtresorscontrol($this))->newGame($req, $resp, $args);
+$app->post('/newGame',
+	function (Request $req, Response $resp, $args) 
+	{
+		return (new carteauxtresors\control\carteauxtresorscontrol($this))->newGame($req, $resp, $args);
 	}
-)->$app->run();
+)->setName('newGame');
+
+
+$app->run();

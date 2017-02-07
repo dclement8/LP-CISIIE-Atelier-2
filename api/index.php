@@ -24,6 +24,7 @@ $app = new \Slim\App($c);
 * @apiParam {String} pseudo Pseudo entré par l'utilisateur
 * @apiParam {String} token Token générer pour la partie
 *
+* @apiSuccess (Succès : 201) {json} token Token de la partie
 *
 * @apiSuccessExample {json} exemple de réponse en cas de succès
 *     HTTP/1.1 201 Created

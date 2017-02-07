@@ -15,15 +15,7 @@ $app = new \Slim\App($c);
 
 // -------------------
 
-/*$app->get('/',
-	function (Request $req, Response $resp, $args)
-	{
-		return (new quizzbox\control\quizzboxcontrol($this))->exemple($req, $resp, $args);
-	}
-)->setName('exemple');*/
-
-
-$app->post('/newGame',
+$app->post('/parties',
 	function (Request $req, Response $resp, $args) 
 	{
 		return (new carteauxtresors\control\carteauxtresorscontrol($this))->newGame($req, $resp, $args);
@@ -38,7 +30,7 @@ $app->get('/points',
 )->setName('recupPoints');
 
 
-$app->get('/destination',
+$app->get('/destinations',
 	function (Request $req, Response $resp, $args)
 	{
 		return (new carteauxtresor\control\carteauxtresorscontrol($this))->destinationFinale($req, $resp, $args);

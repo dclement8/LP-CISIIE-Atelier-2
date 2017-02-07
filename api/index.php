@@ -37,4 +37,13 @@ $app->get('/destinations',
 	}
 )->setName('destinationFinale');
 
+$app->put('/parties/score',
+
+function (Request $req, Response $resp, $args) 
+	{
+		return (new carteauxtresors\control\carteauxtresorscontrol($this))->scorePartie($req, $resp, $args);
+	}
+)->setName('scorePartie');
+
+
 $app->run();

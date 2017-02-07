@@ -1,4 +1,11 @@
-app.controller("carteController", ["$scope", "$http", "leafletMapEvents", function($scope, $http, leafletMapEvents) {
+app.controller("carteController", ["$scope", "$http", "leafletMapEvents",
+function($scope, $http, leafletMapEvents) {
+
+	$scope.point = 1;
+	$scope.points = [];
+	$scope.destination;
+	$scope.token = false;
+	$scope.score = 0;
 
 	/* Génération de la carte */
 
@@ -44,14 +51,11 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 	// Evenement lors du clic sur la carte
 	$scope.$on("leafletDirectiveMap.click", function(event, args) {
 		var leafEvent = args.leafletEvent;
-		console.log(leafEvent.latlng);
+		$scope.verifierPoint(
+			[leafEvent.latlng.lat, leafEvent.latlng.lng],
+			[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+		);
 	});
-
-	$scope.point = 1;
-	$scope.points = [];
-	$scope.destination;
-	$scope.token = false;
-	$scope.score = 0;
 
 	function storageAvailable(type) {
 		try {
@@ -71,6 +75,79 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 		return false;
 	}
 
+	$scope.creerPartie = function() {
+		$http.post("api/parties", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
+			console.log(response.data.token);
+			if(response.data.token !== undefined) {
+				$scope.token = response.data.token;
+				localStorage.setItem('carteToken', $scope.token);
+
+				$scope.getPoints();
+				$scope.getDestination();
+				$scope.point = 1;
+			}
+			else {
+				// Erreur
+				alert('Impossible de créer un compte !');
+			}
+		},
+		function(error) {
+			console.log(error);
+		});
+	}
+
+	$scope.supprimerPartie = function() {
+		if(confirm("Voulez-vous vraiment commencer une nouvelle partie ?")) {
+			localStorage.removeItem("carteToken");
+			$scope.token = false;
+		}
+	}
+
+	$scope.getPoints = function() {
+		$http.get("api/points").then(function(response) {
+			if(response.data.points !== undefined) {
+				$scope.points = response.data.points;
+			}
+			else {
+				// Erreur
+				alert('Impossible de récupérer les points !');
+			}
+		},
+		function(error) {
+			console.log(error);
+		});
+	}
+
+	$scope.getDestination = function() {
+		$http.get("api/destinations").then(function(response) {
+			if(response.data.destination !== undefined) {
+				$scope.destination = response.data.destination;
+			}
+			else {
+				// Erreur
+				alert('Impossible de récupérer la destination !');
+			}
+		},
+		function(error) {
+			console.log(error);
+		});
+	}
+
+	$scope.sendScore = function() {
+		$http.put("api/parties/score", '{"token": "'+ $scope.token +'", "score": "'+ $scope.score +'"}').then(function(response) {
+			console.log(response.data);
+		},
+		function(error) {
+			console.log(error);
+		});
+	}
+
+	$scope.verifierPoint = function(p1, p2) {
+		// On vérifie p1 par rapport à p2
+		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
+		console.log(diagonale);
+	}
+
 	if(!localStorage.getItem('carteToken')) {
 		// Nouvelle partie
 		console.log("créer nouvelle partie");
@@ -79,50 +156,7 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 		// Partie en cours ? on initialise token
 		console.log("partie en cours");
 		$scope.token = localStorage.getItem('carteToken');
-	}
-
-	$scope.creerPartie = function() {
-		$http.post("api/newGame", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
-			$scope.token = response.data.token;
-			localStorage.setItem('carteToken', $scope.token);
-
-			$scope.getPoints();
-			$scope.getDestination();
-			$scope.point = 1;
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
-
-	$scope.getPoints = function() {
-		$http.get("api/points", '{"token": "'+ $scope.token +'"}').then(function(response) {
-			$scope.points = response.data.points;
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
-
-	$scope.getDestination = function() {
-		$http.get("api/destination", '{"token": "'+ $scope.token +'"}').then(function(response) {
-			$scope.destination = response.data.destination;
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
-
-	$scope.sendScore = function() {
-		$http.post("api/score", '{"token": "'+ $scope.token +'", "score": "'+ $scope.score +'"}').then(function(response) {
-			//
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
-
-	$scope.verifierPoint = function(coords) {
-		console.log(coords);
+		$scope.getPoints();
+		$scope.getDestination();
 	}
 }]);

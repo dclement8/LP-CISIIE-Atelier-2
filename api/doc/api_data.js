@@ -78,7 +78,7 @@ define({ "api": [
       "examples": [
         {
           "title": "exemple de réponse en cas de succès",
-          "content": "    HTTP/1.1 200 OK\n\t{\n\t\t\"destination finale\": {\n\t\t\t\"id\": 6,\n\t\t\t\"nom\": \"Cherbourg\",\n\t\t\t\"latitude\": 49.6337308,\n\t\t\t\"longitude\": -1.622137,\n\t\t\t\"indice1\": \"Une des plus grosses bases de défense\",\n\t\t\t\"indice2\": \"Emmanuel Liais\",\n\t\t\t\"indice3\": \"La Montagne du Roule\",\n\t\t\t\"indice4\": \"Mes parapluies me sont célèbres\",\n\t\t\t\"indice5\": \"Cotentin\"\n\t\t }\n }",
+          "content": "    HTTP/1.1 200 OK\n\t{\n\t\t\"destination\": {\n\t\t\t\"id\": 6,\n\t\t\t\"nom\": \"Cherbourg\",\n\t\t\t\"latitude\": 49.6337308,\n\t\t\t\"longitude\": -1.622137,\n\t\t\t\"indice1\": \"Une des plus grosses bases de défense\",\n\t\t\t\"indice2\": \"Emmanuel Liais\",\n\t\t\t\"indice3\": \"La Montagne du Roule\",\n\t\t\t\"indice4\": \"Mes parapluies me sont célèbres\",\n\t\t\t\"indice5\": \"Cotentin\"\n\t\t }\n }",
           "type": "json"
         }
       ]

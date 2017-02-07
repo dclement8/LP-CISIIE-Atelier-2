@@ -109,7 +109,7 @@ $app->get('/points',
  * @apiSuccessExample {json} exemple de réponse en cas de succès
  *     HTTP/1.1 200 OK
  *	{
- *		"destination finale": {
+ *		"destination": {
  *			"id": 6,
  *			"nom": "Cherbourg",
  *			"latitude": 49.6337308,

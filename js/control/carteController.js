@@ -83,13 +83,19 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 
 	$scope.creerPartie = function() {
 		$http.post("api/parties", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
-			console.log(response.data);
-			/*$scope.token = response.data.token;
-			localStorage.setItem('carteToken', $scope.token);
+			console.log(response.data.token);
+			if(response.data.token !== undefined) {
+				$scope.token = response.data.token;
+				localStorage.setItem('carteToken', $scope.token);
 
-			$scope.getPoints();
-			$scope.getDestination();
-			$scope.point = 1;*/
+				$scope.getPoints();
+				$scope.getDestination();
+				$scope.point = 1;
+			}
+			else {
+				// Erreur
+				alert('Impossible de créer un compte !');
+			}
 		},
 		function(error) {
 			console.log(error);
@@ -97,9 +103,9 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 	}
 
 	$scope.supprimerPartie = function() {
-		if(confirm("Voulez-vous vraiment supprimer cette partie ?")) {
+		if(confirm("Voulez-vous vraiment commencer une nouvelle partie ?")) {
 			localStorage.removeItem("carteToken");
-			// TODO delete in db
+			$scope.token = false;
 		}
 	}
 

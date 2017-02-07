@@ -7,7 +7,7 @@ use \carteauxtresors\AppInit;
 
 // Connexion à la BDD
 $connexion = new AppInit();
-$connexion->bootEloquent("./conf/config.ini");
+$connexion->bootEloquent("../conf/config.ini");
 
 class carteauxtresorscontrol
 {
@@ -24,7 +24,16 @@ class carteauxtresorscontrol
 		return (new \quizzbox\view\quizzboxview(null))->render('exemple', $req, $resp, $args);
     }*/
 
-    
+    public function recupPoints(Request $req, Response $resp, $args)
+	{
+        $json = \carteauxtresors\model\point::orderByRaw('RAND()')->take(5)->get()->toJson();
+		return (new \carteauxtresors\view\carteauxtresorsview($json))->render('recupPoints', $req, $resp, $args);
+    }
+
+    public function destinationFinale(Request $req, Response $resp, $args)
+	{
+		return (new \carteauxtresors\view\carteauxtresorsview(null))->render('destinationFinale', $req, $resp, $args);
+    }
 
 	
 }

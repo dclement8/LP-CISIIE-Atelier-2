@@ -7,7 +7,7 @@ use \carteauxtresors\AppInit;
 
 // Connexion à la BDD
 $connexion = new AppInit();
-$connexion->bootEloquent("./conf/config.ini");
+$connexion->bootEloquent("../conf/config.ini");
 
 class carteauxtresorscontrol
 {
@@ -24,5 +24,55 @@ class carteauxtresorscontrol
 		return (new \quizzbox\view\quizzboxview(null))->render('exemple', $req, $resp, $args);
     }*/
 
-	
+
+
+
+    public function recupPoints(Request $req, Response $resp, $args)
+	{
+        $json = \carteauxtresors\model\point::orderByRaw('RAND()')->take(5)->get()->toJson();
+		return (new \carteauxtresors\view\carteauxtresorsview($json))->render('recupPoints', $req, $resp, $args);
+    }
+
+    public function destinationFinale(Request $req, Response $resp, $args)
+	{
+        $json = \carteauxtresors\model\destination::orderByRaw('RAND()')->take(1)->get()->toJson();
+		return (new \carteauxtresors\view\carteauxtresorsview($json))->render('destinationFinale', $req, $resp, $args);
+    }
+
+    public function newGame(Request $req, Response $resp, $args) 
+    {
+        if(isset($_POST["pseudo"])) {
+
+            $pseudo = $_POST["pseudo"];
+
+            $factory = new \RandomLib\Factory;
+
+            $generator = $factory->getGenerator(new \SecurityLib\Strength(\SecurityLib\Strength::MEDIUM));
+
+            $token = $generator->generateString(32, 'abcdefghijklmnopqrstuvwxyz0123456789');
+
+
+            $partie = new \carteauxtresors\model\partie();
+
+            $partie->pseudo = $pseudo;
+
+            $partie->token = $token;
+
+            $partie->save();
+
+            $arr = array('error' => 'Creation de la partie : '.$req->getUri());
+
+            $resp = $resp->withStatus(200);
+
+            return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('newGame', $req, $resp, $args );
+
+        } else {
+
+            $arr = array('error' => 'Erreur de pseudo : '.$req->getUri());
+
+            $resp = $resp->withStatus(400);
+
+            return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('newGame', $req, $resp, $args );
+        }
+    }
 }

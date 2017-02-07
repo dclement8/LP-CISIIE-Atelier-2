@@ -110,8 +110,14 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 	}
 
 	$scope.getPoints = function() {
-		$http.get("api/points", '{"token": "'+ $scope.token +'"}').then(function(response) {
-			$scope.points = response.data.points;
+		$http.get("api/points").then(function(response) {
+			if(response.data.points !== undefined) {
+				$scope.points = response.data.points;
+			}
+			else {
+				// Erreur
+				alert('Impossible de récupérer les points !');
+			}
 		},
 		function(error) {
 			console.log(error);
@@ -119,8 +125,14 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 	}
 
 	$scope.getDestination = function() {
-		$http.get("api/destination", '{"token": "'+ $scope.token +'"}').then(function(response) {
-			$scope.destination = response.data.destination;
+		$http.get("api/destinations").then(function(response) {
+			if(response.data.destination !== undefined) {
+				$scope.destination = response.data.destination;
+			}
+			else {
+				// Erreur
+				alert('Impossible de récupérer la destination !');
+			}
 		},
 		function(error) {
 			console.log(error);
@@ -128,8 +140,8 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 	}
 
 	$scope.sendScore = function() {
-		$http.post("api/score", '{"token": "'+ $scope.token +'", "score": "'+ $scope.score +'"}').then(function(response) {
-			//
+		$http.put("api/parties/score", '{"token": "'+ $scope.token +'", "score": "'+ $scope.score +'"}').then(function(response) {
+			console.log(response.data);
 		},
 		function(error) {
 			console.log(error);

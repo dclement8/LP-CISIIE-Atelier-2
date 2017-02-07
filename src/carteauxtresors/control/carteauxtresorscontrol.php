@@ -40,9 +40,12 @@ class carteauxtresorscontrol
 
     public function newGame(Request $req, Response $resp, $args) 
     {
-        if(isset($_POST["pseudo"])) {
 
-            $pseudo = $_POST["pseudo"];
+        $obj = json_decode($req->getBody());
+
+        if(isset($_POST[$obj->pseudo])) {
+
+            $pseudo = filter_var($obj->pseudo, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $factory = new \RandomLib\Factory;
 
@@ -85,7 +88,7 @@ class carteauxtresorscontrol
                 $nbparties = \carteauxtresors\model\partie::where("token", $token)->count();
                 if($nbparties == 0)
                 {
-                    $arr = array('error' => 'Le token n existe pas : '.$req->getUri());
+                    $arr = array('error' => 'Le token n\'existe pas : '.$req->getUri());
 
                     $resp = $resp->withStatus(404);
 

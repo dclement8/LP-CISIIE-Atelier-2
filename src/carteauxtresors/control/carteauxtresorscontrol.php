@@ -32,7 +32,8 @@ class carteauxtresorscontrol
 
     public function destinationFinale(Request $req, Response $resp, $args)
 	{
-		return (new \carteauxtresors\view\carteauxtresorsview(null))->render('destinationFinale', $req, $resp, $args);
+        $json = \carteauxtresors\model\destination::orderByRaw('RAND()')->take(1)->get()->toJson();
+		return (new \carteauxtresors\view\carteauxtresorsview($json))->render('destinationFinale', $req, $resp, $args);
     }
 
 	

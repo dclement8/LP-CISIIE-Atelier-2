@@ -50,7 +50,7 @@ header h1
 	font-size:1em;
 }
 
-#content > div > h2
+#content > div > h2, #content > form > h2
 {
 	font-size:2em;
 	font-weight:bold;

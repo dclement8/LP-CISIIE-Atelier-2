@@ -20,6 +20,40 @@ class admincontrol
 
 
 
+	public function connexion(Request $req, Response $resp, $args)
+	{
+		if(isset($_SESSION["login"]))
+		{
+			return (new \carteauxtresors\control\admincontrol($this))->accueil($req, $resp, $args);
+		}
+		else
+		{
+			return (new \carteauxtresors\view\adminview(null))->render('connexion', $req, $resp, $args);
+		}
+	}
+	
+	public function traitementConnexion(Request $req, Response $resp, $args)
+	{
+		if(isset($_SESSION["login"]))
+		{
+			return (new \carteauxtresors\control\admincontrol($this))->accueil($req, $resp, $args);
+		}
+		else
+		{
+			if(filter_var($_POST["mdp"], FILTER_SANITIZE_FULL_SPECIAL_CHARS) == "174086")
+			{
+				$_SESSION["login"] = true;
+				$_SESSION["message"] = "Bienvenue !";
+				return (new \carteauxtresors\control\admincontrol($this))->accueil($req, $resp, $args);
+			}
+			else
+			{
+				$_SESSION["message"] = "Mot de passe incorrect !";
+				return (new \carteauxtresors\view\adminview(null))->render('connexion', $req, $resp, $args);
+			}
+		}
+	}
+	
 	public function accueil(Request $req, Response $resp, $args)
 	{
 		// Infos points

@@ -27,7 +27,7 @@ $app->get('/',
 	{
 		return (new carteauxtresors\control\admincontrol($this))->accueil($req, $resp, $args);
 	}
-)->setName('accueil');
+)->setName('accueil')->add(new carteauxtresors\utils\authentification());
 
 
 $app->post('/points/ajouter',
@@ -35,14 +35,14 @@ $app->post('/points/ajouter',
 	{
 		return (new carteauxtresors\control\admincontrol($this))->ajouterPoint($req, $resp, $args);
 	}
-)->setName('ajouterPoint');
+)->setName('ajouterPoint')->add(new carteauxtresors\utils\authentification());
 
 $app->get('/points/ajouter',
 	function (Request $req, Response $resp, $args)
 	{
 		return (new carteauxtresors\control\admincontrol($this))->accueil($req, $resp, $args);
 	}
-)->setName('ajouterPointGET');
+)->setName('ajouterPointGET')->add(new carteauxtresors\utils\authentification());
 
 
 $app->post('/points/supprimer',
@@ -50,14 +50,14 @@ $app->post('/points/supprimer',
 	{
 		return (new carteauxtresors\control\admincontrol($this))->supprimerPoint($req, $resp, $args);
 	}
-)->setName('supprimerPoint');
+)->setName('supprimerPoint')->add(new carteauxtresors\utils\authentification());
 
 $app->get('/points/supprimer',
 	function (Request $req, Response $resp, $args)
 	{
 		return (new carteauxtresors\control\admincontrol($this))->accueil($req, $resp, $args);
 	}
-)->setName('supprimerPointGET');
+)->setName('supprimerPointGET')->add(new carteauxtresors\utils\authentification());
 
 
 $app->post('/destinations/ajouter',
@@ -65,14 +65,14 @@ $app->post('/destinations/ajouter',
 	{
 		return (new carteauxtresors\control\admincontrol($this))->ajouterDestination($req, $resp, $args);
 	}
-)->setName('ajouterDestinations');
+)->setName('ajouterDestinations')->add(new carteauxtresors\utils\authentification());
 
 $app->get('/destinations/ajouter',
 	function (Request $req, Response $resp, $args)
 	{
 		return (new carteauxtresors\control\admincontrol($this))->accueil($req, $resp, $args);
 	}
-)->setName('ajouterDestinationsGET');
+)->setName('ajouterDestinationsGET')->add(new carteauxtresors\utils\authentification());
 
 
 $app->post('/destinations/supprimer',
@@ -80,14 +80,29 @@ $app->post('/destinations/supprimer',
 	{
 		return (new carteauxtresors\control\admincontrol($this))->supprimerDestination($req, $resp, $args);
 	}
-)->setName('supprimerDestinations');
+)->setName('supprimerDestinations')->add(new carteauxtresors\utils\authentification());
 
 $app->get('/destinations/supprimer',
 	function (Request $req, Response $resp, $args)
 	{
 		return (new carteauxtresors\control\admincontrol($this))->accueil($req, $resp, $args);
 	}
-)->setName('supprimerDestinationsGET');
+)->setName('supprimerDestinationsGET')->add(new carteauxtresors\utils\authentification());
+
+
+$app->post('/connexion',
+	function (Request $req, Response $resp, $args)
+	{
+		return (new carteauxtresors\control\admincontrol($this))->traitementConnexion($req, $resp, $args);
+	}
+)->setName('connexion');
+
+$app->get('/connexion',
+	function (Request $req, Response $resp, $args)
+	{
+		return (new carteauxtresors\control\admincontrol($this))->connexion($req, $resp, $args);
+	}
+)->setName('connexionGET');
 
 
 $app->run();

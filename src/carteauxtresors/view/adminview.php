@@ -249,6 +249,22 @@ class adminview
 		
 		return $html;
     }
+	
+	private function connexion($req, $resp, $args)
+	{
+		$html = "
+			<div id='connexionForm'>
+				<h2>Authentification</h2>
+				<form name='connexion' method='post' action='".$this->baseURL."/admin/connexion'>
+					<label for='mdp'>Mot de passe : </label>
+					<input type='password' name='mdp' id='mdp' placeholder='Entrez votre mot de passe...' required /><br/><br/>
+					<button class='waves-effect waves-light btn' type='submit'>Connexion</button>
+				</form>
+			</div>
+		";
+		
+		return $html;
+	}
 
 
 	// -----------

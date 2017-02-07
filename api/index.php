@@ -25,8 +25,6 @@ $app = new \Slim\App($c);
 * @apiParam {String} token Token générer pour la partie
 *
 *
-* @apiSuccess (Succès : 201) {json} réponse.
-*
 * @apiSuccessExample {json} exemple de réponse en cas de succès
 *     HTTP/1.1 201 Created
 *

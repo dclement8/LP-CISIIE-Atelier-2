@@ -7,7 +7,7 @@ Lien vers le tableau de bord de suivi du projet (fichier Excel) : https://1drv.m
 ---------
 
 ## Quelques précisions sur la structure des fichiers :
-*admin/* ==> Backend de gestion *(pour vous authentifier sur le backend, le mot de passe est **174086** )*
+*admin/* ==> Backend de gestion (pour vous authentifier sur le backend, le mot de passe est **174086** )
 
 *api/* ==> API REST ; Vous trouverez la documentation de cette API générée par APIDoc dans le dossier api/doc
 

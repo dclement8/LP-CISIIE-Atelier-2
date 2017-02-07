@@ -61,7 +61,7 @@ $app->get('/points',
  * @apiName destinationFinale
  * @apiVersion 0.1.0
  *
- * @api {get} /destination  accès à une ressources destination 
+ * @api {get} /destinations  accès à une ressources destination 
  *
  * @apiDescription Retourne un tableau contenant une représentation json d'une destination finale chosie aléatoirement.
  *
@@ -93,7 +93,7 @@ $app->get('/points',
  *
  *
 */
-$app->get('/destination',
+$app->get('/destinations',
 	function (Request $req, Response $resp, $args)
 	{
 		return (new carteauxtresors\control\carteauxtresorscontrol($this))->destinationFinale($req, $resp, $args);

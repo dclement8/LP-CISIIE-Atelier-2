@@ -25,7 +25,7 @@ $app->post('/parties',
 $app->get('/points',
 	function (Request $req, Response $resp, $args)
 	{
-		return (new carteauxtresor\control\carteauxtresorscontrol($this))->recupPoints($req, $resp, $args);
+		return (new carteauxtresors\control\carteauxtresorscontrol($this))->recupPoints($req, $resp, $args);
 	}
 )->setName('recupPoints');
 
@@ -33,7 +33,7 @@ $app->get('/points',
 $app->get('/destinations',
 	function (Request $req, Response $resp, $args)
 	{
-		return (new carteauxtresor\control\carteauxtresorscontrol($this))->destinationFinale($req, $resp, $args);
+		return (new carteauxtresors\control\carteauxtresorscontrol($this))->destinationFinale($req, $resp, $args);
 	}
 )->setName('destinationFinale');
 

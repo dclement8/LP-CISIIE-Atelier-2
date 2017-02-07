@@ -82,17 +82,25 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 	}
 
 	$scope.creerPartie = function() {
-		$http.post("api/newGame", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
-			$scope.token = response.data.token;
+		$http.post("api/parties", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
+			console.log(response.data);
+			/*$scope.token = response.data.token;
 			localStorage.setItem('carteToken', $scope.token);
 
 			$scope.getPoints();
 			$scope.getDestination();
-			$scope.point = 1;
+			$scope.point = 1;*/
 		},
 		function(error) {
 			console.log(error);
 		});
+	}
+
+	$scope.supprimerPartie = function() {
+		if(confirm("Voulez-vous vraiment supprimer cette partie ?")) {
+			localStorage.removeItem("carteToken");
+			// TODO delete in db
+		}
 	}
 
 	$scope.getPoints = function() {

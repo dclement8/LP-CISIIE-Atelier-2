@@ -31,13 +31,13 @@ $app = new \Slim\App($c);
 *     HTTP/1.1 201 Created
 *
 *     {
-*       "error" : "Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
+*       "info" : "Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
 *     }
 *
 * @apiError (Erreur : 400) error Le token n\'existe pas : 
 *
-* @apiErrorExample {json} Token non trouvé
-*     HTTP/1.1 404 Not Found
+* @apiErrorExample {json} Pseudo introuvable
+*     HTTP/1.1 400 Bad Request
 *
 *     {
 *       "error" : "Erreur de pseudo : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
@@ -156,13 +156,13 @@ $app->get('/destinations',
 *     HTTP/1.1 201 Created
 *
 *     {
-*       "error" : "Ajout du score de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
+*       "info" : "Ajout du score de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
 *     }
 *
 * @apiError (Erreur : 400) error Le token n'existe pas : 
 *
 * @apiErrorExample {json} erreur de score
-*     HTTP/1.1 404 Bad Request
+*     HTTP/1.1 400 Bad Request
 *
 *     {
 *       "error" : "Le score est incorrect : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"

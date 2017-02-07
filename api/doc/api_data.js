@@ -209,7 +209,7 @@ define({ "api": [
       "examples": [
         {
           "title": "exemple de réponse en cas de succès",
-          "content": "HTTP/1.1 201 Created\n\n{\n  \"error\" : \"Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
+          "content": "HTTP/1.1 201 Created\n\n{\n  \"info\" : \"Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
           "type": "json"
         }
       ]
@@ -227,8 +227,8 @@ define({ "api": [
       },
       "examples": [
         {
-          "title": "Token non trouvé",
-          "content": "HTTP/1.1 404 Not Found\n\n{\n  \"error\" : \"Erreur de pseudo : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
+          "title": "Pseudo introuvable",
+          "content": "HTTP/1.1 400 Bad Request\n\n{\n  \"error\" : \"Erreur de pseudo : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
           "type": "json"
         }
       ]
@@ -291,7 +291,7 @@ define({ "api": [
         },
         {
           "title": "erreur de score",
-          "content": "HTTP/1.1 404 Bad Request\n\n{\n  \"error\" : \"Le score est incorrect : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
+          "content": "HTTP/1.1 400 Bad Request\n\n{\n  \"error\" : \"Le score est incorrect : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
           "type": "json"
         },
         {
@@ -316,7 +316,7 @@ define({ "api": [
       "examples": [
         {
           "title": "exemple de réponse en cas de succès",
-          "content": "HTTP/1.1 201 Created\n\n{\n  \"error\" : \"Ajout du score de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
+          "content": "HTTP/1.1 201 Created\n\n{\n  \"info\" : \"Ajout du score de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
           "type": "json"
         }
       ]

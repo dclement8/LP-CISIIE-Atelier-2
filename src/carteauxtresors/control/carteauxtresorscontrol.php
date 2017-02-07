@@ -61,7 +61,7 @@ class carteauxtresorscontrol
 
             $arr = array('error' => 'Creation de la partie : '.$req->getUri());
 
-            $resp = $resp->withStatus(201);
+            $resp = $resp->withStatus(200);
 
             return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('newGame', $req, $resp, $args );
 
@@ -72,52 +72,6 @@ class carteauxtresorscontrol
             $resp = $resp->withStatus(400);
 
             return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('newGame', $req, $resp, $args );
-        }
-    }
-    public function scorePartie(Request $req, Response $resp, $args) 
-    {
-        $obj = json_decode($req->getBody());
-        if(isset($obj->score) || isset($obj->token)) {
-            if(filter_var($obj->score, FILTER_SANITIZE_NUMBER_INT) != false) 
-            {
-                $score = filter_var($obj->score, FILTER_SANITIZE_NUMBER_INT);
-                $token = filter_var($obj->token, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                $nbparties = \carteauxtresors\model\partie::where("token", $token)->count();
-                if($nbparties == 0)
-                {
-                    $arr = array('error' => 'Le token n existe pas : '.$req->getUri());
-
-                    $resp = $resp->withStatus(404);
-
-                    return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('scorePartie', $req, $resp, $args );
-                }
-                else
-                {
-                    $parties = \carteauxtresors\model\partie::where("token", $token)->get();
-                    foreach($parties as $partie) {
-                            $partie->score = $score;
-                            $partie->save();
-
-                            $arr = array('error' => 'Ajout du score de la partie : '.$req->getUri());
-
-                            $resp = $resp->withStatus(201);
-
-                            return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('scorePartie', $req, $resp, $args );
-                    }
-                }
-            } else {
-                $arr = array('error' => 'Le score est incorrect : '.$req->getUri());
-
-                $resp = $resp->withStatus(400);
-
-                return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('scorePartie', $req, $resp, $args );
-            }
-        } else {
-            $arr = array('error' => 'Une valeur est manquante (token ou score) : '.$req->getUri());
-
-            $resp = $resp->withStatus(400);
-
-            return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('scorePartie', $req, $resp, $args );
         }
     }
 }

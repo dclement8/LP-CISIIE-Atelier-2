@@ -25,24 +25,17 @@ class carteauxtresorsview
 		return 400;
 	}
 
-	private function newGame($req, $resp, $args)
-	{
-		if(is_array($this->data))
-		{
-			$json = json_encode($this->data);
-			$resp = $resp->withHeader('Content-Type', 'application/json');
-		}
-		else
-		{
-			$json = $this->data;
-			$resp = $resp->withHeader('Content-Type', 'application/json');
-		}
-		$resp->getBody()->write($json);
-		return $resp;
-	}
+	// -----------
 
-	
-	private function scorePartie($req, $resp, $args)
+
+	/* private function exemple($req, $resp, $args)
+	{
+		$html = "";
+		return $html;
+    }*/
+
+
+	private function newGame($req, $resp, $args)
 	{
 		if(is_array($this->data))
 		{
@@ -74,6 +67,6 @@ class carteauxtresorsview
 	{
 		$this->baseURL = $req->getUri()->getBasePath();
 		// Sélectionne automatiquement le sélecteur.
-		$this->$selector($req, $resp, $args);
+		$json = $this->$selector($req, $resp, $args);
 	}
 }

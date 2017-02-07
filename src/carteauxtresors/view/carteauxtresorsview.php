@@ -52,6 +52,14 @@ class carteauxtresorsview
 		return $resp;
 	}
 
+	private function destinationFinale($req, $resp, $args)
+	{
+		$json = '{ "destination finale" : '.$this->data.' }';
+		$resp = $resp->withStatus(200)->withHeader('Content-Type', 'application/json');
+		$resp->getBody()->write($json);
+		return $resp;
+	}
+
 	// -----------
 
 	public function render($selector, $req, $resp, $args)

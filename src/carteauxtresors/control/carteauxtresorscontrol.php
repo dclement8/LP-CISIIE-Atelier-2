@@ -60,8 +60,5 @@ class carteauxtresorscontrol
 
             return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('newGame', $req, $resp, $args );
         }
-        
-
     }
-
 }

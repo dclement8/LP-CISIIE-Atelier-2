@@ -22,6 +22,7 @@ $app = new \Slim\App($c);
 	}
 )->setName('exemple');*/
 
+
 $app->post('/newGame',
 	function (Request $req, Response $resp, $args) 
 	{
@@ -29,5 +30,19 @@ $app->post('/newGame',
 	}
 )->setName('newGame');
 
+$app->get('/points',
+	function (Request $req, Response $resp, $args)
+	{
+		return (new carteauxtresor\control\carteauxtresorscontrol($this))->recupPoints($req, $resp, $args);
+	}
+)->setName('recupPoints');
+
+
+$app->get('/destination',
+	function (Request $req, Response $resp, $args)
+	{
+		return (new carteauxtresor\control\carteauxtresorscontrol($this))->destinationFinale($req, $resp, $args);
+	}
+)->setName('destinationFinale');
 
 $app->run();

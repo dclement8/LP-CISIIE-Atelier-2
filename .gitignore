@@ -4,3 +4,8 @@ conf\config.ini
 *.scssc
 ./scss
 .vscode/launch.json
+scss/*.*
+scss\*.*
+scss/*
+scss\*
+

@@ -41,42 +41,34 @@ class carteauxtresorscontrol
 
     public function newGame(Request $req, Response $resp, $args) 
     {
-
         $obj = json_decode($req->getBody());
 
-        if(isset($_POST[$obj->pseudo])) {
+        if(isset($obj->pseudo)) {
 
             $pseudo = filter_var($obj->pseudo, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $factory = new \RandomLib\Factory;
-
             $generator = $factory->getGenerator(new \SecurityLib\Strength(\SecurityLib\Strength::MEDIUM));
-
             $token = $generator->generateString(32, 'abcdefghijklmnopqrstuvwxyz0123456789');
 
 
             $partie = new \carteauxtresors\model\partie();
-
             $partie->pseudo = $pseudo;
-
             $partie->token = $token;
-
             $partie->save();
 
-            $arr = array('error' => 'Creation de la partie : '.$req->getUri());
+            $arr = array('info' => 'Création de la partie : '.$req->getUri());
 
             $resp = $resp->withStatus(200);
 
-            return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('newGame', $req, $resp, $args );
-
         } else {
 
-            $arr = array('error' => 'Erreur de pseudo : '.$req->getUri());
+            $arr = array('error' => 'Pseudo introuvable : '.$req->getUri());
 
             $resp = $resp->withStatus(400);
-
-            return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('newGame', $req, $resp, $args );
         }
+		
+		return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('newGame', $req, $resp, $args );
     }
     public function scorePartie(Request $req, Response $resp, $args) 
     {
@@ -102,7 +94,7 @@ class carteauxtresorscontrol
                             $partie->score = $score;
                             $partie->save();
 
-                            $arr = array('error' => 'Ajout du score de la partie : '.$req->getUri());
+                            $arr = array('info' => 'Ajout du score de la partie : '.$req->getUri());
 
                             $resp = $resp->withStatus(201);
 

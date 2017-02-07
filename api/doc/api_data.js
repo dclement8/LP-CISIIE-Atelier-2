@@ -1,33 +1,5 @@
 define({ "api": [
   {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
-    "version": "0.0.0",
-    "filename": "./doc.old/main.js",
-    "group": "D__Wamp_www_atelier2_LP_CISIIE_Atelier_2_api_doc_old_main_js",
-    "groupTitle": "D__Wamp_www_atelier2_LP_CISIIE_Atelier_2_api_doc_old_main_js",
-    "name": ""
-  },
-  {
     "group": "Destination",
     "name": "destinationFinale",
     "version": "0.1.0",
@@ -196,9 +168,9 @@ define({ "api": [
     },
     "success": {
       "fields": {
-        "Succès : 200": [
+        "Succès : 201": [
           {
-            "group": "Succès : 200",
+            "group": "Succès : 201",
             "type": "json",
             "optional": false,
             "field": "r",
@@ -209,7 +181,7 @@ define({ "api": [
       "examples": [
         {
           "title": "exemple de réponse en cas de succès",
-          "content": "HTTP/1.1 201 Created\n\n{\n  \"info\" : \"Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
+          "content": "    HTTP/1.1 201 Created\n\n    {\n      \"info\" : \"Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\",\n\t\t\"token\" : \"eouglrziogoeujhreosjhojtr\"\n    }",
           "type": "json"
         }
       ]

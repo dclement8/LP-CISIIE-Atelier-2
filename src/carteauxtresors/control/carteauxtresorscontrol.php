@@ -57,9 +57,9 @@ class carteauxtresorscontrol
             $partie->token = $token;
             $partie->save();
 
-            $arr = array('info' => 'Création de la partie : '.$req->getUri());
+            $arr = array('info' => 'Création de la partie : '.$req->getUri(), 'token' => $token);
 
-            $resp = $resp->withStatus(200);
+            $resp = $resp->withStatus(201);
 
         } else {
 

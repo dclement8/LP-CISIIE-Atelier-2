@@ -25,13 +25,14 @@ $app = new \Slim\App($c);
 * @apiParam {String} token Token générer pour la partie
 *
 *
-* @apiSuccess (Succès : 200) {json} réponse.
+* @apiSuccess (Succès : 201) {json} réponse.
 *
 * @apiSuccessExample {json} exemple de réponse en cas de succès
 *     HTTP/1.1 201 Created
 *
 *     {
-*       "info" : "Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
+*       "info" : "Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties",
+*		"token" : "eouglrziogoeujhreosjhojtr"
 *     }
 *
 * @apiError (Erreur : 400) error Le token n\'existe pas : 

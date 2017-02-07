@@ -9,7 +9,7 @@ Lien vers le tableau de bord de suivi du projet (fichier Excel) : https://1drv.m
 ## Quelques précisions sur la structure des fichiers :
 *admin/* ==> Backend de gestion (pour vous authentifier sur le backend, le mot de passe est **174086** )
 
-*api/* ==> API REST ; Vous trouverez la documentation de cette API générée par APIDoc dans le dossier api/doc
+*api/* ==> API REST ; Vous trouverez la documentation de cette API générée par APIDoc dans le dossier *api/doc*
 
 *index.html* ==> Jeu en JavaScript
 
@@ -20,7 +20,7 @@ Lien vers le tableau de bord de suivi du projet (fichier Excel) : https://1drv.m
 
 
 ## Création de la base et jeu d'essai :
-modeleDonnees.jpg ==> Modèle Conceptuel de Données
+*modeleDonnees.jpg* ==> Modèle Conceptuel de Données
 
 *base.sql* ==> Création de la structure de la base
 
@@ -33,6 +33,7 @@ Créez un fichier *config.ini* dans le dossier *conf/* pour se connecter à la b
 
 
 ==> Syntaxe du fichier :
+
 `driver = mysql`
 
 `host = localhost`
@@ -50,7 +51,7 @@ Créez un fichier *config.ini* dans le dossier *conf/* pour se connecter à la b
 
 
 ## Vagrant
-Vous trouverez un VagrantFile dans le dossier *vagrant/* . La configuration d'apache2 et ses vhosts est situé dans le dossier *vagrant/conf-apache2* . Le répertoire *vagrant/www* sert pour synchroniser avec le dossier */var/www* de la machine virtuelle. Il faudra donc y déposer à l'intérieur dans ce répertoire vagrant/www tous les fichiers du repository Git.
+Vous trouverez un VagrantFile dans le dossier *vagrant/* . La configuration d'apache2 et ses vhosts est situé dans le dossier *vagrant/conf-apache2* . Le répertoire *vagrant/www* sert pour synchroniser avec le dossier */var/www* de la machine virtuelle. Il faudra donc y déposer à l'intérieur dans ce répertoire *vagrant/www* tous les fichiers du repository Git.
 
 **Vérifiez qu'apache2, php5 et MySQL Server sont installés et fonctionnels sur votre VM.**
 

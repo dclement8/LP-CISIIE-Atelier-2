@@ -1,4 +1,11 @@
-app.controller("carteController", ["$scope", "$http", "leafletMapEvents", function($scope, $http, leafletMapEvents) {
+app.controller("carteController", ["$scope", "$http", "leafletMapEvents",
+function($scope, $http, leafletMapEvents) {
+
+	$scope.point = 1;
+	$scope.points = [];
+	$scope.destination;
+	$scope.token = false;
+	$scope.score = 0;
 
 	/* Génération de la carte */
 
@@ -44,14 +51,11 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 	// Evenement lors du clic sur la carte
 	$scope.$on("leafletDirectiveMap.click", function(event, args) {
 		var leafEvent = args.leafletEvent;
-		console.log(leafEvent.latlng);
+		$scope.verifierPoint(
+			[leafEvent.latlng.lat, leafEvent.latlng.lng],
+			[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+		);
 	});
-
-	$scope.point = 1;
-	$scope.points = [];
-	$scope.destination;
-	$scope.token = false;
-	$scope.score = 0;
 
 	function storageAvailable(type) {
 		try {
@@ -69,16 +73,6 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 	if(!storageAvailable('localStorage')) {
 		alert('localStorage indisponible sur votre navigateur !');
 		return false;
-	}
-
-	if(!localStorage.getItem('carteToken')) {
-		// Nouvelle partie
-		console.log("créer nouvelle partie");
-	}
-	else {
-		// Partie en cours ? on initialise token
-		console.log("partie en cours");
-		$scope.token = localStorage.getItem('carteToken');
 	}
 
 	$scope.creerPartie = function() {
@@ -148,7 +142,21 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 		});
 	}
 
-	$scope.verifierPoint = function(coords) {
-		console.log(coords);
+	$scope.verifierPoint = function(p1, p2) {
+		// On vérifie p1 par rapport à p2
+		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
+		console.log(diagonale);
+	}
+
+	if(!localStorage.getItem('carteToken')) {
+		// Nouvelle partie
+		console.log("créer nouvelle partie");
+	}
+	else {
+		// Partie en cours ? on initialise token
+		console.log("partie en cours");
+		$scope.token = localStorage.getItem('carteToken');
+		$scope.getPoints();
+		$scope.getDestination();
 	}
 }]);

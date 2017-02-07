@@ -70,7 +70,7 @@ class carteauxtresorsview
 		$json = $this->data;
 		$json = substr($json, 0, -1);
 		$json = substr($json, 1);
-		$json = '{ "destination finale" : '.$json.' }';
+		$json = '{ "destination" : '.$json.' }';
 		$resp = $resp->withStatus(200)->withHeader('Content-Type', 'application/json');
 		$resp->getBody()->write($json);
 		return $resp;

@@ -44,7 +44,9 @@ class adminview
 				</head>
 				<body>
 					<header>
-						<img src='".$this->baseURL."/img/carte.png' alt='La carte aux trésors'>
+						<a href='".$this->baseURL."/admin'>
+							<img src='".$this->baseURL."/img/carte.png' alt='La carte aux trésors'>
+						</a>
 					</header>
 		";
 		if(isset($_SESSION["message"]))
@@ -90,13 +92,13 @@ class adminview
 			<h2>Gestion des points</h1>
 			<form name='ajoutPoint' method='POST' action='".$this->baseURL."/admin/points/ajouter'>
 				<label for='addLatitudeP'>Latitude : </label>
-				<input type='text' name='addLatitudeP' id='addLatitudeP' required />
+				<input type='text' name='addLatitudeP' id='addLatitudeP' placeholder='Coordonnées GPS : Latitude' required />
 				<br/>
 				<label for='addLongitudeP'>Longitude : </label>
-				<input type='text' name='addLongitudeP' id='addLongitudeP' required />
+				<input type='text' name='addLongitudeP' id='addLongitudeP' placeholder='Coordonnées GPS : Longitude' required />
 				<br/>
 				<label for='addIndication'>Indication : </label>
-				<input type='text' name='addIndication' id='addIndication' required />
+				<input type='text' name='addIndication' id='addIndication' placeholder='Indications sur la situation du point' required />
 				<br/><br/>
 				<button class='btn-floating btn-large waves-effect waves-light blue' type='submit'>+</button>
 			</form>
@@ -157,28 +159,28 @@ class adminview
 			<h2>Gestion des destinations finales</h1>
 			<form name='ajoutDestination' method='POST' action='".$this->baseURL."/admin/destinations/ajouter'>
 				<label for='addNom'>Nom : </label>
-				<input type='text' name='addNom' id='addNom' style='font-weight:bold;' />
+				<input type='text' name='addNom' id='addNom' placeholder='Nom du lieu' style='font-weight:bold;' />
 				<br/>
 				<label for='addLatitudeD'>Latitude : </label>
-				<input type='text' name='addLatitudeD' id='addLatitudeD' required />
+				<input type='text' name='addLatitudeD' id='addLatitudeD' placeholder='Coordonnées GPS : Latitude' required />
 				<br/>
 				<label for='addLongitudeD'>Longitude : </label>
-				<input type='text' name='addLongitudeD' id='addLongitudeD' required />
+				<input type='text' name='addLongitudeD' id='addLongitudeD' placeholder='Coordonnées GPS : Longitude' required />
 				<br/>
 				<label for='addIndice1'>Premier indice : </label>
-				<input type='text' name='addIndice1' id='addIndice1' required />
+				<input type='text' name='addIndice1' id='addIndice1' placeholder='Premier indice à donner' required />
 				<br/>
 				<label for='addIndice1'>Deuxième indice : </label>
-				<input type='text' name='addIndice2' id='addIndice2' required />
+				<input type='text' name='addIndice2' id='addIndice2' placeholder='Deuxième indice à donner' required />
 				<br/>
 				<label for='addIndice1'>Troisième indice : </label>
-				<input type='text' name='addIndice3' id='addIndice3' required />
+				<input type='text' name='addIndice3' id='addIndice3' placeholder='Troisième indice à donner' required />
 				<br/>
 				<label for='addIndice1'>Quatrième indice : </label>
-				<input type='text' name='addIndice4' id='addIndice4' required />
+				<input type='text' name='addIndice4' id='addIndice4' placeholder='Quatrième indice à donner' required />
 				<br/>
 				<label for='addIndice1'>Cinquième indice : </label>
-				<input type='text' name='addIndice5' id='addIndice5' required />
+				<input type='text' name='addIndice5' id='addIndice5' placeholder='Cinquième indice à donner' required />
 				<br/><br/>
 				<button class='btn-floating btn-large waves-effect waves-light blue' type='submit'>+</button>
 			</form>

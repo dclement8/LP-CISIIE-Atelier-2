@@ -15,12 +15,12 @@ $app = new \Slim\App($c);
 
 // -------------------
 
-/*$app->get('/',
-	function (Request $req, Response $resp, $args)
+$app->post('/parties',
+	function (Request $req, Response $resp, $args) 
 	{
-		return (new quizzbox\control\quizzboxcontrol($this))->exemple($req, $resp, $args);
+		return (new carteauxtresors\control\carteauxtresorscontrol($this))->newGame($req, $resp, $args);
 	}
-)->setName('exemple');*/
+)->setName('newGame');
 
 /**
  * @apiGroup Points
@@ -65,7 +65,8 @@ $app->get('/points',
 	}
 )->setName('recupPoints');
 
-$app->get('/destination',
+
+$app->get('/destinations',
 	function (Request $req, Response $resp, $args)
 	{
 		return (new carteauxtresors\control\carteauxtresorscontrol($this))->destinationFinale($req, $resp, $args);

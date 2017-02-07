@@ -22,9 +22,9 @@ define({ "api": [
     "type": "",
     "url": "",
     "version": "0.0.0",
-    "filename": "./doc/main.js",
-    "group": "D__Wamp_www_atelier2_LP_CISIIE_Atelier_2_api_doc_main_js",
-    "groupTitle": "D__Wamp_www_atelier2_LP_CISIIE_Atelier_2_api_doc_main_js",
+    "filename": "./doc.old/main.js",
+    "group": "D__Wamp_www_atelier2_LP_CISIIE_Atelier_2_api_doc_old_main_js",
+    "groupTitle": "D__Wamp_www_atelier2_LP_CISIIE_Atelier_2_api_doc_old_main_js",
     "name": ""
   },
   {
@@ -168,7 +168,8 @@ define({ "api": [
   },
   {
     "group": "parties",
-    "name": "_apiVersion_0_1_0",
+    "name": "newGame",
+    "version": "0.1.0",
     "type": "post",
     "url": "/parties",
     "title": "création de la partie",
@@ -232,16 +233,17 @@ define({ "api": [
         }
       ]
     },
-    "version": "0.0.0",
     "filename": "./index.php",
     "groupTitle": "parties"
   },
   {
     "group": "parties",
-    "name": "_apiVersion_0_1_0",
-    "type": "post",
+    "name": "scorePartie",
+    "version": "0.1.0",
+    "type": "put",
     "url": "/parties/score",
-    "title": "enregistrement du score* @apiDescription Création de la partie",
+    "title": "enregistrement du score",
+    "description": "<p>Création de la partie</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -319,7 +321,6 @@ define({ "api": [
         }
       ]
     },
-    "version": "0.0.0",
     "filename": "./index.php",
     "groupTitle": "parties"
   }

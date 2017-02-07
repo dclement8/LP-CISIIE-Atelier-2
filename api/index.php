@@ -15,7 +15,7 @@ $app = new \Slim\App($c);
 
 /**
 * @apiGroup parties
-* @apiName
+* @apiName newGame
 * @apiVersion 0.1.0
 * 
 * @api {post} /parties création de la partie
@@ -129,12 +129,14 @@ $app->get('/destinations',
 		return (new carteauxtresors\control\carteauxtresorscontrol($this))->destinationFinale($req, $resp, $args);
 	}
 )->setName('destinationFinale');
+
 /**
 * @apiGroup parties
-* @apiName
+* @apiName scorePartie
 * @apiVersion 0.1.0
 * 
-* @api {post} /parties/score enregistrement du score* @apiDescription Création de la partie
+* @api {put} /parties/score enregistrement du score
+* @apiDescription Création de la partie
 *
 * @apiParam {String} score Score obtenu par l'utilisateur
 * @apiParam {String} token Token de la partie en cours

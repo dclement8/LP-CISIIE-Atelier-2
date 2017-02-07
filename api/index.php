@@ -27,9 +27,9 @@ $app->post('/parties',
  * @apiName recupPoints
  * @apiVersion 0.1.0
  *
- * @api {get} /points  accès à des ressources points
+ * @api {get} /points  accès à 5 ressources points
  *
- * @apiDescription Retourne un tableau contenant une représentation json de 5 points aléatoires.
+ * @apiDescription Retourne un tableau contenant une représentation json de 5 points choisis aléatoirement.
  *
  * @apiSuccess (Succès : 200) {Number} id Identifiant du point
  * @apiSuccess (Succès : 200) {Number} latitude Latitude du point
@@ -47,17 +47,8 @@ $app->post('/parties',
  *		 }
  *	}
  *
- * @apiError (Erreur : 404) RessourceNotFound Commande inexistante
- *
- * @apiErrorExample {json} exemple de réponse en cas d'erreur
- *     HTTP/1.1 404 Not Found
- *
- *     {
- *       "error" : "ressource not found : http://localhost/lbsprive/api/commandes/10"
- *     }
  *
 */
-
 $app->get('/points',
 	function (Request $req, Response $resp, $args)
 	{
@@ -70,9 +61,9 @@ $app->get('/points',
  * @apiName destinationFinale
  * @apiVersion 0.1.0
  *
- * @api {get} /destination  accès à des ressources destination 
+ * @api {get} /destination  accès à une ressources destination 
  *
- * @apiDescription Retourne un tableau contenant une représentation json d'une destination finale aléatoire.
+ * @apiDescription Retourne un tableau contenant une représentation json d'une destination finale chosie aléatoirement.
  *
  * @apiSuccess (Succès : 200) {Number} id Identifiant de la destination
  * @apiSuccess (Succès : 200) {String} nom Nom de la destination 
@@ -100,17 +91,8 @@ $app->get('/points',
  *		 }
  *  }
  *
- * @apiError (Erreur : 404) RessourceNotFound Commande inexistante
- *
- * @apiErrorExample {json} exemple de réponse en cas d'erreur
- *     HTTP/1.1 404 Not Found
- *
- *     {
- *       "error" : "ressource not found : http://localhost/lbsprive/api/commandes/10"
- *     }
  *
 */
-
 $app->get('/destination',
 	function (Request $req, Response $resp, $args)
 	{

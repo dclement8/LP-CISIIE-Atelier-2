@@ -173,8 +173,8 @@
             "group": "Succès : 201",
             "type": "json",
             "optional": false,
-            "field": "r",
-            "description": "<p>éponse.</p>"
+            "field": "token",
+            "description": "<p>Token de la partie</p>"
           }
         ]
       },

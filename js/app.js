@@ -1,1 +1,1 @@
-angular.module("carte", []);
+var app = angular.module("carte", ['ui-leaflet']);

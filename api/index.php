@@ -13,7 +13,37 @@ $configuration = [
 $c = new\Slim\Container($configuration);
 $app = new \Slim\App($c);
 
-// -------------------
+/**
+* @apiGroup parties
+* @apiName newGame
+* @apiVersion 0.1.0
+* 
+* @api {post} /parties création de la partie
+* @apiDescription Création de la partie
+*
+* @apiParam {String} pseudo Pseudo entré par l'utilisateur
+* @apiParam {String} token Token générer pour la partie
+*
+*
+* @apiSuccess (Succès : 200) {json} réponse.
+*
+* @apiSuccessExample {json} exemple de réponse en cas de succès
+*     HTTP/1.1 201 Created
+*
+*     {
+*       "error" : "Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
+*     }
+*
+* @apiError (Erreur : 400) error Le token n\'existe pas : 
+*
+* @apiErrorExample {json} Token non trouvé
+*     HTTP/1.1 404 Not Found
+*
+*     {
+*       "error" : "Erreur de pseudo : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
+*     }
+*
+*/
 
 $app->post('/parties',
 	function (Request $req, Response $resp, $args) 
@@ -27,9 +57,9 @@ $app->post('/parties',
  * @apiName recupPoints
  * @apiVersion 0.1.0
  *
- * @api {get} /points  accès à des ressources points
+ * @api {get} /points  accès à 5 ressources points
  *
- * @apiDescription Retourne un tableau contenant une représentation json de 5 points aléatoires.
+ * @apiDescription Retourne un tableau contenant une représentation json de 5 points choisis aléatoirement.
  *
  * @apiSuccess (Succès : 200) {Number} id Identifiant du point
  * @apiSuccess (Succès : 200) {Number} latitude Latitude du point
@@ -47,17 +77,8 @@ $app->post('/parties',
  *		 }
  *	}
  *
- * @apiError (Erreur : 404) RessourceNotFound Commande inexistante
- *
- * @apiErrorExample {json} exemple de réponse en cas d'erreur
- *     HTTP/1.1 404 Not Found
- *
- *     {
- *       "error" : "ressource not found : http://localhost/lbsprive/api/commandes/10"
- *     }
  *
 */
-
 $app->get('/points',
 	function (Request $req, Response $resp, $args)
 	{
@@ -70,9 +91,9 @@ $app->get('/points',
  * @apiName destinationFinale
  * @apiVersion 0.1.0
  *
- * @api {get} /destination  accès à des ressources destination 
+ * @api {get} /destinations  accès à une ressources destination 
  *
- * @apiDescription Retourne un tableau contenant une représentation json d'une destination finale aléatoire.
+ * @apiDescription Retourne un tableau contenant une représentation json d'une destination finale chosie aléatoirement.
  *
  * @apiSuccess (Succès : 200) {Number} id Identifiant de la destination
  * @apiSuccess (Succès : 200) {String} nom Nom de la destination 
@@ -100,22 +121,70 @@ $app->get('/points',
  *		 }
  *  }
  *
- * @apiError (Erreur : 404) RessourceNotFound Commande inexistante
- *
- * @apiErrorExample {json} exemple de réponse en cas d'erreur
- *     HTTP/1.1 404 Not Found
- *
- *     {
- *       "error" : "ressource not found : http://localhost/lbsprive/api/commandes/10"
- *     }
  *
 */
-
-$app->get('/destination',
+$app->get('/destinations',
 	function (Request $req, Response $resp, $args)
 	{
 		return (new carteauxtresors\control\carteauxtresorscontrol($this))->destinationFinale($req, $resp, $args);
 	}
 )->setName('destinationFinale');
+
+/**
+* @apiGroup parties
+* @apiName scorePartie
+* @apiVersion 0.1.0
+* 
+* @api {put} /parties/score enregistrement du score
+* @apiDescription Création de la partie
+*
+* @apiParam {String} score Score obtenu par l'utilisateur
+* @apiParam {String} token Token de la partie en cours
+*
+* @apiError (Erreur : 404) error Le token n\'existe pas : 
+*
+* @apiErrorExample {json} Token non trouvé
+*     HTTP/1.1 404 Not Found
+*
+*     {
+*       "error" : "Le token n\'existe pas : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
+*     }
+*
+* @apiSuccess (Succès : 201) {json} réponse.
+*
+* @apiSuccessExample {json} exemple de réponse en cas de succès
+*     HTTP/1.1 201 Created
+*
+*     {
+*       "error" : "Ajout du score de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
+*     }
+*
+* @apiError (Erreur : 400) error Le token n'existe pas : 
+*
+* @apiErrorExample {json} erreur de score
+*     HTTP/1.1 404 Bad Request
+*
+*     {
+*       "error" : "Le score est incorrect : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
+*     }
+*
+* @apiError (Erreur : 400) error Le token n'existe pas : 
+*
+* @apiErrorExample {json} erreur de score
+*     HTTP/1.1 400 Bad Request
+*
+*     {
+*       "error" : "Une valeur est manquante (token ou score) : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
+*     }
+*
+*/
+$app->put('/parties/score',
+
+function (Request $req, Response $resp, $args) 
+	{
+		return (new carteauxtresors\control\carteauxtresorscontrol($this))->scorePartie($req, $resp, $args);
+	}
+)->setName('scorePartie');
+
 
 $app->run();

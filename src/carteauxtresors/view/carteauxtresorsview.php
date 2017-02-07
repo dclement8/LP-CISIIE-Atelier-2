@@ -28,11 +28,21 @@ class carteauxtresorsview
 	// -----------
 
 
-	/* private function exemple($req, $resp, $args)
+	private function newGame($req, $resp, $args)
 	{
-		$html = "";
-		return $html;
-    }*/
+		if(is_array($this->data))
+		{
+			$json = json_encode($this->data);
+			$resp = $resp->withHeader('Content-Type', 'application/json');
+		}
+		else
+		{
+			$json = $this->data;
+			$resp = $resp->withHeader('Content-Type', 'application/json');
+		}
+		$resp->getBody()->write($json);
+		return $resp;
+	}
 
 	private function recupPoints($req, $resp, $args)
 	{

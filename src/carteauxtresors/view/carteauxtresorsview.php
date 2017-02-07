@@ -85,6 +85,13 @@ class carteauxtresorsview
 		return $html;
     }*/
 
+	private function recupPoints($req, $resp, $args)
+	{
+		$json = '{ "points" : '.$this->data.' }';
+		$resp = $resp->withStatus(200)->withHeader('Content-Type', 'application/json');
+		$resp->getBody()->write($json);
+		return $resp;
+	}
 
 	// -----------
 

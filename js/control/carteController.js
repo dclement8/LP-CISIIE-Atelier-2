@@ -7,6 +7,7 @@ function($scope, $http, leafletMapEvents) {
 	$scope.token = false;
 	$scope.score = 0;
 	$scope.fini = false;
+	$scope.finJeu = false;
 	$scope.markers = new Array();
 	$scope.paths = {
 		points: {
@@ -58,24 +59,31 @@ function($scope, $http, leafletMapEvents) {
 		geojson: {}
     });
 
+	function htmlEntities(str) {
+		return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	}
+
 	// Evenement lors du clic sur la carte
 	$scope.$on("leafletDirectiveMap.click", function(event, args) {
 		var leafEvent = args.leafletEvent;
 
-		if($scope.fini == false)
+		if($scope.finJeu == false)
 		{
-			$scope.verifierPoint(
-				[leafEvent.latlng.lat, leafEvent.latlng.lng],
-				[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
-			);
-		}
-		else
-		{
-			// Chasse à la destination finale
-			$scope.verifierDestination(
-				[leafEvent.latlng.lat, leafEvent.latlng.lng],
-				[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
-			);
+			if($scope.fini == false)
+			{
+				$scope.verifierPoint(
+					[leafEvent.latlng.lat, leafEvent.latlng.lng],
+					[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+				);
+			}
+			else
+			{
+				// Chasse à la destination finale
+				$scope.verifierDestination(
+					[leafEvent.latlng.lat, leafEvent.latlng.lng],
+					[$scope.destination.latitude, $scope.destination.longitude]
+				);
+			}
 		}
 	});
 
@@ -98,7 +106,7 @@ function($scope, $http, leafletMapEvents) {
 	}
 
 	$scope.creerPartie = function() {
-		$http.post("api/parties", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
+		$http.post("api/parties", '{"pseudo": "'+ htmlEntities($scope.pseudo) +'"}').then(function(response) {
 			console.log(response.data.token);
 			if(response.data.token !== undefined) {
 				$scope.token = response.data.token;
@@ -122,6 +130,9 @@ function($scope, $http, leafletMapEvents) {
 		if(confirm("Voulez-vous vraiment commencer une nouvelle partie ?")) {
 			localStorage.removeItem("carteToken");
 			$scope.token = false;
+			$("#indices").html("");
+			$scope.fini = false;
+			$scope.finJeu = false;
 		}
 	}
 
@@ -129,7 +140,7 @@ function($scope, $http, leafletMapEvents) {
 		$http.get("api/points").then(function(response) {
 			if(response.data.points !== undefined) {
 				$scope.points = response.data.points;
-				document.getElementById("indication").innerHTML = $scope.points[0].indication;
+				document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[0].indication + "</i>";
 			}
 			else {
 				// Erreur
@@ -156,11 +167,24 @@ function($scope, $http, leafletMapEvents) {
 		});
 	}
 
-	$scope.ajouterMarker = function(latitude, longitude) {
-		$scope.markers.push({
-            lat: latitude,
-            lng: longitude,
-        });
+	$scope.ajouterMarker = function(latitude, longitude, isFinal) {
+		if(isFinal !== undefined && isFinal === true) {
+			console.log("marker final");
+			$scope.markers.push({
+	            lat: latitude,
+	            lng: longitude,
+				focus: true,
+				message: "Bien ! .",
+				markerColor: 'red'
+	        });
+		}
+		else {
+			console.log("marker");
+			$scope.markers.push({
+	            lat: latitude,
+	            lng: longitude,
+	        });
+		}
     };
 
 	$scope.relierPoint = function(point) {
@@ -204,28 +228,28 @@ function($scope, $http, leafletMapEvents) {
 				case 1:
 					$("#indices").append("<li>" + $scope.destination.indice1 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
 					afficherBien();
 					break;
 
 				case 2:
 					$("#indices").append("<li>" + $scope.destination.indice2 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
 					afficherBien();
 					break;
 
 				case 3:
 					$("#indices").append("<li>" + $scope.destination.indice3 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
 					afficherBien();
 					break;
 
 				case 4:
 					$("#indices").append("<li>" + $scope.destination.indice4 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
 					afficherBien();
 					break;
 
@@ -257,6 +281,82 @@ function($scope, $http, leafletMapEvents) {
 		// On vérifie p1 par rapport à p2
 		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
 		console.log(diagonale);
+
+		// Créer marqueur au point trouvé
+		$scope.ajouterMarker(p2[0], p2[1], true);
+		console.log(p2);
+		console.log($scope.markers);
+
+		console.log($scope.destination);
+		$scope.relierPoint({lat: p2[0], lng: p2[1]});
+
+		// D = 2 : valeur score max .
+		var D = 2;
+		if(diagonale < D)
+		{
+			$scope.score = 10;
+		}
+		else
+		{
+			if(diagonale < (2*D))
+			{
+				$scope.score = 8;
+			}
+			else
+			{
+				if(diagonale < (3*D))
+				{
+					$scope.score = 6;
+				}
+				else
+				{
+					if(diagonale < (5*D))
+					{
+						$scope.score = 3;
+					}
+					else
+					{
+						if(diagonale < (10*D))
+						{
+							$scope.score = 1;
+						}
+						else
+						{
+							$scope.score = 0;
+						}
+					}
+				}
+			}
+		}
+
+		console.log($scope.score);
+		console.log($scope.token);
+
+		$scope.finJeu = true;
+		document.getElementById("indication").innerHTML = "<b>Partie terminée !</b>";
+
+		// Envoi du score
+		$http.put("api/parties/score", '{ "score" : ' + $scope.score + ' , "token" : "' + $scope.token + '" }').then(function(response) {
+			if(response.status == 201)
+			{
+				$("#message").html("Score envoyé ! Vous remportez " + $scope.score + " points.");
+				document.getElementById("message").style.backgroundColor = "rgba(0,0,128,0.9)";
+				$("#message").fadeIn();
+				setTimeout(function(){ $("#message").fadeOut(); }, 5000);
+			}
+			else {
+				// Erreur
+
+			}
+		},
+		function(error) {
+			console.log(error);
+
+			$("#message").html("Impossible d'inscrire votre score ! Vous remportez " + $scope.score + " points.");
+			document.getElementById("message").style.backgroundColor = "rgba(213,85,0,0.9)";
+			$("#message").fadeIn();
+			setTimeout(function(){ $("#message").fadeOut(); }, 5000);
+		});
 	}
 
 	if(!localStorage.getItem('carteToken')) {
@@ -269,7 +369,5 @@ function($scope, $http, leafletMapEvents) {
 		$scope.token = localStorage.getItem('carteToken');
 		$scope.getPoints();
 		$scope.getDestination();
-
-
 	}
 }]);

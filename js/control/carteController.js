@@ -124,6 +124,7 @@ function($scope, $http, leafletMapEvents) {
 			$("#indices").html("");
 			$scope.fini = false;
 			$scope.finJeu = false;
+			$("#tabscores").html("");
 		}
 	}
 
@@ -249,8 +250,8 @@ function($scope, $http, leafletMapEvents) {
 		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
 		console.log(diagonale);
 		
-		// D = 1.25 : valeur score max .
-		var D = 1.25;
+		// D = 0.33 : valeur score max .
+		var D = 0.33;
 		if(diagonale < D)
 		{
 			$scope.score = 10;
@@ -303,10 +304,6 @@ function($scope, $http, leafletMapEvents) {
 				$("#message").fadeIn();
 				setTimeout(function(){ $("#message").fadeOut(); }, 5000);
 			}
-			else {
-				// Erreur
-				
-			}
 		},
 		function(error) {
 			console.log(error);
@@ -315,6 +312,22 @@ function($scope, $http, leafletMapEvents) {
 			document.getElementById("message").style.backgroundColor = "rgba(213,85,0,0.9)";
 			$("#message").fadeIn();
 			setTimeout(function(){ $("#message").fadeOut(); }, 5000);
+		});
+		
+		// Affichage des meilleurs scores
+		$http.get("api/parties").then(function(response) {
+			if(response.status == 200)
+			{
+				$("#tabscores").append("<h2>Tableau des meilleurs scores :</h2><table><tr><th>Position</th><th>Pseudo</th><th>Score</th></tr>");
+				for(var i = 0; i < response.data.scores.length; i++)
+				{
+					$("#tabscores").append("<tr><td>" + (i + 1) + "</td><td>" + response.data.scores[i].pseudo + "</td><td>" + response.data.scores[i].score + "</td></tr>");
+				}
+				$("#tabscores").append("</table>");
+			}
+		},
+		function(error) {
+			console.log(error);
 		});
 	}
 

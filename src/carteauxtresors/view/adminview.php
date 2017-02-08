@@ -41,6 +41,7 @@ class adminview
 					<script src='".$this->baseURL."/js/coche.js'></script>
 					<link rel='stylesheet' type='text/css' href='".$this->baseURL."/css/style.css'/>
 					<link rel='stylesheet' type='text/css' href='".$this->baseURL."/css/main.css'/>
+					<link rel='shortcut icon' href='".$this->baseURL."/favicon.ico'>
 				</head>
 				<body>
 					<header>

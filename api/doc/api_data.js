@@ -23,8 +23,8 @@ define({ "api": [
     "url": "",
     "version": "0.0.0",
     "filename": "./doc.old/main.js",
-    "group": "C__Users_thiba_Documents_GitHub_LP_CISIIE_Atelier_2_api_doc_old_main_js",
-    "groupTitle": "C__Users_thiba_Documents_GitHub_LP_CISIIE_Atelier_2_api_doc_old_main_js",
+    "group": "D__Wamp_www_atelier2_LP_CISIIE_Atelier_2_api_doc_old_main_js",
+    "groupTitle": "D__Wamp_www_atelier2_LP_CISIIE_Atelier_2_api_doc_old_main_js",
     "name": ""
   },
   {
@@ -121,7 +121,7 @@ define({ "api": [
     "type": "post",
     "url": "/parties",
     "title": "Création de la partie",
-    "description": "<p>Création de la partie</p>",
+    "description": "<p>Création de la partie (exemple de JSON-type à renvoyer : { &quot;pseudo&quot; : &quot;Bob&quot; })</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -131,13 +131,6 @@ define({ "api": [
             "optional": false,
             "field": "pseudo",
             "description": "<p>Pseudo entré par l'utilisateur</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>Token générer pour la partie</p>"
           }
         ]
       }
@@ -198,7 +191,7 @@ define({ "api": [
     "type": "put",
     "url": "/parties/score",
     "title": "Enregistrement du score",
-    "description": "<p>Création de la partie</p>",
+    "description": "<p>Enregistrement du score d'un partie (exemple de JSON-type à renvoyer : { &quot;score&quot; : 10 , &quot;token&quot; : &quot;iuegh96r5hg26reh52e6&quot; })</p>",
     "parameter": {
       "fields": {
         "Parameter": [

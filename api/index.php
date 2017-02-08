@@ -186,5 +186,13 @@ function (Request $req, Response $resp, $args)
 	}
 )->setName('scorePartie');
 
+$app->get('/parties',
+
+function (Request $req, Response $resp, $args) 
+	{
+		return (new carteauxtresors\control\carteauxtresorscontrol($this))->meilleurScores($req, $resp, $args);
+	}
+)->setName('meilleurScores');
+
 
 $app->run();

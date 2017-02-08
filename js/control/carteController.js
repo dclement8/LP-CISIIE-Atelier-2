@@ -131,7 +131,7 @@ function($scope, $http, leafletMapEvents) {
 		$http.get("api/points").then(function(response) {
 			if(response.data.points !== undefined) {
 				$scope.points = response.data.points;
-				document.getElementById("indication").innerHTML = $scope.points[0].indication;
+				document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[0].indication + "</i>";
 			}
 			else {
 				// Erreur
@@ -194,28 +194,28 @@ function($scope, $http, leafletMapEvents) {
 				case 1:
 					$("#indices").append("<li>" + $scope.destination.indice1 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
 					afficherBien();
 					break;
 					
 				case 2:
 					$("#indices").append("<li>" + $scope.destination.indice2 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
 					afficherBien();
 					break;
 					
 				case 3:
 					$("#indices").append("<li>" + $scope.destination.indice3 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
 					afficherBien();
 					break;
 					
 				case 4:
 					$("#indices").append("<li>" + $scope.destination.indice4 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
 					afficherBien();
 					break;
 					

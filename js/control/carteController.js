@@ -248,8 +248,8 @@ function($scope, $http, leafletMapEvents) {
 		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
 		console.log(diagonale);
 		
-		// D = 0.565 : valeur score max .
-		var D = 0.565;
+		// D = 2 : valeur score max .
+		var D = 2;
 		if(diagonale < D)
 		{
 			$scope.score = 10;

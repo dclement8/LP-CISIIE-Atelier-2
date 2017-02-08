@@ -115,59 +115,7 @@
     "groupTitle": "Destination"
   },
   {
-    "group": "Points",
-    "name": "recupPoints",
-    "version": "0.1.0",
-    "type": "get",
-    "url": "/points",
-    "title": "Accès à 5 ressources points",
-    "description": "<p>Retourne un tableau contenant une représentation json de 5 points choisis aléatoirement.</p>",
-    "success": {
-      "fields": {
-        "Succès : 200": [
-          {
-            "group": "Succès : 200",
-            "type": "Number",
-            "optional": false,
-            "field": "id",
-            "description": "<p>Identifiant du point</p>"
-          },
-          {
-            "group": "Succès : 200",
-            "type": "Number",
-            "optional": false,
-            "field": "latitude",
-            "description": "<p>Latitude du point</p>"
-          },
-          {
-            "group": "Succès : 200",
-            "type": "Number",
-            "optional": false,
-            "field": "longitude",
-            "description": "<p>Longitude du point</p>"
-          },
-          {
-            "group": "Succès : 200",
-            "type": "String",
-            "optional": false,
-            "field": "indication",
-            "description": "<p>Indication du point</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Exemple de réponse en cas de succès",
-          "content": "    HTTP/1.1 200 OK\n\t{\n\t \t\"points\": {\n\t\t\t\"id\": 6,\n\t\t\t\"latitude\": 49.8944,\n\t\t\t\"longitude\": 2.30194,\n\t\t\t\"indication\": \"La plus grande cathédrale de France\"\n\t\t }\n\t}",
-          "type": "json"
-        }
-      ]
-    },
-    "filename": "./index.php",
-    "groupTitle": "Points"
-  },
-  {
-    "group": "parties",
+    "group": "Parties",
     "name": "newGame",
     "version": "0.1.0",
     "type": "post",
@@ -241,10 +189,10 @@
       ]
     },
     "filename": "./index.php",
-    "groupTitle": "parties"
+    "groupTitle": "Parties"
   },
   {
-    "group": "parties",
+    "group": "Parties",
     "name": "scorePartie",
     "version": "0.1.0",
     "type": "put",
@@ -334,6 +282,58 @@
       ]
     },
     "filename": "./index.php",
-    "groupTitle": "parties"
+    "groupTitle": "Parties"
+  },
+  {
+    "group": "Points",
+    "name": "recupPoints",
+    "version": "0.1.0",
+    "type": "get",
+    "url": "/points",
+    "title": "Accès à 5 ressources points",
+    "description": "<p>Retourne un tableau contenant une représentation json de 5 points choisis aléatoirement.</p>",
+    "success": {
+      "fields": {
+        "Succès : 200": [
+          {
+            "group": "Succès : 200",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Identifiant du point</p>"
+          },
+          {
+            "group": "Succès : 200",
+            "type": "Number",
+            "optional": false,
+            "field": "latitude",
+            "description": "<p>Latitude du point</p>"
+          },
+          {
+            "group": "Succès : 200",
+            "type": "Number",
+            "optional": false,
+            "field": "longitude",
+            "description": "<p>Longitude du point</p>"
+          },
+          {
+            "group": "Succès : 200",
+            "type": "String",
+            "optional": false,
+            "field": "indication",
+            "description": "<p>Indication du point</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Exemple de réponse en cas de succès",
+          "content": "    HTTP/1.1 200 OK\n\t{\n\t \t\"points\": {\n\t\t\t\"id\": 6,\n\t\t\t\"latitude\": 49.8944,\n\t\t\t\"longitude\": 2.30194,\n\t\t\t\"indication\": \"La plus grande cathédrale de France\"\n\t\t }\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./index.php",
+    "groupTitle": "Points"
   }
 ]

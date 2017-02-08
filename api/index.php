@@ -186,6 +186,92 @@ function (Request $req, Response $resp, $args)
 	}
 )->setName('scorePartie');
 
+
+/**
+ * @apiGroup Parties
+ * @apiName meilleurScores
+ * @apiVersion 0.1.0
+ *
+ * @api {get} /parties  Accès au tableau des 10 meilleur scores
+ *
+ * @apiDescription Retourne un tableau contenant une représentation json des 10 meilleurs scores.
+ *
+ * @apiSuccess (Succès : 200) {Number} id Identifiant de la destination
+ * @apiSuccess (Succès : 200) {String} pseudo Pseudo du joueur
+ * @apiSuccess (Succès : 200) {String} token Token de la partie
+ * @apiSuccess (Succès : 200) {Number} score Score obtenu
+ *
+ * @apiSuccessExample {json} Exemple de réponse en cas de succès
+ *     HTTP/1.1 200 OK
+ *	{
+ *
+ *		"scores": [
+ *			{
+ *				"id": 25,
+ *				"pseudo": "david",
+ *				"token": "zisq3tfast5z0wmfc9daihwf61fxmviu",
+ *				"score": 10
+ *			},
+ *			{
+ * 				"id": 29,
+ *				"pseudo": "paul",
+ *				"token": "tb4an02jpehcy6t9jpihesrzf3jqcjn8",
+ *				"score": 10
+ *			},
+ *			{
+ *				"id": 27,
+ *				"pseudo": "Bob",
+ *				"token": "xbfaq0wy0mgrb2fx5tx2zgja3j3mblu7",
+ *				"score": 10
+ *			},
+ *			{
+ *				"id": 28,
+ *				"pseudo": "rémi",
+ *				"token": "skjrg2e26wx9yht7p7ecuxhiokgx40c1",
+ *				"score": 10
+ *			},
+ *			{
+ *				"id": 23,
+ *				"pseudo": "hugues",
+ *				"token": "07t2yp4o5t6swa5wbp1j96apwrgrg93o",
+ *				"score": 8
+ * 			},
+ *			{
+ *				"id": 22,
+ *				"pseudo": "paul",
+ *				"token": "bl8ypw2f5f5371coxcnnqklcpxnwrud5",
+ *				"score": 6
+ *			},
+ *			{
+ *				"id": 20,
+ *				"pseudo": "françois",
+ *				"token": "8hnoscyki5ytx7ip9gu43w7olnjm7t28",
+ *				"score": 1
+ *			},
+ *			{
+ *				"id": 30,
+ *				"pseudo": "michel",
+ *				"token": "riwuh9k2eyxis479uh0x8i1rm6kpdllj",
+ *				"score": 1
+ *			},
+ *			{
+ *				"id": 24,
+ *				"pseudo": "maurice",
+ *				"token": "gq7ov59akdymzsa0kyk19i55r89biake",
+ *				"score": 1
+ *			},
+ *			{
+ *				"id": 19,
+ *				"pseudo": "bob",
+ *				"token": "vq3y17sjrxrhft35qpwrlu40qd6pn0dg",
+ *				"score": 0
+ *			}
+ *		]
+ *
+ *	}
+ *
+ *
+*/
 $app->get('/parties',
 
 function (Request $req, Response $resp, $args) 

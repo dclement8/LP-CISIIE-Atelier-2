@@ -6,6 +6,7 @@ function($scope, $http, leafletMapEvents) {
 	$scope.destination;
 	$scope.token = false;
 	$scope.score = 0;
+	$scope.fini = false;
 
 	/* Génération de la carte */
 
@@ -51,10 +52,22 @@ function($scope, $http, leafletMapEvents) {
 	// Evenement lors du clic sur la carte
 	$scope.$on("leafletDirectiveMap.click", function(event, args) {
 		var leafEvent = args.leafletEvent;
-		$scope.verifierPoint(
-			[leafEvent.latlng.lat, leafEvent.latlng.lng],
-			[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
-		);
+		
+		if($scope.fini == false)
+		{
+			$scope.verifierPoint(
+				[leafEvent.latlng.lat, leafEvent.latlng.lng],
+				[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+			);
+		}
+		else
+		{
+			// Chasse à la destination finale
+			$scope.verifierDestination(
+				[leafEvent.latlng.lat, leafEvent.latlng.lng],
+				[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+			);
+		}
 	});
 
 	function storageAvailable(type) {
@@ -107,6 +120,7 @@ function($scope, $http, leafletMapEvents) {
 		$http.get("api/points").then(function(response) {
 			if(response.data.points !== undefined) {
 				$scope.points = response.data.points;
+				document.getElementById("indication").innerHTML = $scope.points[0].indication;
 			}
 			else {
 				// Erreur
@@ -146,6 +160,82 @@ function($scope, $http, leafletMapEvents) {
 		// On vérifie p1 par rapport à p2
 		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
 		console.log(diagonale);
+		
+		// 0.565 = valeur maximale tolérable entre deux points .
+		
+		if(diagonale <= 0.565)
+		{
+			// Créer marqueur au point trouvé
+			
+			// Si nbPoints >= 2 : tracer le chemin entre le point n-1 et le point n
+			
+			function afficherBien()
+			{
+				$("#message").html("Bien !");
+				document.getElementById("message").style.backgroundColor = "rgba(0,128,0,0.9)";
+				$("#message").fadeIn();
+				setTimeout(function(){ $("#message").fadeOut(); }, 700);
+			}
+			
+			// Afficher un indice pour la destination finale
+			switch($scope.point)
+			{
+				case 1:
+					$("#indices").append("<li>" + $scope.destination.indice1 + "</li>");
+					$scope.point++;
+					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					afficherBien();
+					break;
+					
+				case 2:
+					$("#indices").append("<li>" + $scope.destination.indice2 + "</li>");
+					$scope.point++;
+					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					afficherBien();
+					break;
+					
+				case 3:
+					$("#indices").append("<li>" + $scope.destination.indice3 + "</li>");
+					$scope.point++;
+					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					afficherBien();
+					break;
+					
+				case 4:
+					$("#indices").append("<li>" + $scope.destination.indice4 + "</li>");
+					$scope.point++;
+					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					afficherBien();
+					break;
+					
+				case 5:
+					$("#indices").append("<li>" + $scope.destination.indice5 + "</li>");
+					$scope.fini = true; // On termine la chasse aux indices, trouver destination finale.
+					
+					document.getElementById("indication").innerHTML = "<b>Trouvez maintenant la rose des vents via les indices fournis... Vous n'avez droit qu'à une SEULE tentative !</b>";
+					
+					$("#message").html("Bravo vous avez trouvé les 5 indices pour trouver la rose des vents !<br/><br/>D'après vos indices collectés, où se trouve t-elle ?");
+					document.getElementById("message").style.backgroundColor = "rgba(0,128,0,0.9)";
+					$("#message").fadeIn();
+					setTimeout(function(){ $("#message").fadeOut(); }, 5000);
+					
+					break;
+			}
+		}
+		else
+		{
+			// Erreur
+			$("#message").html("Ce n'est pas par là !");
+			document.getElementById("message").style.backgroundColor = "rgba(223,0,0,0.9)";
+			$("#message").fadeIn();
+			setTimeout(function(){ $("#message").fadeOut(); }, 700);
+		}
+	}
+	
+	$scope.verifierDestination = function(p1, p2) {
+		// On vérifie p1 par rapport à p2
+		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
+		console.log(diagonale);
 	}
 
 	if(!localStorage.getItem('carteToken')) {
@@ -158,5 +248,7 @@ function($scope, $http, leafletMapEvents) {
 		$scope.token = localStorage.getItem('carteToken');
 		$scope.getPoints();
 		$scope.getDestination();
+		
+		
 	}
 }]);

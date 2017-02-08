@@ -18,15 +18,16 @@ $app = new \Slim\App($c);
 * @apiName newGame
 * @apiVersion 0.1.0
 * 
-* @api {post} /parties création de la partie
+* @api {post} /parties Création de la partie
 * @apiDescription Création de la partie
 *
 * @apiParam {String} pseudo Pseudo entré par l'utilisateur
 * @apiParam {String} token Token générer pour la partie
 *
+* @apiSuccess (Succès : 201) {json} info Creation de la partie
 * @apiSuccess (Succès : 201) {json} token Token de la partie
 *
-* @apiSuccessExample {json} exemple de réponse en cas de succès
+* @apiSuccessExample {json} Exemple de réponse en cas de succès
 *     HTTP/1.1 201 Created
 *
 *     {
@@ -34,7 +35,7 @@ $app = new \Slim\App($c);
 *		"token" : "eouglrziogoeujhreosjhojtr"
 *     }
 *
-* @apiError (Erreur : 400) error Le token n\'existe pas : 
+* @apiError (Erreur : 400) error Erreur de pseudo
 *
 * @apiErrorExample {json} Pseudo introuvable
 *     HTTP/1.1 400 Bad Request
@@ -57,7 +58,7 @@ $app->post('/parties',
  * @apiName recupPoints
  * @apiVersion 0.1.0
  *
- * @api {get} /points  accès à 5 ressources points
+ * @api {get} /points  Accès à 5 ressources points
  *
  * @apiDescription Retourne un tableau contenant une représentation json de 5 points choisis aléatoirement.
  *
@@ -66,7 +67,7 @@ $app->post('/parties',
  * @apiSuccess (Succès : 200) {Number} longitude Longitude du point
  * @apiSuccess (Succès : 200) {String} indication Indication du point
  *
- * @apiSuccessExample {json} exemple de réponse en cas de succès
+ * @apiSuccessExample {json} Exemple de réponse en cas de succès
  *     HTTP/1.1 200 OK
  *	{
  *	 	"points": {
@@ -91,7 +92,7 @@ $app->get('/points',
  * @apiName destinationFinale
  * @apiVersion 0.1.0
  *
- * @api {get} /destinations  accès à une ressources destination 
+ * @api {get} /destinations  Accès à une ressources destination 
  *
  * @apiDescription Retourne un tableau contenant une représentation json d'une destination finale chosie aléatoirement.
  *
@@ -105,7 +106,7 @@ $app->get('/points',
  * @apiSuccess (Succès : 200) {String} indice4 Indice numéro quatre de la destination
  * @apiSuccess (Succès : 200) {String} indice5 Indice numéro cinq de la destination
  *
- * @apiSuccessExample {json} exemple de réponse en cas de succès
+ * @apiSuccessExample {json} Exemple de réponse en cas de succès
  *     HTTP/1.1 200 OK
  *	{
  *		"destination": {
@@ -135,42 +136,42 @@ $app->get('/destinations',
 * @apiName scorePartie
 * @apiVersion 0.1.0
 * 
-* @api {put} /parties/score enregistrement du score
+* @api {put} /parties/score Enregistrement du score
 * @apiDescription Création de la partie
 *
 * @apiParam {String} score Score obtenu par l'utilisateur
 * @apiParam {String} token Token de la partie en cours
 *
-* @apiError (Erreur : 404) error Le token n\'existe pas : 
+* @apiError (Erreur : 404) error Le token n'existe pas
 *
 * @apiErrorExample {json} Token non trouvé
 *     HTTP/1.1 404 Not Found
 *
 *     {
-*       "error" : "Le token n\'existe pas : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
+*       "error" : "Le token n'existe pas : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
 *     }
 *
-* @apiSuccess (Succès : 201) {json} réponse.
+* @apiSuccess (Succès : 201) info Ajout du score de la partie
 *
-* @apiSuccessExample {json} exemple de réponse en cas de succès
+* @apiSuccessExample {json} Exemple de réponse en cas de succès
 *     HTTP/1.1 201 Created
 *
 *     {
 *       "info" : "Ajout du score de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
 *     }
 *
-* @apiError (Erreur : 400) error Le token n'existe pas : 
+* @apiError (Erreur : 400) error Le score est incorrect
 *
-* @apiErrorExample {json} erreur de score
+* @apiErrorExample {json} Erreur de score
 *     HTTP/1.1 400 Bad Request
 *
 *     {
 *       "error" : "Le score est incorrect : http://localhost/github/LP-CISIIE-Atelier-2/api/parties"
 *     }
 *
-* @apiError (Erreur : 400) error Le token n'existe pas : 
+* @apiError (Erreur : 400) Error Une valeur est manquante (token ou score)
 *
-* @apiErrorExample {json} erreur de score
+* @apiErrorExample {json} Valeur manquante
 *     HTTP/1.1 400 Bad Request
 *
 *     {

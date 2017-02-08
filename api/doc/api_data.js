@@ -1,11 +1,39 @@
 define({ "api": [
   {
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "varname1",
+            "description": "<p>No type.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "varname2",
+            "description": "<p>With type.</p>"
+          }
+        ]
+      }
+    },
+    "type": "",
+    "url": "",
+    "version": "0.0.0",
+    "filename": "./doc.old/main.js",
+    "group": "C__Users_thiba_Documents_GitHub_LP_CISIIE_Atelier_2_api_doc_old_main_js",
+    "groupTitle": "C__Users_thiba_Documents_GitHub_LP_CISIIE_Atelier_2_api_doc_old_main_js",
+    "name": ""
+  },
+  {
     "group": "Destination",
     "name": "destinationFinale",
     "version": "0.1.0",
     "type": "get",
     "url": "/destinations",
-    "title": "accès à une ressources destination",
+    "title": "Accès à une ressources destination",
     "description": "<p>Retourne un tableau contenant une représentation json d'une destination finale chosie aléatoirement.</p>",
     "success": {
       "fields": {
@@ -77,7 +105,7 @@ define({ "api": [
       },
       "examples": [
         {
-          "title": "exemple de réponse en cas de succès",
+          "title": "Exemple de réponse en cas de succès",
           "content": "    HTTP/1.1 200 OK\n\t{\n\t\t\"destination\": {\n\t\t\t\"id\": 6,\n\t\t\t\"nom\": \"Cherbourg\",\n\t\t\t\"latitude\": 49.6337308,\n\t\t\t\"longitude\": -1.622137,\n\t\t\t\"indice1\": \"Une des plus grosses bases de défense\",\n\t\t\t\"indice2\": \"Emmanuel Liais\",\n\t\t\t\"indice3\": \"La Montagne du Roule\",\n\t\t\t\"indice4\": \"Mes parapluies me sont célèbres\",\n\t\t\t\"indice5\": \"Cotentin\"\n\t\t }\n }",
           "type": "json"
         }
@@ -92,7 +120,7 @@ define({ "api": [
     "version": "0.1.0",
     "type": "get",
     "url": "/points",
-    "title": "accès à 5 ressources points",
+    "title": "Accès à 5 ressources points",
     "description": "<p>Retourne un tableau contenant une représentation json de 5 points choisis aléatoirement.</p>",
     "success": {
       "fields": {
@@ -129,7 +157,7 @@ define({ "api": [
       },
       "examples": [
         {
-          "title": "exemple de réponse en cas de succès",
+          "title": "Exemple de réponse en cas de succès",
           "content": "    HTTP/1.1 200 OK\n\t{\n\t \t\"points\": {\n\t\t\t\"id\": 6,\n\t\t\t\"latitude\": 49.8944,\n\t\t\t\"longitude\": 2.30194,\n\t\t\t\"indication\": \"La plus grande cathédrale de France\"\n\t\t }\n\t}",
           "type": "json"
         }
@@ -144,7 +172,7 @@ define({ "api": [
     "version": "0.1.0",
     "type": "post",
     "url": "/parties",
-    "title": "création de la partie",
+    "title": "Création de la partie",
     "description": "<p>Création de la partie</p>",
     "parameter": {
       "fields": {
@@ -173,6 +201,13 @@ define({ "api": [
             "group": "Succès : 201",
             "type": "json",
             "optional": false,
+            "field": "info",
+            "description": "<p>Creation de la partie</p>"
+          },
+          {
+            "group": "Succès : 201",
+            "type": "json",
+            "optional": false,
             "field": "token",
             "description": "<p>Token de la partie</p>"
           }
@@ -180,7 +215,7 @@ define({ "api": [
       },
       "examples": [
         {
-          "title": "exemple de réponse en cas de succès",
+          "title": "Exemple de réponse en cas de succès",
           "content": "    HTTP/1.1 201 Created\n\n    {\n      \"info\" : \"Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\",\n\t\t\"token\" : \"eouglrziogoeujhreosjhojtr\"\n    }",
           "type": "json"
         }
@@ -193,7 +228,7 @@ define({ "api": [
             "group": "Erreur : 400",
             "optional": false,
             "field": "error",
-            "description": "<p>Le token n'existe pas :</p>"
+            "description": "<p>Erreur de pseudo</p>"
           }
         ]
       },
@@ -214,7 +249,7 @@ define({ "api": [
     "version": "0.1.0",
     "type": "put",
     "url": "/parties/score",
-    "title": "enregistrement du score",
+    "title": "Enregistrement du score",
     "description": "<p>Création de la partie</p>",
     "parameter": {
       "fields": {
@@ -243,7 +278,7 @@ define({ "api": [
             "group": "Erreur : 404",
             "optional": false,
             "field": "error",
-            "description": "<p>Le token n'existe pas :</p>"
+            "description": "<p>Le token n'existe pas</p>"
           }
         ],
         "Erreur : 400": [
@@ -251,23 +286,29 @@ define({ "api": [
             "group": "Erreur : 400",
             "optional": false,
             "field": "error",
-            "description": "<p>Le token n'existe pas :</p>"
+            "description": "<p>Le score est incorrect</p>"
+          },
+          {
+            "group": "Erreur : 400",
+            "optional": false,
+            "field": "Error",
+            "description": "<p>Une valeur est manquante (token ou score)</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Token non trouvé",
-          "content": "HTTP/1.1 404 Not Found\n\n{\n  \"error\" : \"Le token n\\'existe pas : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
+          "content": "HTTP/1.1 404 Not Found\n\n{\n  \"error\" : \"Le token n'existe pas : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
           "type": "json"
         },
         {
-          "title": "erreur de score",
+          "title": "Erreur de score",
           "content": "HTTP/1.1 400 Bad Request\n\n{\n  \"error\" : \"Le score est incorrect : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
           "type": "json"
         },
         {
-          "title": "erreur de score",
+          "title": "Valeur manquante",
           "content": "HTTP/1.1 400 Bad Request\n\n{\n  \"error\" : \"Une valeur est manquante (token ou score) : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
           "type": "json"
         }
@@ -278,16 +319,15 @@ define({ "api": [
         "Succès : 201": [
           {
             "group": "Succès : 201",
-            "type": "json",
             "optional": false,
-            "field": "r",
-            "description": "<p>éponse.</p>"
+            "field": "info",
+            "description": "<p>Ajout du score de la partie</p>"
           }
         ]
       },
       "examples": [
         {
-          "title": "exemple de réponse en cas de succès",
+          "title": "Exemple de réponse en cas de succès",
           "content": "HTTP/1.1 201 Created\n\n{\n  \"info\" : \"Ajout du score de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\"\n}",
           "type": "json"
         }

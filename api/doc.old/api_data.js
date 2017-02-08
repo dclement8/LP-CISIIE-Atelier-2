@@ -1,4 +1,4 @@
-[
+define({ "api": [
   {
     "success": {
       "fields": {
@@ -215,7 +215,7 @@
       },
       "examples": [
         {
-          "title": "Exemple de réponse en cas de succès",
+          "title": "exemple de réponse en cas de succès",
           "content": "    HTTP/1.1 201 Created\n\n    {\n      \"info\" : \"Creation de la partie : http://localhost/github/LP-CISIIE-Atelier-2/api/parties\",\n\t\t\"token\" : \"eouglrziogoeujhreosjhojtr\"\n    }",
           "type": "json"
         }
@@ -336,4 +336,4 @@
     "filename": "./index.php",
     "groupTitle": "parties"
   }
-]
+] });

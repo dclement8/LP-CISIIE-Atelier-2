@@ -1,4 +1,4 @@
-{
+define({
   "name": "LP-CISIIE-Atelier-2",
   "version": "0.1.0",
   "description": "API Web Carte",
@@ -8,8 +8,8 @@
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2017-02-08T08:39:06.860Z",
+    "time": "2017-02-08T08:37:33.372Z",
     "url": "http://apidocjs.com",
     "version": "0.17.5"
   }
-}
+});

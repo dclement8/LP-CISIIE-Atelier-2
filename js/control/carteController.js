@@ -294,7 +294,7 @@ function($scope, $http, leafletMapEvents) {
 		document.getElementById("indication").innerHTML = "<b>Partie terminée !</b>";
 		
 		// Envoi du score
-		$http.put("api/parties/score", '{"score" : ' + $scope.score + ' , "token" : "' + $scope.token + '" }').then(function(response) {
+		$http.put("api/parties/score", '{ "score" : ' + $scope.score + ' , "token" : "' + $scope.token + '" }').then(function(response) {
 			if(response.status == 201)
 			{
 				$("#message").html("Score envoyé ! Vous remportez " + $scope.score + " points.");

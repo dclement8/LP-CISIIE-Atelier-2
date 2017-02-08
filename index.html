@@ -21,22 +21,35 @@
             <button ng-click="creerPartie()">Jouer</button>
         </div>
 
-        <div ng-show="token" ng-cloak>
-            <!-- Token ok, on peut jouer -->
-            Point {{point}}/5
+        <div id="ensemble" ng-show="token" ng-cloak>
+			<!-- Token ok, on peut jouer -->
+			<div id="options">
+				<button ng-click="supprimerPartie()">Nouvelle partie</button> 
+				<b>Points trouvés : {{point}}/5</b> - 
+				<div id="indication"></div>
+			</div>
             <!-- Affichage de la carte 700*700 -->
-            <leaflet
-                height="700px" width="700px"
-                center="france"
-                tiles="tiles"
-                markers="markers"
-                event-broadcast="events"
-                defaults="defaults"
-                maxbounds="maxbounds"
-                minZoom="minZoom"
-                maxZoom="maxZoom"
-            >
-            </leaflet>
+			<div id="groupe">
+				<div id="carte">
+					<leaflet
+						height="700px" width="700px"
+						center="france"
+						tiles="tiles"
+						markers="markers"
+						event-broadcast="events"
+						defaults="defaults"
+						maxbounds="maxbounds"
+						minZoom="minZoom"
+						maxZoom="maxZoom"
+					>
+					</leaflet>
+				</div>
+				<div>
+					<h2>Indices pour trouver la destination finale :</h2>
+					<ul id="indices"></ul>
+				</div>
+			</div>
+			<div id="message"></div>
         </div>
 
         <!-- Chargement Angular et Leaflet -->

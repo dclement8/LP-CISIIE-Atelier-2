@@ -1,4 +1,12 @@
-app.controller("carteController", ["$scope", "$http", "leafletMapEvents", function($scope, $http, leafletMapEvents) {
+app.controller("carteController", ["$scope", "$http", "leafletMapEvents",
+function($scope, $http, leafletMapEvents) {
+
+	$scope.point = 1;
+	$scope.points = [];
+	$scope.destination;
+	$scope.token = false;
+	$scope.score = 0;
+	$scope.fini = false;
 
 	/* Génération de la carte */
 
@@ -44,14 +52,23 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 	// Evenement lors du clic sur la carte
 	$scope.$on("leafletDirectiveMap.click", function(event, args) {
 		var leafEvent = args.leafletEvent;
-		console.log(leafEvent.latlng);
+		
+		if($scope.fini == false)
+		{
+			$scope.verifierPoint(
+				[leafEvent.latlng.lat, leafEvent.latlng.lng],
+				[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+			);
+		}
+		else
+		{
+			// Chasse à la destination finale
+			$scope.verifierDestination(
+				[leafEvent.latlng.lat, leafEvent.latlng.lng],
+				[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+			);
+		}
 	});
-
-	$scope.point = 1;
-	$scope.points = [];
-	$scope.destination;
-	$scope.token = false;
-	$scope.score = 0;
 
 	function storageAvailable(type) {
 		try {
@@ -71,6 +88,156 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 		return false;
 	}
 
+	$scope.creerPartie = function() {
+		$http.post("api/parties", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
+			console.log(response.data.token);
+			if(response.data.token !== undefined) {
+				$scope.token = response.data.token;
+				localStorage.setItem('carteToken', $scope.token);
+
+				$scope.getPoints();
+				$scope.getDestination();
+				$scope.point = 1;
+			}
+			else {
+				// Erreur
+				alert('Impossible de créer un compte !');
+			}
+		},
+		function(error) {
+			console.log(error);
+		});
+	}
+
+	$scope.supprimerPartie = function() {
+		if(confirm("Voulez-vous vraiment commencer une nouvelle partie ?")) {
+			localStorage.removeItem("carteToken");
+			$scope.token = false;
+		}
+	}
+
+	$scope.getPoints = function() {
+		$http.get("api/points").then(function(response) {
+			if(response.data.points !== undefined) {
+				$scope.points = response.data.points;
+				document.getElementById("indication").innerHTML = $scope.points[0].indication;
+			}
+			else {
+				// Erreur
+				alert('Impossible de récupérer les points !');
+			}
+		},
+		function(error) {
+			console.log(error);
+		});
+	}
+
+	$scope.getDestination = function() {
+		$http.get("api/destinations").then(function(response) {
+			if(response.data.destination !== undefined) {
+				$scope.destination = response.data.destination;
+			}
+			else {
+				// Erreur
+				alert('Impossible de récupérer la destination !');
+			}
+		},
+		function(error) {
+			console.log(error);
+		});
+	}
+
+	$scope.sendScore = function() {
+		$http.put("api/parties/score", '{"token": "'+ $scope.token +'", "score": "'+ $scope.score +'"}').then(function(response) {
+			console.log(response.data);
+		},
+		function(error) {
+			console.log(error);
+		});
+	}
+
+	$scope.verifierPoint = function(p1, p2) {
+		// On vérifie p1 par rapport à p2
+		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
+		console.log(diagonale);
+		
+		// 0.565 = valeur maximale tolérable entre deux points .
+		
+		if(diagonale <= 0.565)
+		{
+			// Créer marqueur au point trouvé
+			
+			// Si nbPoints >= 2 : tracer le chemin entre le point n-1 et le point n
+			
+			function afficherBien()
+			{
+				$("#message").html("Bien !");
+				document.getElementById("message").style.backgroundColor = "rgba(0,128,0,0.9)";
+				$("#message").fadeIn();
+				setTimeout(function(){ $("#message").fadeOut(); }, 700);
+			}
+			
+			// Afficher un indice pour la destination finale
+			switch($scope.point)
+			{
+				case 1:
+					$("#indices").append("<li>" + $scope.destination.indice1 + "</li>");
+					$scope.point++;
+					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					afficherBien();
+					break;
+					
+				case 2:
+					$("#indices").append("<li>" + $scope.destination.indice2 + "</li>");
+					$scope.point++;
+					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					afficherBien();
+					break;
+					
+				case 3:
+					$("#indices").append("<li>" + $scope.destination.indice3 + "</li>");
+					$scope.point++;
+					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					afficherBien();
+					break;
+					
+				case 4:
+					$("#indices").append("<li>" + $scope.destination.indice4 + "</li>");
+					$scope.point++;
+					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
+					afficherBien();
+					break;
+					
+				case 5:
+					$("#indices").append("<li>" + $scope.destination.indice5 + "</li>");
+					$scope.fini = true; // On termine la chasse aux indices, trouver destination finale.
+					
+					document.getElementById("indication").innerHTML = "<b>Trouvez maintenant la rose des vents via les indices fournis... Vous n'avez droit qu'à une SEULE tentative !</b>";
+					
+					$("#message").html("Bravo vous avez trouvé les 5 indices pour trouver la rose des vents !<br/><br/>D'après vos indices collectés, où se trouve t-elle ?");
+					document.getElementById("message").style.backgroundColor = "rgba(0,128,0,0.9)";
+					$("#message").fadeIn();
+					setTimeout(function(){ $("#message").fadeOut(); }, 5000);
+					
+					break;
+			}
+		}
+		else
+		{
+			// Erreur
+			$("#message").html("Ce n'est pas par là !");
+			document.getElementById("message").style.backgroundColor = "rgba(223,0,0,0.9)";
+			$("#message").fadeIn();
+			setTimeout(function(){ $("#message").fadeOut(); }, 700);
+		}
+	}
+	
+	$scope.verifierDestination = function(p1, p2) {
+		// On vérifie p1 par rapport à p2
+		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
+		console.log(diagonale);
+	}
+
 	if(!localStorage.getItem('carteToken')) {
 		// Nouvelle partie
 		console.log("créer nouvelle partie");
@@ -79,50 +246,9 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents", functi
 		// Partie en cours ? on initialise token
 		console.log("partie en cours");
 		$scope.token = localStorage.getItem('carteToken');
-	}
-
-	$scope.creerPartie = function() {
-		$http.post("api/newGame", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
-			$scope.token = response.data.token;
-			localStorage.setItem('carteToken', $scope.token);
-
-			$scope.getPoints();
-			$scope.getDestination();
-			$scope.point = 1;
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
-
-	$scope.getPoints = function() {
-		$http.get("api/points", '{"token": "'+ $scope.token +'"}').then(function(response) {
-			$scope.points = response.data.points;
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
-
-	$scope.getDestination = function() {
-		$http.get("api/destination", '{"token": "'+ $scope.token +'"}').then(function(response) {
-			$scope.destination = response.data.destination;
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
-
-	$scope.sendScore = function() {
-		$http.post("api/score", '{"token": "'+ $scope.token +'", "score": "'+ $scope.score +'"}').then(function(response) {
-			//
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
-
-	$scope.verifierPoint = function(coords) {
-		console.log(coords);
+		$scope.getPoints();
+		$scope.getDestination();
+		
+		
 	}
 }]);

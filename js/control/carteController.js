@@ -7,6 +7,15 @@ function($scope, $http, leafletMapEvents) {
 	$scope.token = false;
 	$scope.score = 0;
 	$scope.fini = false;
+	$scope.markers = new Array();
+	$scope.paths = {
+		points: {
+			type: "polyline",
+			color: 'green',
+			weight: 2,
+			latlngs: []
+		}
+	};
 
 	/* Génération de la carte */
 
@@ -28,7 +37,7 @@ function($scope, $http, leafletMapEvents) {
         france: {
             lat: 46.32,
             lng: 2.25,
-            zoom: 6
+            zoom: 5
         },
 		maxbounds: $scope.regions.france,
         events: {},
@@ -43,7 +52,7 @@ function($scope, $http, leafletMapEvents) {
         },
         defaults: {
             scrollWheelZoom: true,
-			minZoom: 6,
+			minZoom: 5,
 			maxZoom: 10
         },
 		geojson: {}
@@ -52,7 +61,7 @@ function($scope, $http, leafletMapEvents) {
 	// Evenement lors du clic sur la carte
 	$scope.$on("leafletDirectiveMap.click", function(event, args) {
 		var leafEvent = args.leafletEvent;
-		
+
 		if($scope.fini == false)
 		{
 			$scope.verifierPoint(
@@ -147,6 +156,17 @@ function($scope, $http, leafletMapEvents) {
 		});
 	}
 
+	$scope.ajouterMarker = function(latitude, longitude) {
+		$scope.markers.push({
+            lat: latitude,
+            lng: longitude,
+        });
+    };
+
+	$scope.relierPoint = function(point) {
+		$scope.paths.points.latlngs.push({lat: point.lat, lng: point.lng});
+    };
+
 	$scope.sendScore = function() {
 		$http.put("api/parties/score", '{"token": "'+ $scope.token +'", "score": "'+ $scope.score +'"}').then(function(response) {
 			console.log(response.data);
@@ -160,15 +180,16 @@ function($scope, $http, leafletMapEvents) {
 		// On vérifie p1 par rapport à p2
 		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
 		console.log(diagonale);
-		
+
 		// 0.565 = valeur maximale tolérable entre deux points .
-		
+
 		if(diagonale <= 0.565)
 		{
 			// Créer marqueur au point trouvé
-			
-			// Si nbPoints >= 2 : tracer le chemin entre le point n-1 et le point n
-			
+			$scope.ajouterMarker(p2[0], p2[1]);
+
+			$scope.relierPoint($scope.markers[$scope.point-1]);
+
 			function afficherBien()
 			{
 				$("#message").html("Bien !");
@@ -176,7 +197,7 @@ function($scope, $http, leafletMapEvents) {
 				$("#message").fadeIn();
 				setTimeout(function(){ $("#message").fadeOut(); }, 700);
 			}
-			
+
 			// Afficher un indice pour la destination finale
 			switch($scope.point)
 			{
@@ -186,39 +207,39 @@ function($scope, $http, leafletMapEvents) {
 					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
 					afficherBien();
 					break;
-					
+
 				case 2:
 					$("#indices").append("<li>" + $scope.destination.indice2 + "</li>");
 					$scope.point++;
 					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
 					afficherBien();
 					break;
-					
+
 				case 3:
 					$("#indices").append("<li>" + $scope.destination.indice3 + "</li>");
 					$scope.point++;
 					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
 					afficherBien();
 					break;
-					
+
 				case 4:
 					$("#indices").append("<li>" + $scope.destination.indice4 + "</li>");
 					$scope.point++;
 					document.getElementById("indication").innerHTML = $scope.points[$scope.point - 1].indication;
 					afficherBien();
 					break;
-					
+
 				case 5:
 					$("#indices").append("<li>" + $scope.destination.indice5 + "</li>");
 					$scope.fini = true; // On termine la chasse aux indices, trouver destination finale.
-					
+
 					document.getElementById("indication").innerHTML = "<b>Trouvez maintenant la rose des vents via les indices fournis... Vous n'avez droit qu'à une SEULE tentative !</b>";
-					
+
 					$("#message").html("Bravo vous avez trouvé les 5 indices pour trouver la rose des vents !<br/><br/>D'après vos indices collectés, où se trouve t-elle ?");
 					document.getElementById("message").style.backgroundColor = "rgba(0,128,0,0.9)";
 					$("#message").fadeIn();
 					setTimeout(function(){ $("#message").fadeOut(); }, 5000);
-					
+
 					break;
 			}
 		}
@@ -231,7 +252,7 @@ function($scope, $http, leafletMapEvents) {
 			setTimeout(function(){ $("#message").fadeOut(); }, 700);
 		}
 	}
-	
+
 	$scope.verifierDestination = function(p1, p2) {
 		// On vérifie p1 par rapport à p2
 		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
@@ -248,7 +269,7 @@ function($scope, $http, leafletMapEvents) {
 		$scope.token = localStorage.getItem('carteToken');
 		$scope.getPoints();
 		$scope.getDestination();
-		
-		
+
+
 	}
 }]);

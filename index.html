@@ -24,20 +24,21 @@
         <div id="ensemble" ng-show="token" ng-cloak>
 			<!-- Token ok, on peut jouer -->
 			<div id="options">
-				<button ng-click="supprimerPartie()">Nouvelle partie</button> 
-				<b>Points trouvés : {{point}}/5</b> - 
+				<button ng-click="supprimerPartie()">Nouvelle partie</button>
+				<b>Points trouvés : {{point}}/5</b> -
 				<div id="indication"></div>
 			</div>
-            <!-- Affichage de la carte 700*700 -->
+            <!-- Affichage de la carte 450*450 -->
 			<div id="groupe">
 				<div id="carte">
 					<leaflet
-						height="700px" width="700px"
+						height="500px" width="500px"
 						center="france"
 						tiles="tiles"
 						markers="markers"
 						event-broadcast="events"
 						defaults="defaults"
+                        paths="paths"
 						maxbounds="maxbounds"
 						minZoom="minZoom"
 						maxZoom="maxZoom"

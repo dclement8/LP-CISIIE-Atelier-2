@@ -168,22 +168,17 @@ function($scope, $http, leafletMapEvents) {
 	}
 
 	$scope.ajouterMarker = function(latitude, longitude, isFinal) {
-		if(isFinal !== undefined && isFinal === true) {
-			console.log("marker final");
-			$scope.markers.push({
-	            lat: latitude,
-	            lng: longitude,
-				focus: true,
-				message: "Bien ! .",
-				markerColor: 'red'
-	        });
-		}
-		else {
-			console.log("marker");
-			$scope.markers.push({
-	            lat: latitude,
-	            lng: longitude,
-	        });
+		$scope.markers.push({
+			lat: latitude,
+			lng: longitude,
+		});
+
+		if(isFinal === true) {
+			// On change l'icône si c'est la destination
+			$scope.markers[$scope.markers.length-1].icon = {
+                type: 'awesomeMarker',
+                markerColor: 'red'
+            };
 		}
     };
 

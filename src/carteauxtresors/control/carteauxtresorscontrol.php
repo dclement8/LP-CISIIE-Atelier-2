@@ -117,4 +117,10 @@ class carteauxtresorscontrol
             return (new \carteauxtresors\view\carteauxtresorsview($arr))->render('scorePartie', $req, $resp, $args );
         }
     }
+
+    public function meilleurScores(Request $req, Response $resp, $args)
+    {
+            $json = \carteauxtresors\model\partie::orderBy('score', 'DESC')->take(10)->get()->toJson();
+            return (new \carteauxtresors\view\carteauxtresorsview($json))->render('meilleurScores', $req, $resp, $args );
+    }
 }

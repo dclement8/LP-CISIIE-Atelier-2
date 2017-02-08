@@ -1,7 +1,7 @@
 app.controller("carteController", ["$scope", "$http", "leafletMapEvents",
 function($scope, $http, leafletMapEvents) {
 
-	$scope.point = 1;
+	$scope.point = 0;
 	$scope.points = [];
 	$scope.destination;
 	$scope.token = false;
@@ -64,7 +64,7 @@ function($scope, $http, leafletMapEvents) {
 			{
 				$scope.verifierPoint(
 					[leafEvent.latlng.lat, leafEvent.latlng.lng],
-					[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+					[$scope.points[$scope.point].latitude, $scope.points[$scope.point].longitude]
 				);
 			}
 			else
@@ -72,7 +72,7 @@ function($scope, $http, leafletMapEvents) {
 				// Chasse à la destination finale
 				$scope.verifierDestination(
 					[leafEvent.latlng.lat, leafEvent.latlng.lng],
-					[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+					[$scope.destination.latitude, $scope.destination.longitude]
 				);
 			}
 		}
@@ -105,7 +105,7 @@ function($scope, $http, leafletMapEvents) {
 
 				$scope.getPoints();
 				$scope.getDestination();
-				$scope.point = 1;
+				$scope.point = 0;
 			}
 			else {
 				// Erreur
@@ -191,36 +191,37 @@ function($scope, $http, leafletMapEvents) {
 			// Afficher un indice pour la destination finale
 			switch($scope.point)
 			{
-				case 1:
+				case 0:
 					$("#indices").append("<li>" + $scope.destination.indice1 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point].indication + "</i>";
+					afficherBien();
+					break;
+					
+				case 1:
+					$("#indices").append("<li>" + $scope.destination.indice2 + "</li>");
+					$scope.point++;
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point].indication + "</i>";
 					afficherBien();
 					break;
 					
 				case 2:
-					$("#indices").append("<li>" + $scope.destination.indice2 + "</li>");
+					$("#indices").append("<li>" + $scope.destination.indice3 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point].indication + "</i>";
 					afficherBien();
 					break;
 					
 				case 3:
-					$("#indices").append("<li>" + $scope.destination.indice3 + "</li>");
+					$("#indices").append("<li>" + $scope.destination.indice4 + "</li>");
 					$scope.point++;
-					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
+					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point].indication + "</i>";
 					afficherBien();
 					break;
 					
 				case 4:
-					$("#indices").append("<li>" + $scope.destination.indice4 + "</li>");
-					$scope.point++;
-					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point - 1].indication + "</i>";
-					afficherBien();
-					break;
-					
-				case 5:
 					$("#indices").append("<li>" + $scope.destination.indice5 + "</li>");
+					$scope.point++;
 					$scope.fini = true; // On termine la chasse aux indices, trouver destination finale.
 					
 					document.getElementById("indication").innerHTML = "<b>Trouvez maintenant la rose des vents via les indices fournis... Vous n'avez droit qu'à une SEULE tentative !</b>";
@@ -248,8 +249,8 @@ function($scope, $http, leafletMapEvents) {
 		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
 		console.log(diagonale);
 		
-		// D = 2 : valeur score max .
-		var D = 2;
+		// D = 1.25 : valeur score max .
+		var D = 1.25;
 		if(diagonale < D)
 		{
 			$scope.score = 10;

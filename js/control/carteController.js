@@ -207,7 +207,7 @@ function($scope, $http, leafletMapEvents) {
 			// Créer marqueur au point trouvé
 			$scope.ajouterMarker(p2[0], p2[1]);
 
-			$scope.relierPoint($scope.markers[$scope.point-1]);
+			$scope.relierPoint($scope.markers[$scope.point]);
 
 			function afficherBien()
 			{

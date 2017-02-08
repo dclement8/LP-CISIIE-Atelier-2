@@ -7,6 +7,7 @@ function($scope, $http, leafletMapEvents) {
 	$scope.token = false;
 	$scope.score = 0;
 	$scope.fini = false;
+	$scope.finJeu = false;
 
 	/* Génération de la carte */
 
@@ -53,20 +54,23 @@ function($scope, $http, leafletMapEvents) {
 	$scope.$on("leafletDirectiveMap.click", function(event, args) {
 		var leafEvent = args.leafletEvent;
 		
-		if($scope.fini == false)
+		if($scope.finJeu == false)
 		{
-			$scope.verifierPoint(
-				[leafEvent.latlng.lat, leafEvent.latlng.lng],
-				[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
-			);
-		}
-		else
-		{
-			// Chasse à la destination finale
-			$scope.verifierDestination(
-				[leafEvent.latlng.lat, leafEvent.latlng.lng],
-				[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
-			);
+			if($scope.fini == false)
+			{
+				$scope.verifierPoint(
+					[leafEvent.latlng.lat, leafEvent.latlng.lng],
+					[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+				);
+			}
+			else
+			{
+				// Chasse à la destination finale
+				$scope.verifierDestination(
+					[leafEvent.latlng.lat, leafEvent.latlng.lng],
+					[$scope.points[$scope.point-1].latitude, $scope.points[$scope.point-1].longitude]
+				);
+			}
 		}
 	});
 
@@ -236,6 +240,69 @@ function($scope, $http, leafletMapEvents) {
 		// On vérifie p1 par rapport à p2
 		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
 		console.log(diagonale);
+		
+		// D = 0.565 : valeur score max .
+		var D = 0.565;
+		if(diagonale < D)
+		{
+			$scope.score = 10;
+		}
+		else
+		{
+			if(diagonale < (2*D))
+			{
+				$scope.score = 8;
+			}
+			else
+			{
+				if(diagonale < (3*D))
+				{
+					$scope.score = 6;
+				}
+				else
+				{
+					if(diagonale < (5*D))
+					{
+						$scope.score = 3;
+					}
+					else
+					{
+						if(diagonale < (10*D))
+						{
+							$scope.score = 1;
+						}
+						else
+						{
+							$scope.score = 0;
+						}
+					}
+				}
+			}
+		}
+		
+		$scope.finJeu = true;
+		document.getElementById("indication").innerHTML = "<b>Partie terminée !</b>";
+		
+		// Envoi du score
+		$http.put("api/parties/score", '{"score" : ' + $scope.score + ' , "token" : ' + $scope.token + ' }').then(function(response) {
+			if(response.status == 201)
+			{
+				$("#message").html("Score envoyé ! Vous remportez " + $scope.score + " points.");
+				document.getElementById("message").style.backgroundColor = "rgba(0,0,128,0.9)";
+				$("#message").fadeIn();
+				setTimeout(function(){ $("#message").fadeOut(); }, 5000);
+			}
+			else {
+				// Erreur
+				$("#message").html("Impossible d'inscrire votre score ! Vous remportez " + $scope.score + " points.");
+				document.getElementById("message").style.backgroundColor = "rgba(213,85,0,0.9)";
+				$("#message").fadeIn();
+				setTimeout(function(){ $("#message").fadeOut(); }, 5000);
+			}
+		},
+		function(error) {
+			console.log(error);
+		});
 	}
 
 	if(!localStorage.getItem('carteToken')) {
@@ -248,7 +315,5 @@ function($scope, $http, leafletMapEvents) {
 		$scope.token = localStorage.getItem('carteToken');
 		$scope.getPoints();
 		$scope.getDestination();
-		
-		
 	}
 }]);

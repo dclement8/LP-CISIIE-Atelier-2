@@ -106,6 +106,11 @@ function($scope, $http, leafletMapEvents) {
 	}
 
 	$scope.creerPartie = function() {
+		if($scope.pseudo == undefined)
+		{
+			$scope.pseudo = "Anonyme";
+		}
+		
 		$http.post("api/parties", '{"pseudo": "'+ htmlEntities($scope.pseudo) +'"}').then(function(response) {
 			console.log(response.data.token);
 			if(response.data.token !== undefined) {

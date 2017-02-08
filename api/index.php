@@ -19,10 +19,9 @@ $app = new \Slim\App($c);
 * @apiVersion 0.1.0
 * 
 * @api {post} /parties Création de la partie
-* @apiDescription Création de la partie
+* @apiDescription Création de la partie (exemple de JSON-type à renvoyer : { "pseudo" : "Bob" })
 *
 * @apiParam {String} pseudo Pseudo entré par l'utilisateur
-* @apiParam {String} token Token générer pour la partie
 *
 * @apiSuccess (Succès : 201) {json} info Creation de la partie
 * @apiSuccess (Succès : 201) {json} token Token de la partie
@@ -137,7 +136,7 @@ $app->get('/destinations',
 * @apiVersion 0.1.0
 * 
 * @api {put} /parties/score Enregistrement du score
-* @apiDescription Création de la partie
+* @apiDescription Enregistrement du score d'un partie (exemple de JSON-type à renvoyer : { "score" : 10 , "token" : "iuegh96r5hg26reh52e6" })
 *
 * @apiParam {String} score Score obtenu par l'utilisateur
 * @apiParam {String} token Token de la partie en cours
@@ -186,6 +185,14 @@ function (Request $req, Response $resp, $args)
 		return (new carteauxtresors\control\carteauxtresorscontrol($this))->scorePartie($req, $resp, $args);
 	}
 )->setName('scorePartie');
+
+$app->get('/parties',
+
+function (Request $req, Response $resp, $args) 
+	{
+		return (new carteauxtresors\control\carteauxtresorscontrol($this))->meilleurScores($req, $resp, $args);
+	}
+)->setName('meilleurScores');
 
 
 $app->run();

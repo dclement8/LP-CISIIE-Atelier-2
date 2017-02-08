@@ -117,6 +117,9 @@ function($scope, $http, leafletMapEvents) {
 		if(confirm("Voulez-vous vraiment commencer une nouvelle partie ?")) {
 			localStorage.removeItem("carteToken");
 			$scope.token = false;
+			$("#indices").html("");
+			$scope.fini = false;
+			$scope.finJeu = false;
 		}
 	}
 
@@ -280,11 +283,14 @@ function($scope, $http, leafletMapEvents) {
 			}
 		}
 		
+		console.log($scope.score);
+		console.log($scope.token);
+		
 		$scope.finJeu = true;
 		document.getElementById("indication").innerHTML = "<b>Partie terminée !</b>";
 		
 		// Envoi du score
-		$http.put("api/parties/score", '{"score" : ' + $scope.score + ' , "token" : ' + $scope.token + ' }').then(function(response) {
+		$http.put("api/parties/score", '{"score" : ' + $scope.score + ' , "token" : "' + $scope.token + '" }').then(function(response) {
 			if(response.status == 201)
 			{
 				$("#message").html("Score envoyé ! Vous remportez " + $scope.score + " points.");
@@ -294,14 +300,16 @@ function($scope, $http, leafletMapEvents) {
 			}
 			else {
 				// Erreur
-				$("#message").html("Impossible d'inscrire votre score ! Vous remportez " + $scope.score + " points.");
-				document.getElementById("message").style.backgroundColor = "rgba(213,85,0,0.9)";
-				$("#message").fadeIn();
-				setTimeout(function(){ $("#message").fadeOut(); }, 5000);
+				
 			}
 		},
 		function(error) {
 			console.log(error);
+			
+			$("#message").html("Impossible d'inscrire votre score ! Vous remportez " + $scope.score + " points.");
+			document.getElementById("message").style.backgroundColor = "rgba(213,85,0,0.9)";
+			$("#message").fadeIn();
+			setTimeout(function(){ $("#message").fadeOut(); }, 5000);
 		});
 	}
 
@@ -315,5 +323,6 @@ function($scope, $http, leafletMapEvents) {
 		$scope.token = localStorage.getItem('carteToken');
 		$scope.getPoints();
 		$scope.getDestination();
+		
 	}
 }]);

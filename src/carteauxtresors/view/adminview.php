@@ -67,7 +67,7 @@ class adminview
 		$html = "
 					</div>
 					<footer>
-						Carte aux trésors - 174 086
+						2017 ; La Carte aux Trésors - LP CISIIE (Atelier 2) - Thibaut DALICHAMPT, Charles PIGUET, Hugo HAPPE et Dylan CLEMENT
 					</footer>
 				</body>
 			</html>

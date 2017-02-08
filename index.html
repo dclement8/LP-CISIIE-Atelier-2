@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bob</title>
+        <title>Carte aux trésors</title>
+		<link rel='stylesheet' type='text/css' href='css/style.css'/>
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 
@@ -15,42 +16,55 @@
 		<![endif]-->
     </head>
     <body ng-controller="carteController">
-        <div ng-show="!token" ng-cloak>
-            <!-- Pas de token, inscription -->
-            Pseudo : <input type="text" ng-model="pseudo" />
-            <button ng-click="creerPartie()">Jouer</button>
-        </div>
+		<header>
+			<a href='./'>
+				<img src='img/carte.png' alt='La carte aux trésors'>
+			</a>
+		</header>
+		
+		<div id='content'>
+			<div ng-show="!token" ng-cloak>
+				<!-- Pas de token, inscription -->
+				<label for="inputPseudo">Pseudo</label>
+				<input type="text" id="inputPseudo" placeholder="Entrez votre pseudo..." ng-model="pseudo" />
+				<button class="waves-effect waves-light btn" ng-click="creerPartie()">Jouer</button>
+			</div>
 
-        <div id="ensemble" ng-show="token" ng-cloak>
-			<!-- Token ok, on peut jouer -->
-			<div id="options">
-				<button ng-click="supprimerPartie()">Nouvelle partie</button> 
-				<b>Points trouvés : {{point}}/5</b> - 
-				<div id="indication"></div>
-			</div>
-            <!-- Affichage de la carte 700*700 -->
-			<div id="groupe">
-				<div id="carte">
-					<leaflet
-						height="700px" width="700px"
-						center="france"
-						tiles="tiles"
-						markers="markers"
-						event-broadcast="events"
-						defaults="defaults"
-						maxbounds="maxbounds"
-						minZoom="minZoom"
-						maxZoom="maxZoom"
-					>
-					</leaflet>
+			<div id="ensemble" ng-show="token" ng-cloak>
+				<!-- Token ok, on peut jouer -->
+				<div id="options">
+					<button class="waves-effect waves-light btn" ng-click="supprimerPartie()">Nouvelle partie</button> 
+					<b>Points trouvés : {{point}}/5</b>
+					<div id="indication"></div>
 				</div>
-				<div>
-					<h2>Indices pour trouver la destination finale :</h2>
-					<ul id="indices"></ul>
+				<!-- Affichage de la carte 700*700 -->
+				<div id="groupe">
+					<div id="carte">
+						<leaflet
+							height="700px" width="700px"
+							center="france"
+							tiles="tiles"
+							markers="markers"
+							event-broadcast="events"
+							defaults="defaults"
+							maxbounds="maxbounds"
+							minZoom="minZoom"
+							maxZoom="maxZoom"
+						>
+						</leaflet>
+					</div>
+					<div id="destinationfinale">
+						<h2>Indices pour trouver la destination finale :</h2>
+						<ul id="indices"></ul>
+					</div>
 				</div>
+				<div id="message"></div>
 			</div>
-			<div id="message"></div>
-        </div>
+		</div>
+		
+		<footer>
+			2017 ; La Carte aux Trésors - LP CISIIE (Atelier 2) - Thibaut DALICHAMPT, Charles PIGUET, Hugo HAPPE et Dylan CLEMENT
+		</footer>
 
         <!-- Chargement Angular et Leaflet -->
         <script src="js/lib/jquery.min.js"></script>

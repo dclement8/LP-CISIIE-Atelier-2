@@ -115,6 +115,8 @@ function($scope, $http, leafletMapEvents) {
 				$scope.getPoints();
 				$scope.getDestination();
 				$scope.point = 0;
+
+				$("#indication").css('color', 'black');
 			}
 			else {
 				// Erreur
@@ -133,6 +135,15 @@ function($scope, $http, leafletMapEvents) {
 			$("#indices").html("");
 			$scope.fini = false;
 			$scope.finJeu = false;
+			$scope.markers = new Array();
+			$scope.paths = {
+				points: {
+					type: "polyline",
+					color: 'green',
+					weight: 2,
+					latlngs: []
+				}
+			};
 		}
 	}
 
@@ -170,7 +181,7 @@ function($scope, $http, leafletMapEvents) {
 	$scope.ajouterMarker = function(latitude, longitude, isFinal) {
 		$scope.markers.push({
 			lat: latitude,
-			lng: longitude,
+			lng: longitude
 		});
 
 		if(isFinal === true) {
@@ -326,7 +337,8 @@ function($scope, $http, leafletMapEvents) {
 		console.log($scope.token);
 
 		$scope.finJeu = true;
-		document.getElementById("indication").innerHTML = "<b>Partie terminée !</b>";
+		$("#indication").css('color', 'rgba(0,128,0,0.9)');
+		$("#indication").html("<b>Partie terminée! Destination finale : "+ $scope.destination.nom +"</b>");
 
 		// Envoi du score
 		$http.put("api/parties/score", '{ "score" : ' + $scope.score + ' , "token" : "' + $scope.token + '" }').then(function(response) {

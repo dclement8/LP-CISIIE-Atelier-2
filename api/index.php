@@ -14,7 +14,7 @@ $c = new\Slim\Container($configuration);
 $app = new \Slim\App($c);
 
 /**
-* @apiGroup parties
+* @apiGroup Parties
 * @apiName newGame
 * @apiVersion 0.1.0
 * 
@@ -132,7 +132,7 @@ $app->get('/destinations',
 )->setName('destinationFinale');
 
 /**
-* @apiGroup parties
+* @apiGroup Parties
 * @apiName scorePartie
 * @apiVersion 0.1.0
 * 

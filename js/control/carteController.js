@@ -50,6 +50,10 @@ function($scope, $http, leafletMapEvents) {
 		geojson: {}
     });
 
+	function htmlEntities(str) {
+		return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	}
+	
 	// Evenement lors du clic sur la carte
 	$scope.$on("leafletDirectiveMap.click", function(event, args) {
 		var leafEvent = args.leafletEvent;
@@ -91,9 +95,9 @@ function($scope, $http, leafletMapEvents) {
 		alert('localStorage indisponible sur votre navigateur !');
 		return false;
 	}
-
+	
 	$scope.creerPartie = function() {
-		$http.post("api/parties", '{"pseudo": "'+ $scope.pseudo +'"}').then(function(response) {
+		$http.post("api/parties", '{"pseudo": "'+ htmlEntities($scope.pseudo) +'"}').then(function(response) {
 			console.log(response.data.token);
 			if(response.data.token !== undefined) {
 				$scope.token = response.data.token;

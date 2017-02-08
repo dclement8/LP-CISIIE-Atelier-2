@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 06 Février 2017 à 18:11
+-- Généré le :  Mer 08 Février 2017 à 08:59
 -- Version du serveur :  5.7.11
 -- Version de PHP :  7.0.4
 
@@ -51,7 +51,7 @@ INSERT INTO `point` (`id`, `latitude`, `longitude`, `indication`) VALUES
 (11, 48.8049, 2.12036, 'S&eacute;jour de Louis XIV'),
 (12, 45.8336, 1.2611, 'Si vous cliquez sur ce point, vous ferez attention &agrave; la porcelaine.'),
 (13, 48.6921, 6.18442, 'Capitale du duc Stanislas'),
-(14, 45.8992, 6.12938, 'JO de 1992'),
+(14, 45.6755, 6.39273, 'JO de 1992'),
 (15, 41.9192, 8.73864, 'La premi&egrave;re ville de France lib&eacute;r&eacute;e &agrave; la seconde guerre mondiale'),
 (16, 43.6047, 1.44421, 'Ville la plus chaude de France'),
 (17, 45.5284, 2.81393, 'Point culminant du Massif-Central'),

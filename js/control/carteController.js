@@ -144,6 +144,7 @@ function($scope, $http, leafletMapEvents) {
 					latlngs: []
 				}
 			};
+			$("#tabscores").html("");
 		}
 	}
 
@@ -292,10 +293,10 @@ function($scope, $http, leafletMapEvents) {
 
 		console.log($scope.destination);
 		$scope.relierPoint({lat: p2[0], lng: p2[1]});
-
-		// D = 1.25 : valeur score max .
-		var D = 1.25;
-
+    
+		// D = 0.33 : valeur score max .
+		var D = 0.33;
+    
 		if(diagonale < D)
 		{
 			$scope.score = 10;
@@ -361,6 +362,22 @@ function($scope, $http, leafletMapEvents) {
 			document.getElementById("message").style.backgroundColor = "rgba(213,85,0,0.9)";
 			$("#message").fadeIn();
 			setTimeout(function(){ $("#message").fadeOut(); }, 5000);
+		});
+		
+		// Affichage des meilleurs scores
+		$http.get("api/parties").then(function(response) {
+			if(response.status == 200)
+			{
+				$("#tabscores").append("<h2>Tableau des meilleurs scores :</h2><table><tr><th>Position</th><th>Pseudo</th><th>Score</th></tr>");
+				for(var i = 0; i < response.data.scores.length; i++)
+				{
+					$("#tabscores").append("<tr><td>" + (i + 1) + "</td><td>" + response.data.scores[i].pseudo + "</td><td>" + response.data.scores[i].score + "</td></tr>");
+				}
+				$("#tabscores").append("</table>");
+			}
+		},
+		function(error) {
+			console.log(error);
 		});
 	}
 

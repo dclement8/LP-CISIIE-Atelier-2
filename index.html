@@ -7,6 +7,7 @@
 		<link rel='stylesheet' type='text/css' href='css/style.css'/>
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+        <link rel="stylesheet" href="node_modules/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css">
 		<link rel="shortcut icon" href="./favicon.ico">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -22,7 +23,7 @@
 				<img src='img/carte.png' alt='La carte aux trésors'>
 			</a>
 		</header>
-		
+
 		<div id='content'>
 			<div ng-show="!token" ng-cloak>
 				<!-- Pas de token, inscription -->
@@ -34,25 +35,26 @@
 			<div id="ensemble" ng-show="token" ng-cloak>
 				<!-- Token ok, on peut jouer -->
 				<div id="options">
-					<button class="waves-effect waves-light btn" ng-click="supprimerPartie()">Nouvelle partie</button> 
+					<button class="waves-effect waves-light btn" ng-click="supprimerPartie()">Nouvelle partie</button>
 					<b>Points trouvés : {{point}}/5</b>
 					<div id="indication"></div>
 				</div>
-				<!-- Affichage de la carte 700*700 -->
-				<div id="groupe">
-					<div id="carte">
-						<leaflet
-							height="700px" width="700px"
-							center="france"
-							tiles="tiles"
-							markers="markers"
-							event-broadcast="events"
-							defaults="defaults"
-							maxbounds="maxbounds"
-							minZoom="minZoom"
-							maxZoom="maxZoom"
-						>
-						</leaflet>
+                <!-- Affichage de la carte 500*500 -->
+    			<div id="groupe">
+    				<div id="carte">
+    					<leaflet
+    						height="500px" width="500px"
+    						center="france"
+    						tiles="tiles"
+    						markers="markers"
+    						event-broadcast="events"
+    						defaults="defaults"
+                            paths="paths"
+    						maxbounds="maxbounds"
+    						minZoom="minZoom"
+    						maxZoom="maxZoom"
+    					>
+    					</leaflet>
 					</div>
 					<div id="destinationfinale">
 						<div id="tabscores"></div>
@@ -63,7 +65,7 @@
 				<div id="message"></div>
 			</div>
 		</div>
-		
+
 		<footer>
 			2017 ; La Carte aux Trésors - LP CISIIE (Atelier 2) - Thibaut DALICHAMPT, Charles PIGUET, Hugo HAPPE et Dylan CLEMENT
 		</footer>
@@ -74,6 +76,7 @@
         <script src="node_modules/leaflet/dist/leaflet.js"></script>
         <script src="node_modules/angular-simple-logger/dist/angular-simple-logger.js"></script>
         <script src="node_modules/ui-leaflet/dist/ui-leaflet.min.js"></script>
+        <script src="node_modules/Leaflet.awesome-markers/dist/leaflet.awesome-markers.min.js"></script>
 
         <!-- Chargement application -->
         <script src="js/app.js"></script>

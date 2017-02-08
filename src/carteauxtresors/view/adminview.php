@@ -106,7 +106,7 @@ class adminview
 			<br/><hr/><br/>
 			<form name='supprimerPoint' method='POST' action='".$this->baseURL."/admin/points/supprimer'>
 				<button class='waves-effect waves-light btn' type='submit'>Supprimer</button>
-				<table>
+				<table class='responsive-table'>
 					<tr>
 						<th>
 							<input type='checkbox' id='cochertout' name='cochertout' value='all' style='display:inline;' onclick='cocher()' />
@@ -188,7 +188,7 @@ class adminview
 			<br/><hr/><br/>
 			<form name='supprimerDestination' method='POST' action='".$this->baseURL."/admin/destinations/supprimer'>
 				<button class='waves-effect waves-light btn' type='submit'>Supprimer</button>
-				<table>
+				<table class='responsive-table'>
 					<tr>
 						<th>
 							<input type='checkbox' id='cochertout2' name='cochertout' value='all' style='display:inline;' onclick='cocher2()' />

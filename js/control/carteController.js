@@ -339,7 +339,7 @@ function($scope, $http, leafletMapEvents) {
 
 		$scope.finJeu = true;
 		$("#indication").css('color', 'rgba(0,128,0,0.9)');
-		$("#indication").html("<b>Partie terminée! Destination finale : "+ $scope.destination.nom +"</b>");
+		$("#indication").html("<b>Partie terminée ! Destination finale : "+ $scope.destination.nom +"</b>");
 
 		// Envoi du score
 		$http.put("api/parties/score", '{ "score" : ' + $scope.score + ' , "token" : "' + $scope.token + '" }').then(function(response) {
@@ -368,7 +368,7 @@ function($scope, $http, leafletMapEvents) {
 		$http.get("api/parties").then(function(response) {
 			if(response.status == 200)
 			{
-				$("#tabscores").append("<h2>Tableau des meilleurs scores :</h2><table><tr><th>Position</th><th>Pseudo</th><th>Score</th></tr>");
+				$("#tabscores").append("<h2>Tableau des meilleurs scores :</h2><table class='responsive-table'><tr><th>Position</th><th>Pseudo</th><th>Score</th></tr>");
 				for(var i = 0; i < response.data.scores.length; i++)
 				{
 					$("#tabscores").append("<tr><td>" + (i + 1) + "</td><td>" + response.data.scores[i].pseudo + "</td><td>" + response.data.scores[i].score + "</td></tr>");

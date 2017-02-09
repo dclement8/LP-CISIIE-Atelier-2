@@ -57,7 +57,7 @@ Vous trouverez un VagrantFile dans le dossier *vagrant/* . La configuration d'ap
 
 **Vhosts :**
 
-  * *www.findyourway.local* ==> Accès au site (répertoire */var/www/* )
+  * *findyourway.local* ==> Accès au site (répertoire */var/www/* )
   * *play.findyourway.local* ==> Jouer au jeu (répertoire */var/www/* )
   * *backend.findyourway.local* ==> Accès au backend (répertoire */var/www/admin* )
   * *api.findyourway.local* ==> Accès à l'api (répertoire */var/www/api* )

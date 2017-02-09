@@ -99,8 +99,8 @@ button.btn-floating.btn-large.waves-effect.waves-light.blue
 
 #carte
 {
-	height:700px;
-	width:700px;
+	height:500px;
+	width:500px;
 	box-sizing:border-box;
 }
 
@@ -163,4 +163,14 @@ button.btn-floating.btn-large.waves-effect.waves-light.blue
 {
 	font-size:1.5em;
 	margin:0px;
+}
+
+td, th
+{
+	padding: 5px 5px;
+}
+
+#tabscores
+{
+	margin-bottom:15px;
 }

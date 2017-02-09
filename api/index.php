@@ -87,11 +87,11 @@ $app->get('/points',
 )->setName('recupPoints');
 
 /**
- * @apiGroup Destination
+ * @apiGroup Destinations
  * @apiName destinationFinale
  * @apiVersion 0.1.0
  *
- * @api {get} /destinations  Accès à une ressources destination 
+ * @api {get} /destinations  Accès à une ressource destination 
  *
  * @apiDescription Retourne un tableau contenant une représentation json d'une destination finale chosie aléatoirement.
  *
@@ -186,6 +186,82 @@ function (Request $req, Response $resp, $args)
 	}
 )->setName('scorePartie');
 
+
+/**
+ * @apiGroup Parties
+ * @apiName meilleurScores
+ * @apiVersion 0.1.0
+ *
+ * @api {get} /parties  Accès au tableau des 10 meilleurs scores
+ *
+ * @apiDescription Retourne un tableau contenant une représentation json des 10 meilleurs scores.
+ *
+ * @apiSuccess (Succès : 200) {Number} id Identifiant de la destination
+ * @apiSuccess (Succès : 200) {String} pseudo Pseudo du joueur
+ * @apiSuccess (Succès : 200) {String} token Token de la partie
+ * @apiSuccess (Succès : 200) {Number} score Score obtenu
+ *
+ * @apiSuccessExample {json} Exemple de réponse en cas de succès
+ *     HTTP/1.1 200 OK
+ *	{
+ *
+ *		"scores": [
+ *			{
+ *				"id": 25,
+ *				"pseudo": "david",
+ *				"score": 10
+ *			},
+ *			{
+ * 				"id": 29,
+ *				"pseudo": "paul",
+ *				"score": 10
+ *			},
+ *			{
+ *				"id": 27,
+ *				"pseudo": "Bob",
+ *				"score": 10
+ *			},
+ *			{
+ *				"id": 28,
+ *				"pseudo": "rémi",
+ *				"score": 10
+ *			},
+ *			{
+ *				"id": 23,
+ *				"pseudo": "hugues",
+ *				"score": 8
+ * 			},
+ *			{
+ *				"id": 22,
+ *				"pseudo": "paul",
+ *				"score": 6
+ *			},
+ *			{
+ *				"id": 20,
+ *				"pseudo": "françois",
+ *				"score": 1
+ *			},
+ *			{
+ *				"id": 30,
+ *				"pseudo": "michel",
+ *				"score": 1
+ *			},
+ *			{
+ *				"id": 24,
+ *				"pseudo": "maurice",
+ *				"score": 1
+ *			},
+ *			{
+ *				"id": 19,
+ *				"pseudo": "bob",
+ *				"score": 0
+ *			}
+ *		]
+ *
+ *	}
+ *
+ *
+*/
 $app->get('/parties',
 
 function (Request $req, Response $resp, $args) 

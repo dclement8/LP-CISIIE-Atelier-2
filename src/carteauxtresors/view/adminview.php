@@ -8,6 +8,7 @@ class adminview
 {
 	protected $data = null ;
 	protected $baseURL = null;
+	protected $dossier = "";
 
     public function __construct($data)
 	{
@@ -52,7 +53,7 @@ class adminview
 		";
 		if(isset($_SESSION["message"]))
 		{
-			$html .= "<div id='message'>".filter_var($_SESSION["message"], FILTER_SANITIZE_FULL_SPECIAL_CHARS)."</div>";
+			$html .= "<div id='messageBox'>".filter_var($_SESSION["message"], FILTER_SANITIZE_FULL_SPECIAL_CHARS)."</div>";
 			unset($_SESSION["message"]);
 		}
 		$html .= "
@@ -91,7 +92,7 @@ class adminview
 	{
 		$html = "<div id='gestionpoints'>
 			<h2>Gestion des points</h1>
-			<form name='ajoutPoint' method='POST' action='".$this->baseURL."/admin/points/ajouter'>
+			<form name='ajoutPoint' method='POST' action='".$this->baseURL.$this->dossier."/points/ajouter'>
 				<label for='addLatitudeP'>Latitude : </label>
 				<input type='text' name='addLatitudeP' id='addLatitudeP' placeholder='Coordonnées GPS : Latitude' required />
 				<br/>
@@ -104,7 +105,7 @@ class adminview
 				<button class='btn-floating btn-large waves-effect waves-light blue' type='submit'>+</button>
 			</form>
 			<br/><hr/><br/>
-			<form name='supprimerPoint' method='POST' action='".$this->baseURL."/admin/points/supprimer'>
+			<form name='supprimerPoint' method='POST' action='".$this->baseURL.$this->dossier."/points/supprimer'>
 				<button class='waves-effect waves-light btn' type='submit'>Supprimer</button>
 				<table class='responsive-table'>
 					<tr>
@@ -158,7 +159,7 @@ class adminview
 		
 		$html .= "<div id='gestiondestinations'>
 			<h2>Gestion des destinations finales</h1>
-			<form name='ajoutDestination' method='POST' action='".$this->baseURL."/admin/destinations/ajouter'>
+			<form name='ajoutDestination' method='POST' action='".$this->baseURL.$this->dossier."/destinations/ajouter'>
 				<label for='addNom'>Nom : </label>
 				<input type='text' name='addNom' id='addNom' placeholder='Nom du lieu' style='font-weight:bold;' />
 				<br/>
@@ -186,7 +187,7 @@ class adminview
 				<button class='btn-floating btn-large waves-effect waves-light blue' type='submit'>+</button>
 			</form>
 			<br/><hr/><br/>
-			<form name='supprimerDestination' method='POST' action='".$this->baseURL."/admin/destinations/supprimer'>
+			<form name='supprimerDestination' method='POST' action='".$this->baseURL.$this->dossier."/destinations/supprimer'>
 				<button class='waves-effect waves-light btn' type='submit'>Supprimer</button>
 				<table class='responsive-table'>
 					<tr>
@@ -258,7 +259,7 @@ class adminview
 		$html = "
 			<div id='connexionForm'>
 				<h2>Authentification</h2>
-				<form name='connexion' method='post' action='".$this->baseURL."/admin/connexion'>
+				<form name='connexion' method='post' action='".$this->baseURL.$this->dossier."/connexion'>
 					<label for='mdp'>Mot de passe : </label>
 					<input type='password' name='mdp' id='mdp' placeholder='Entrez votre mot de passe...' required /><br/><br/>
 					<button class='waves-effect waves-light btn' type='submit'>Connexion</button>
@@ -276,6 +277,12 @@ class adminview
 	{
 		$url = $req->getUri()->getBasePath();
 		$this->baseURL = str_replace("/admin", "", $url);
+		
+		if($_SERVER["SERVER_NAME"] != "backend.findyourway.local")
+		{
+			$this->dossier = "/admin";
+		}
+		
 		
 		$html = $this->header($req, $resp, $args);
 

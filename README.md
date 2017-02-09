@@ -51,18 +51,24 @@ Créez un fichier *config.ini* dans le dossier *conf/* pour se connecter à la b
 
 
 ## Vagrant
-Vous trouverez un VagrantFile dans le dossier *vagrant/* . La configuration d'apache2 et ses vhosts est situé dans le dossier *vagrant/conf-apache2* . Le répertoire *vagrant/www* sert pour synchroniser avec le dossier */var/www* de la machine virtuelle. Il faudra donc y déposer à l'intérieur dans ce répertoire *vagrant/www* tous les fichiers du repository Git.
+Vous trouverez un VagrantFile dans le dossier *vagrant/* . La configuration d'apache2 et ses vhosts est situé dans le dossier *vagrant/apache2* . Le répertoire *vagrant/www* sert pour synchroniser avec le dossier */var/www* de la machine virtuelle. Il faudra donc y déposer à l'intérieur dans ce répertoire *vagrant/www* tous les fichiers du repository Git.
+
+*init_apache.sh* est un script qui s'assure de configurer les principaux services au démarrage et configure les vhosts.
 
 **Vhosts :**
 
-  * *www.findyourway.local* ==> Accès au site (répertoire */var/www/* )
+  * *findyourway.local* ==> Accès au site (répertoire */var/www/* )
   * *play.findyourway.local* ==> Jouer au jeu (répertoire */var/www/* )
   * *backend.findyourway.local* ==> Accès au backend (répertoire */var/www/admin* )
   * *api.findyourway.local* ==> Accès à l'api (répertoire */var/www/api* )
 
 **Vérifiez qu'apache2, php5 et MySQL Server sont installés et fonctionnels sur votre VM.**
 
+**MySQL n'est pas installé par défaut, il faudra donc l'installer :** *apt-get install mysql-server-5.5*
+
 **N'oubliez pas d'ajouter findyourway.local dans votre fichier Host !**
+
+**Il faudra aussi installer la base de données MySQL et ne pas oublier de configurer les accès à la base en modifiant le fichier** *conf/config.ini*
 
 
 

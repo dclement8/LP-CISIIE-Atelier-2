@@ -1,6 +1,7 @@
 app.controller("carteController", ["$scope", "$http", "leafletMapEvents",
 function($scope, $http, leafletMapEvents) {
 
+	/* Variables */
 	$scope.point = 0;
 	$scope.points = [];
 	$scope.destination;
@@ -55,39 +56,10 @@ function($scope, $http, leafletMapEvents) {
             scrollWheelZoom: true,
 			minZoom: 5,
 			maxZoom: 10
-        },
-		geojson: {}
+        }
     });
 
-	function htmlEntities(str) {
-		return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-	}
-
-	// Evenement lors du clic sur la carte
-	$scope.$on("leafletDirectiveMap.click", function(event, args) {
-		var leafEvent = args.leafletEvent;
-
-		if($scope.finJeu == false)
-		{
-			if($scope.fini == false)
-			{
-				$scope.verifierPoint(
-					[leafEvent.latlng.lat, leafEvent.latlng.lng],
-					[$scope.points[$scope.point].latitude, $scope.points[$scope.point].longitude]
-				);
-			}
-			else
-			{
-				// Chasse à la destination finale
-				$scope.verifierDestination(
-					[leafEvent.latlng.lat, leafEvent.latlng.lng],
-					[$scope.destination.latitude, $scope.destination.longitude]
-				);
-			}
-		}
-	});
-
-	function storageAvailable(type) {
+	var storageAvailable = function(type) {
 		try {
 			var storage = window[type],
 				x = '__storage_test__';
@@ -98,21 +70,80 @@ function($scope, $http, leafletMapEvents) {
 		catch(e) {
 			return false;
 		}
-	}
+	};
 
 	if(!storageAvailable('localStorage')) {
 		alert('localStorage indisponible sur votre navigateur !');
 		return false;
 	}
 
+	var errorHandler = function(e) {
+		console.log(e);
+	}
+
+	var htmlEntities = function(str) {
+		return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	};
+
+	// Evenement lors du clic sur la carte
+	$scope.$on("leafletDirectiveMap.click", function(event, args) {
+		var leafEvent = args.leafletEvent;
+
+		if($scope.finJeu === false) {
+			if($scope.fini === false) {
+				$scope.verifierPoint(
+					[leafEvent.latlng.lat, leafEvent.latlng.lng],
+					[$scope.points[$scope.point].latitude, $scope.points[$scope.point].longitude]
+				);
+			}
+			else {
+				// Chasse à la destination finale
+				$scope.verifierDestination(
+					[leafEvent.latlng.lat, leafEvent.latlng.lng],
+					[$scope.destination.latitude, $scope.destination.longitude]
+				);
+			}
+		}
+	});
+
+	// Retourne la distance entre 2 points en Km
+	var getDistance = function(p1, p2) {
+		Number.prototype.toRad = function() {
+			return this * Math.PI / 180;
+		}
+
+		var R = 6371;
+		var Phi1 = p1[0].toRad();
+		var Phi2 = p2[0].toRad();
+		var DeltaPhi = (p2[0] - p1[0]).toRad();
+		var DeltaLambda = (p2[1] - p1[1]).toRad();
+
+		var a = Math.sin(DeltaPhi / 2) * Math.sin(DeltaPhi / 2)
+				+ Math.cos(Phi1) * Math.cos(Phi2) * Math.sin(DeltaLambda / 2)
+				* Math.sin(DeltaLambda / 2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		var d = R * c;
+
+		return d;
+	};
+
+	// Affiche un message avec une couleur de fond et un temps pré-défini
+	var showMsg = function(msg, bgcolor, time) {
+		bgcolor = typeof bgcolor !== 'undefined' ? bgcolor : "rgba(0,128,0,0.9)";
+		time = typeof time !== 'undefined' ? time : 5000;
+
+		$("#message").html(msg);
+		$("#message").css("background-color", bgcolor);
+		$("#message").fadeIn();
+		setTimeout(function(){ $("#message").fadeOut(); }, time);
+	}
+
 	$scope.creerPartie = function() {
-		if($scope.pseudo == undefined)
-		{
+		if($scope.pseudo == undefined) {
 			$scope.pseudo = "Anonyme";
 		}
-		
+
 		$http.post("api/parties", '{"pseudo": "'+ htmlEntities($scope.pseudo) +'"}').then(function(response) {
-			console.log(response.data.token);
 			if(response.data.token !== undefined) {
 				$scope.token = response.data.token;
 				localStorage.setItem('carteToken', $scope.token);
@@ -127,11 +158,8 @@ function($scope, $http, leafletMapEvents) {
 				// Erreur
 				alert('Impossible de créer un compte !');
 			}
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
+		}, errorHandler);
+	};
 
 	$scope.supprimerPartie = function() {
 		if(confirm("Voulez-vous vraiment commencer une nouvelle partie ?")) {
@@ -151,23 +179,20 @@ function($scope, $http, leafletMapEvents) {
 			};
 			$("#tabscores").html("");
 		}
-	}
+	};
 
 	$scope.getPoints = function() {
 		$http.get("api/points").then(function(response) {
 			if(response.data.points !== undefined) {
 				$scope.points = response.data.points;
-				document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[0].indication + "</i>";
+				$("#indication").html("Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[0].indication + "</i>");
 			}
 			else {
 				// Erreur
 				alert('Impossible de récupérer les points !');
 			}
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
+		}, errorHandler);
+	};
 
 	$scope.getDestination = function() {
 		$http.get("api/destinations").then(function(response) {
@@ -178,10 +203,7 @@ function($scope, $http, leafletMapEvents) {
 				// Erreur
 				alert('Impossible de récupérer la destination !');
 			}
-		},
-		function(error) {
-			console.log(error);
-		});
+		}, errorHandler);
 	}
 
 	$scope.ajouterMarker = function(latitude, longitude, isFinal) {
@@ -206,193 +228,124 @@ function($scope, $http, leafletMapEvents) {
 	$scope.sendScore = function() {
 		$http.put("api/parties/score", '{"token": "'+ $scope.token +'", "score": "'+ $scope.score +'"}').then(function(response) {
 			console.log(response.data);
-		},
-		function(error) {
-			console.log(error);
-		});
-	}
+		}, errorHandler);
+	};
 
 	$scope.verifierPoint = function(p1, p2) {
 		// On vérifie p1 par rapport à p2
-		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
-		console.log(diagonale);
+		var distance = getDistance(p1, p2);
 
-		// 0.565 = valeur maximale tolérable entre deux points .
-
-		if(diagonale <= 0.565)
+		// 40 Km = valeur maximale tolérable entre deux points .
+		if(distance <= 40)
 		{
 			// Créer marqueur au point trouvé
 			$scope.ajouterMarker(p2[0], p2[1]);
 
 			$scope.relierPoint($scope.markers[$scope.point]);
 
-			function afficherBien()
-			{
-				$("#message").html("Bien !");
-				document.getElementById("message").style.backgroundColor = "rgba(0,128,0,0.9)";
-				$("#message").fadeIn();
-				setTimeout(function(){ $("#message").fadeOut(); }, 700);
-			}
-
 			// Afficher un indice pour la destination finale
-			switch($scope.point)
-			{
-				case 0:
-					$("#indices").append("<li>" + $scope.destination.indice1 + "</li>");
-					$scope.point++;
-					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point].indication + "</i>";
-					afficherBien();
-					break;
-				case 1:
-					$("#indices").append("<li>" + $scope.destination.indice2 + "</li>");
-					$scope.point++;
-					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point].indication + "</i>";
-					afficherBien();
-					break;
-				case 2:
-					$("#indices").append("<li>" + $scope.destination.indice3 + "</li>");
-					$scope.point++;
-					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point].indication + "</i>";
-					afficherBien();
-					break;
-				case 3:
-					$("#indices").append("<li>" + $scope.destination.indice4 + "</li>");
-					$scope.point++;
-					document.getElementById("indication").innerHTML = "Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point].indication + "</i>";
-					afficherBien();
-					break;
-				case 4:
-					$("#indices").append("<li>" + $scope.destination.indice5 + "</li>");
-					$scope.point++;
-					$scope.fini = true; // On termine la chasse aux indices, trouver destination finale.
+			$scope.point++;
+			$("#indices").append("<li>" + $scope.destination['indice' + $scope.point] + "</li>");
+			showMsg("Bien !", "rgba(0,128,0,0.9)", 700);
 
-					document.getElementById("indication").innerHTML = "<b>Trouvez maintenant la rose des vents via les indices fournis... Vous n'avez droit qu'à une SEULE tentative !</b>";
+			if($scope.point == 5) {
+				$scope.fini = true;
+				$("#indication").html("<b>Trouvez maintenant la rose des vents via les indices fournis... Vous n'avez droit qu'à une SEULE tentative !</b>");
 
-					$("#message").html("Bravo vous avez trouvé les 5 indices pour trouver la rose des vents !<br/><br/>D'après vos indices collectés, où se trouve t-elle ?");
-					document.getElementById("message").style.backgroundColor = "rgba(0,128,0,0.9)";
-					$("#message").fadeIn();
-					setTimeout(function(){ $("#message").fadeOut(); }, 5000);
-
-					break;
+				showMsg("Bravo vous avez trouvé les 5 indices pour trouver la rose des vents !<br/><br/>D'après vos indices collectés, où se trouve t-elle ?",
+					"rgba(0,128,0,0.9)", 5000);
+			}
+			else {
+				$("#indication").html("Trouvez le point sur la carte selon l'indice suivant : <i>" + $scope.points[$scope.point].indication + "</i>");
 			}
 		}
-		else
-		{
+		else {
 			// Erreur
-			$("#message").html("Ce n'est pas par là !");
-			document.getElementById("message").style.backgroundColor = "rgba(223,0,0,0.9)";
-			$("#message").fadeIn();
-			setTimeout(function(){ $("#message").fadeOut(); }, 700);
+			showMsg("Ce n'est pas par là !", "rgba(223,0,0,0.9)", 700);
 		}
-	}
+	};
 
 	$scope.verifierDestination = function(p1, p2) {
 		// On vérifie p1 par rapport à p2
-		var diagonale = Math.sqrt(Math.pow(Math.abs(p2[0]-p1[0]),2)+Math.pow(Math.abs(p2[1]-p1[1]),2));
-		console.log(diagonale);
+		var distance = getDistance(p1, p2);
 
 		// Créer marqueur au point trouvé
 		$scope.ajouterMarker(p2[0], p2[1], true);
-		console.log(p2);
-		console.log($scope.markers);
 
-		console.log($scope.destination);
 		$scope.relierPoint({lat: p2[0], lng: p2[1]});
-    
-		// D = 0.33 : valeur score max .
-		var D = 0.33;
-    
-		if(diagonale < D)
-		{
+
+		// D = 4 Km : valeur score max .
+		var D = 4;
+
+		if(distance < D) {
 			$scope.score = 10;
 		}
-		else
-		{
-			if(diagonale < (2*D))
-			{
-				$scope.score = 8;
-			}
-			else
-			{
-				if(diagonale < (3*D))
-				{
-					$scope.score = 6;
-				}
-				else
-				{
-					if(diagonale < (5*D))
-					{
-						$scope.score = 3;
-					}
-					else
-					{
-						if(diagonale < (10*D))
-						{
-							$scope.score = 1;
-						}
-						else
-						{
-							$scope.score = 0;
-						}
-					}
-				}
-			}
+		else if(distance < (2*D)) {
+			$scope.score = 8;
 		}
-
-		console.log($scope.score);
-		console.log($scope.token);
+		else if(distance < (3*D)) {
+			$scope.score = 6;
+		}
+		else if(distance < (5*D)) {
+			$scope.score = 3;
+		}
+		else if(distance < (10*D)) {
+			$scope.score = 1;
+		}
+		else {
+			$scope.score = 0;
+		}
 
 		$scope.finJeu = true;
 		$("#indication").css('color', 'rgba(0,128,0,0.9)');
 		$("#indication").html("<b>Partie terminée ! Destination finale : "+ $scope.destination.nom +"</b>");
 
-		// Envoi du score
-		$http.put("api/parties/score", '{ "score" : ' + $scope.score + ' , "token" : "' + $scope.token + '" }').then(function(response) {
-			if(response.status == 201)
-			{
-				$("#message").html("Score envoyé ! Vous remportez " + $scope.score + " points.");
-				document.getElementById("message").style.backgroundColor = "rgba(0,0,128,0.9)";
-				$("#message").fadeIn();
-				setTimeout(function(){ $("#message").fadeOut(); }, 5000);
-			}
-			else {
-				// Erreur
+		$scope.sendScore();
+	};
 
-			}
-		},
-		function(error) {
-			console.log(error);
-
-			$("#message").html("Impossible d'inscrire votre score ! Vous remportez " + $scope.score + " points.");
-			document.getElementById("message").style.backgroundColor = "rgba(213,85,0,0.9)";
-			$("#message").fadeIn();
-			setTimeout(function(){ $("#message").fadeOut(); }, 5000);
-		});
-		
+	$scope.getBestScores = function() {
 		// Affichage des meilleurs scores
 		$http.get("api/parties").then(function(response) {
-			if(response.status == 200)
-			{
+			if(response.status == 200) {
 				$("#tabscores").append("<h2>Tableau des meilleurs scores :</h2><table class='responsive-table'><tr><th>Position</th><th>Pseudo</th><th>Score</th></tr>");
-				for(var i = 0; i < response.data.scores.length; i++)
-				{
+				for(var i = 0; i < response.data.scores.length; i++) {
 					$("#tabscores").append("<tr><td>" + (i + 1) + "</td><td>" + response.data.scores[i].pseudo + "</td><td>" + response.data.scores[i].score + "</td></tr>");
 				}
 				$("#tabscores").append("</table>");
 			}
+			else {
+				console.log("Erreur : mauvais status http");
+			}
+		}, errorHandler);
+	};
+
+	$scope.sendScore = function() {
+		// Envoi du score
+		$scope.score = typeof $scope.score !== 'undefined' ? $scope.score : 0;
+		$http.put("api/parties/score", '{"score": ' + $scope.score + ', "token": "' + $scope.token + '"}').then(function(response) {
+			if(response.status == 201) {
+				showMsg("Score envoyé ! Vous remportez " + $scope.score + " points.", "rgba(0,0,128,0.9)", 5000);
+				// On affiche les meilleurs scores
+				$scope.getBestScores();
+			}
+			else {
+				console.log("Erreur : mauvais status http");
+			}
 		},
 		function(error) {
 			console.log(error);
+			showMsg("Impossible d'inscrire votre score ! Vous remportez " + $scope.score + " points.", "rgba(213,85,0,0.9)", 5000);
 		});
-	}
+	};
 
+	/* Initialisation */
 	if(!localStorage.getItem('carteToken')) {
 		// Nouvelle partie
-		console.log("créer nouvelle partie");
+		console.log("Nouvelle partie");
 	}
 	else {
 		// Partie en cours ? on initialise token
-		console.log("partie en cours");
+		console.log("Partie en cours");
 		$scope.token = localStorage.getItem('carteToken');
 		$scope.getPoints();
 		$scope.getDestination();

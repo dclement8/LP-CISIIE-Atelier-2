@@ -1,4 +1,4 @@
-#mapid { height: 700px; width: 700px; }
+#carte { max-width: 100%; }
 
 body
 {
@@ -23,6 +23,14 @@ header
 	box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
 	color:white;
 	margin-bottom:20px;
+}
+
+@media screen and (max-width:500px)
+{
+	header
+	{
+		padding:0px;
+	}
 }
 
 header h1
@@ -60,7 +68,7 @@ header h1
 	margin-bottom:10px;
 }
 
-#message
+#messageBox
 {
 	text-align:left;
 	padding:5px;

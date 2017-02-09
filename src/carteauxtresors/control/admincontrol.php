@@ -70,9 +70,12 @@ class admincontrol
 	public function ajouterPoint(Request $req, Response $resp, $args)
 	{
 		// Traitement Formulaire
-		if(filter_var($_POST["addLatitudeP"], FILTER_SANITIZE_NUMBER_FLOAT) != false)
+		$_POST["addLatitudeP"] = filter_var($_POST["addLatitudeP"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		$_POST["addLongitudeP"] = filter_var($_POST["addLongitudeP"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		
+		if(is_numeric(str_replace(",", ".", $_POST["addLatitudeP"])))
 		{
-			if(filter_var($_POST["addLongitudeP"], FILTER_SANITIZE_NUMBER_FLOAT) != false)
+			if(is_numeric(str_replace(",", ".", $_POST["addLongitudeP"])))
 			{
 				
 				
@@ -102,9 +105,13 @@ class admincontrol
 	public function ajouterDestination(Request $req, Response $resp, $args)
 	{
 		// Traitement Formulaire
-		if(filter_var($_POST["addLatitudeD"], FILTER_SANITIZE_NUMBER_FLOAT) != false)
+		$_POST["addLatitudeD"] = filter_var($_POST["addLatitudeD"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		$_POST["addLongitudeD"] = filter_var($_POST["addLongitudeD"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		
+		
+		if(is_numeric(str_replace(",", ".", $_POST["addLatitudeD"])))
 		{
-			if(filter_var($_POST["addLongitudeD"], FILTER_SANITIZE_NUMBER_FLOAT) != false)
+			if(is_numeric(str_replace(",", ".", $_POST["addLongitudeD"])))
 			{
 				$destination = new \carteauxtresors\model\destination();
 				

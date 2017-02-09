@@ -52,7 +52,7 @@ class adminview
 		";
 		if(isset($_SESSION["message"]))
 		{
-			$html .= "<div id='message'>".filter_var($_SESSION["message"], FILTER_SANITIZE_FULL_SPECIAL_CHARS)."</div>";
+			$html .= "<div id='messageBox'>".filter_var($_SESSION["message"], FILTER_SANITIZE_FULL_SPECIAL_CHARS)."</div>";
 			unset($_SESSION["message"]);
 		}
 		$html .= "

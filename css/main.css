@@ -25,6 +25,14 @@ header
 	margin-bottom:20px;
 }
 
+@media screen and (max-width:500px)
+{
+	header
+	{
+		padding:0px;
+	}
+}
+
 header h1
 {
 	font-weight:bold;
@@ -60,7 +68,7 @@ header h1
 	margin-bottom:10px;
 }
 
-#message
+#messageBox
 {
 	text-align:left;
 	padding:5px;

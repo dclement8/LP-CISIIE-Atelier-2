@@ -2,7 +2,7 @@
 
 Lien vers le repository GitHub (pour le rendu sur Arche) : https://github.com/hitoshi54/LP-CISIIE-Atelier-2/
 
-Lien vers le tableau de bord de suivi du projet (fichier Excel) : https://1drv.ms/x/s!AonSDypE5r-omLsHpdF3_UtqJQ8lUA
+Lien vers le tableau de bord de suivi du projet (fichier Excel) : https://1drv.ms/x/s!AonSDypE5r-omLsHpdF3_UtqJQ8lUA ou bien en format PDF dans *tableaubord.pdf*
 
 ---------
 

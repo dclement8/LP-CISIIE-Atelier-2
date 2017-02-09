@@ -1,5 +1,5 @@
-app.controller("carteController", ["$scope", "$http", "leafletMapEvents",
-function($scope, $http, leafletMapEvents) {
+app.controller("carteController", ["$scope", "$http", "$location", "leafletMapEvents",
+function($scope, $http, $location, leafletMapEvents) {
 
 	/* Variables */
 	$scope.point = 0;
@@ -137,29 +137,6 @@ function($scope, $http, leafletMapEvents) {
 		$("#message").fadeIn();
 		setTimeout(function(){ $("#message").fadeOut(); }, time);
 	}
-
-	$scope.creerPartie = function() {
-		if($scope.pseudo == undefined) {
-			$scope.pseudo = "Anonyme";
-		}
-
-		$http.post("api/parties", '{"pseudo": "'+ htmlEntities($scope.pseudo) +'"}').then(function(response) {
-			if(response.data.token !== undefined) {
-				$scope.token = response.data.token;
-				localStorage.setItem('carteToken', $scope.token);
-
-				$scope.getPoints();
-				$scope.getDestination();
-				$scope.point = 0;
-
-				$("#indication").css('color', 'black');
-			}
-			else {
-				// Erreur
-				alert('Impossible de créer un compte !');
-			}
-		}, errorHandler);
-	};
 
 	$scope.supprimerPartie = function() {
 		if(confirm("Voulez-vous vraiment commencer une nouvelle partie ?")) {
@@ -341,12 +318,13 @@ function($scope, $http, leafletMapEvents) {
 	/* Initialisation */
 	if(!localStorage.getItem('carteToken')) {
 		// Nouvelle partie
-		console.log("Nouvelle partie");
+		$location.path('/creerPartie');
 	}
 	else {
 		// Partie en cours ? on initialise token
 		console.log("Partie en cours");
 		$scope.token = localStorage.getItem('carteToken');
+		$scope.point = 0;
 		$scope.getPoints();
 		$scope.getDestination();
 	}

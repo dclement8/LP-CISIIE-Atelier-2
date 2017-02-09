@@ -120,7 +120,7 @@ class carteauxtresorscontrol
 
     public function meilleurScores(Request $req, Response $resp, $args)
     {
-            $json = \carteauxtresors\model\partie::orderBy('score', 'DESC')->take(10)->get()->toJson();
+            $json = \carteauxtresors\model\partie::select("id", "pseudo", "score")->whereNotNull('score')->orderBy('score', 'DESC')->take(10)->get()->toJson();
             return (new \carteauxtresors\view\carteauxtresorsview($json))->render('meilleurScores', $req, $resp, $args );
     }
 }

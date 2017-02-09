@@ -11,11 +11,11 @@ Lien vers le tableau de bord de suivi du projet (fichier Excel) : https://1drv.m
 
 *api/* ==> API REST ; Vous trouverez la documentation de cette API générée par APIDoc dans le dossier *api/doc*
 
-*index.html* ==> Jeu en JavaScript
+*index.html* ==> Jeu en JavaScript/AngularJS
 
-*css/style.css* ==> CSS généré depuis le SASS de Materialize (http://materializecss.com/bin/materialize-src-v0.98.0.zip)
+*css/style.css* ==> Feuille de style CSS générée depuis le SASS de Materialize (http://materializecss.com/bin/materialize-src-v0.98.0.zip)
 
-*css/main.css* ==> CSS personnalisé
+*css/main.css* ==> Feuille de style CSS personnalisé
 
 
 
@@ -61,6 +61,8 @@ Vous trouverez un VagrantFile dans le dossier *vagrant/* . La configuration d'ap
   * *api.findyourway.local* ==> Accès à l'api (répertoire */var/www/api* )
 
 **Vérifiez qu'apache2, php5 et MySQL Server sont installés et fonctionnels sur votre VM.**
+
+**N'oubliez pas d'ajouter findyourway.local dans votre fichier Host !**
 
 
 

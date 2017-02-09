@@ -28,12 +28,12 @@ define({ "api": [
     "name": ""
   },
   {
-    "group": "Destination",
+    "group": "Destinations",
     "name": "destinationFinale",
     "version": "0.1.0",
     "type": "get",
     "url": "/destinations",
-    "title": "Accès à une ressources destination",
+    "title": "Accès à une ressource destination",
     "description": "<p>Retourne un tableau contenant une représentation json d'une destination finale chosie aléatoirement.</p>",
     "success": {
       "fields": {
@@ -112,7 +112,59 @@ define({ "api": [
       ]
     },
     "filename": "./index.php",
-    "groupTitle": "Destination"
+    "groupTitle": "Destinations"
+  },
+  {
+    "group": "Parties",
+    "name": "meilleurScores",
+    "version": "0.1.0",
+    "type": "get",
+    "url": "/parties",
+    "title": "Accès au tableau des 10 meilleurs scores",
+    "description": "<p>Retourne un tableau contenant une représentation json des 10 meilleurs scores.</p>",
+    "success": {
+      "fields": {
+        "Succès : 200": [
+          {
+            "group": "Succès : 200",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Identifiant de la destination</p>"
+          },
+          {
+            "group": "Succès : 200",
+            "type": "String",
+            "optional": false,
+            "field": "pseudo",
+            "description": "<p>Pseudo du joueur</p>"
+          },
+          {
+            "group": "Succès : 200",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>Token de la partie</p>"
+          },
+          {
+            "group": "Succès : 200",
+            "type": "Number",
+            "optional": false,
+            "field": "score",
+            "description": "<p>Score obtenu</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Exemple de réponse en cas de succès",
+          "content": "    HTTP/1.1 200 OK\n\t{\n\n\t\t\"scores\": [\n\t\t\t{\n\t\t\t\t\"id\": 25,\n\t\t\t\t\"pseudo\": \"david\",\n\t\t\t\t\"score\": 10\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 29,\n\t\t\t\t\"pseudo\": \"paul\",\n\t\t\t\t\"score\": 10\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 27,\n\t\t\t\t\"pseudo\": \"Bob\",\n\t\t\t\t\"score\": 10\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 28,\n\t\t\t\t\"pseudo\": \"rémi\",\n\t\t\t\t\"score\": 10\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 23,\n\t\t\t\t\"pseudo\": \"hugues\",\n\t\t\t\t\"score\": 8\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 22,\n\t\t\t\t\"pseudo\": \"paul\",\n\t\t\t\t\"score\": 6\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 20,\n\t\t\t\t\"pseudo\": \"françois\",\n\t\t\t\t\"score\": 1\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 30,\n\t\t\t\t\"pseudo\": \"michel\",\n\t\t\t\t\"score\": 1\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 24,\n\t\t\t\t\"pseudo\": \"maurice\",\n\t\t\t\t\"score\": 1\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": 19,\n\t\t\t\t\"pseudo\": \"bob\",\n\t\t\t\t\"score\": 0\n\t\t\t}\n\t\t]\n\n\t}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./index.php",
+    "groupTitle": "Parties"
   },
   {
     "group": "Parties",

@@ -277,22 +277,6 @@ function($scope, $http, $location, leafletMapEvents) {
 		$scope.sendScore();
 	};
 
-	$scope.getBestScores = function() {
-		// Affichage des meilleurs scores
-		$http.get("api/parties").then(function(response) {
-			if(response.status == 200) {
-				$("#tabscores").append("<h2>Tableau des meilleurs scores :</h2><table class='responsive-table'><tr><th>Position</th><th>Pseudo</th><th>Score</th></tr>");
-				for(var i = 0; i < response.data.scores.length; i++) {
-					$("#tabscores").append("<tr><td>" + (i + 1) + "</td><td>" + response.data.scores[i].pseudo + "</td><td>" + response.data.scores[i].score + "</td></tr>");
-				}
-				$("#tabscores").append("</table>");
-			}
-			else {
-				console.log("Erreur : mauvais status http");
-			}
-		}, errorHandler);
-	};
-
 	$scope.sendScore = function() {
 		// Envoi du score
 		$scope.score = typeof $scope.score !== 'undefined' ? $scope.score : 0;
@@ -300,7 +284,7 @@ function($scope, $http, $location, leafletMapEvents) {
 			if(response.status == 201) {
 				showMsg("Score envoyé ! Vous remportez " + $scope.score + " points.", "rgba(0,0,128,0.9)", 5000);
 				// On affiche les meilleurs scores
-				//$scope.getBestScores();
+				$scope.getScores();
 				$("#tabscores").show();
 			}
 			else {
@@ -311,6 +295,24 @@ function($scope, $http, $location, leafletMapEvents) {
 			console.log(error);
 			showMsg("Impossible d'inscrire votre score ! Vous remportez " + $scope.score + " points.", "rgba(213,85,0,0.9)", 5000);
 		});
+	};
+
+	$scope.getScores = function() {
+		// Affichage des meilleurs scores
+	    var tab = '';
+	    $http.get("api/parties").then(function(response) {
+	        if(response.status == 200) {
+	            tab += "<h2>Tableau des meilleurs scores :</h2><table class='responsive-table'><tr><th>Position</th><th>Pseudo</th><th>Score</th></tr>";
+	            for(var i = 0; i < response.data.scores.length; i++) {
+	                tab += "<tr><td>" + (i + 1) + "</td><td>" + response.data.scores[i].pseudo + "</td><td>" + response.data.scores[i].score + "</td></tr>";
+	            }
+	            tab += "</table>";
+	            $scope.tabScores = tab;
+	        }
+	        else {
+	            console.log("Erreur : mauvais status http");
+	        }
+	    }, errorHandler);
 	};
 
 	/* Initialisation */

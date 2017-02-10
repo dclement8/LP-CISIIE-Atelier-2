@@ -23,3 +23,10 @@ app.config(['$locationProvider', '$routeProvider', function config($locationProv
         otherwise({redirectTo: '/'});
     }
 ]);
+
+/* Filtre pour afficher du HTML */
+app.filter('unsafe', function($sce) {
+    return function(val) {
+        return $sce.trustAsHtml(val);
+    };
+});

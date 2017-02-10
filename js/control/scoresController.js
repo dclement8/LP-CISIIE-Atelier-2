@@ -1,9 +1,10 @@
 app.controller("scoresController", ["$scope", "$http", "$location",
 function($scope, $http, $location) {
+    console.log('bob');
     var errorHandler = function(e) {
 		console.log(e);
 	}
-    
+
     $scope.getBestScores = function() {
         // Affichage des meilleurs scores
         $http.get("api/parties").then(function(response) {

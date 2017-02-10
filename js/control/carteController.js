@@ -300,7 +300,8 @@ function($scope, $http, $location, leafletMapEvents) {
 			if(response.status == 201) {
 				showMsg("Score envoyé ! Vous remportez " + $scope.score + " points.", "rgba(0,0,128,0.9)", 5000);
 				// On affiche les meilleurs scores
-				$scope.getBestScores();
+				//$scope.getBestScores();
+				$("#tabscores").show();
 			}
 			else {
 				console.log("Erreur : mauvais status http");

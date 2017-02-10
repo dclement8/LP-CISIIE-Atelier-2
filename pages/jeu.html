@@ -1,0 +1,33 @@
+<div id="ensemble">
+    <!-- Token ok, on peut jouer -->
+    <div id="options">
+        <button class="waves-effect waves-light btn" ng-click="supprimerPartie()">Nouvelle partie</button>
+        <b>Points trouvés : {{point}}/5</b>
+        <div id="indication"></div>
+    </div>
+    <!-- Affichage de la carte 500*500 -->
+    <div id="groupe">
+        <div id="carte">
+            <leaflet
+                height="500px"
+                center="france"
+                tiles="tiles"
+                markers="markers"
+                event-broadcast="events"
+                defaults="defaults"
+                paths="paths"
+                maxbounds="maxbounds"
+                minZoom="minZoom"
+                maxZoom="maxZoom"
+            >
+            </leaflet>
+        </div>
+        <div id="destinationfinale">
+            <!--<div id="tabscores"></div>-->
+            <div ng-bind-html="tabScores|unsafe" id="tabscores"></div>
+            <h2>Indices pour trouver la destination finale :</h2>
+            <ul id="indices"></ul>
+        </div>
+    </div>
+    <div id="message"></div>
+</div>

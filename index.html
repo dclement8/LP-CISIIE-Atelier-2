@@ -17,75 +17,14 @@
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
     </head>
-    <body ng-controller="carteController">
+    <body>
 		<header>
 			<a href='./'>
 				<img src='img/carte.png' alt='La carte aux trésors'>
 			</a>
 		</header>
 
-		<div id='content'>
-			<div ng-show="!token" ng-cloak>
-				<!-- Pas de token, inscription -->
-				<label for="inputPseudo">Pseudo</label>
-				<input type="text" id="inputPseudo" placeholder="Entrez votre pseudo..." ng-model="pseudo" />
-				<label>Difficulté :</label>
-				<div class="switch">
-					<label>
-						Facile
-						<input id="difficulte" type="checkbox">
-						<span class="lever"></span>
-						Difficile
-					</label>
-				</div>
-				<br/><br/>
-				<button class="waves-effect waves-light btn" ng-click="creerPartie()">Jouer</button>
-				<br/><br/>
-				<h2>Règles du jeu :</h2>
-				<p>
-					Trouver la rose des vents en collectant 5 indices. Ces 5 indices doivent être collectés en cliquant sur un endroit de la carte correspondant à l'indication donnée en haut. Une fois le premier point trouvé, un indice apparaîtra alors dans la liste pour trouver la rose des vents finale une fois les 5 indices trouvés.
-				</p>
-				<p>
-					Vous pouvez choisir deux niveaux de difficulté. Le niveau difficile vous accordera une moindre marge d'erreur dans vos placements de points sur la carte mais vous accordera des points supplémentaires si vous arrivez à bien situer la rose des vents. En mode facile il vous sera accordé 10 points maximum mais 5 points en plus vous seront accordés en niveau difficile. Puis 8 points pour une distance approchante de la rose des vents en mode facile et 11 points en difficulté élevée. Enfin pour une distance approximative, 6 points seront accordés en mode facile et 7 en mode difficile.
-				</p>
-				<p>
-					<b>Attention vous n'aurez qu'une seule chance pour trouver la rose des vents une fois les 5 indices collectés.</b> Votre score sera ensuite calculé selon la précision entre votre sélection et le point de destination finale où se situe la rose des vents. Bon courrage :-).
-				</p>
-			</div>
-
-			<div id="ensemble" ng-show="token" ng-cloak>
-				<!-- Token ok, on peut jouer -->
-				<div id="options">
-					<button class="waves-effect waves-light btn" ng-click="supprimerPartie()">Nouvelle partie</button>
-					<b>Points trouvés : {{point}}/5</b>
-					<div id="indication"></div>
-				</div>
-                <!-- Affichage de la carte 500*500 -->
-    			<div id="groupe">
-    				<div id="carte">
-    					<leaflet
-    						height="500px"
-    						center="france"
-    						tiles="tiles"
-    						markers="markers"
-    						event-broadcast="events"
-    						defaults="defaults"
-                            paths="paths"
-    						maxbounds="maxbounds"
-    						minZoom="minZoom"
-    						maxZoom="maxZoom"
-    					>
-    					</leaflet>
-					</div>
-					<div id="destinationfinale">
-						<div id="tabscores"></div>
-						<h2>Indices pour trouver la destination finale :</h2>
-						<ul id="indices"></ul>
-					</div>
-				</div>
-				<div id="message"></div>
-			</div>
-		</div>
+		<div id="content" ng-view></div>
 
 		<footer>
 			2017 ; La Carte aux Trésors - LP CISIIE (Atelier 2) - Thibaut DALICHAMPT, Charles PIGUET, Hugo HAPPE et Dylan CLEMENT
@@ -94,6 +33,7 @@
         <!-- Chargement Angular et Leaflet -->
         <script src="js/lib/jquery.min.js"></script>
         <script src="node_modules/angular/angular.min.js"></script>
+        <script src="node_modules/angular-route/angular-route.min.js"></script>
         <script src="node_modules/leaflet/dist/leaflet.js"></script>
         <script src="node_modules/angular-simple-logger/dist/angular-simple-logger.js"></script>
         <script src="node_modules/ui-leaflet/dist/ui-leaflet.min.js"></script>
@@ -101,8 +41,9 @@
 
         <!-- Chargement application -->
         <script src="js/app.js"></script>
-        <!--<script src="js/models/carte.js"></script>-->
+        <script src="js/control/creerController.js"></script>
         <script src="js/control/carteController.js"></script>
-        <!--<script src="js/directives/carteDirective.js"></script>-->
+        <script src="js/control/scoresController.js"></script>
+        <script src="js/directives/carteDirective.js"></script>
     </body>
 </html>

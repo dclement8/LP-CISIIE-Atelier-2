@@ -2,9 +2,15 @@
 
 Lien vers le repository GitHub (pour le rendu sur Arche) : https://github.com/hitoshi54/LP-CISIIE-Atelier-2/
 
-Lien vers le tableau de bord de suivi du projet (fichier Excel) : https://1drv.ms/x/s!AonSDypE5r-omLsHpdF3_UtqJQ8lUA
+Lien vers le tableau de bord de suivi du projet (fichier Excel) : https://1drv.ms/x/s!AonSDypE5r-omLsHpdF3_UtqJQ8lUA ou bien en format PDF dans *tableaubord.pdf*
 
 ---------
+
+## Fonctionnalités avancées faites :
+  * Tableau des scores
+  * Niveaux de difficulté
+  * Authentification sur le backend
+
 
 ## Quelques précisions sur la structure des fichiers :
 *admin/* ==> Backend de gestion (pour vous authentifier sur le backend, le mot de passe est **174086** )

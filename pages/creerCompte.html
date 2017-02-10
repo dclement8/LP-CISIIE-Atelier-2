@@ -2,12 +2,25 @@
     <!-- Pas de token, inscription -->
     <label for="inputPseudo">Pseudo</label>
     <input type="text" id="inputPseudo" placeholder="Entrez votre pseudo..." ng-model="pseudo" />
+    <label>Difficulté :</label>
+    <div class="switch">
+        <label>
+            Facile
+            <input id="difficulte" type="checkbox">
+            <span class="lever"></span>
+            Difficile
+        </label>
+    </div>
+    <br/><br/>
     <button class="waves-effect waves-light btn" ng-click="creerPartie()">Jouer</button>
     <button class="waves-effect waves-light btn grey lighten-1" goto="/scores">Meilleurs scores</button>
     <br/><br/>
     <h2>Règles du jeu :</h2>
     <p>
         Trouver la rose des vents en collectant 5 indices. Ces 5 indices doivent être collectés en cliquant sur un endroit de la carte correspondant à l'indication donnée en haut. Une fois le premier point trouvé, un indice apparaîtra alors dans la liste pour trouver la rose des vents finale une fois les 5 indices trouvés.
+    </p>
+    <p>
+        Vous pouvez choisir deux niveaux de difficulté. Le niveau difficile vous accordera une moindre marge d'erreur dans vos placements de points sur la carte mais vous accordera des points supplémentaires si vous arrivez à bien situer la rose des vents. En mode facile il vous sera accordé 10 points maximum mais 5 points en plus vous seront accordés en niveau difficile. Puis 8 points pour une distance approchante de la rose des vents en mode facile et 11 points en difficulté élevée. Enfin pour une distance approximative, 6 points seront accordés en mode facile et 7 en mode difficile.
     </p>
     <p>
         <b>Attention vous n'aurez qu'une seule chance pour trouver la rose des vents une fois les 5 indices collectés.</b> Votre score sera ensuite calculé selon la précision entre votre sélection et le point de destination finale où se situe la rose des vents. Bon courrage :-).

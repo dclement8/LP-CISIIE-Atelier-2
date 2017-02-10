@@ -31,6 +31,16 @@ function($scope, $http, $location) {
 			$scope.pseudo = "Anonyme";
 		}
 
+        // Difficulté
+		if(document.getElementById("difficulte").checked) {
+			// Niveau difficile
+			localStorage.setItem('difficulte', 'difficile');
+		}
+		else {
+			// Niveau facile
+			localStorage.setItem('difficulte', 'facile');
+		}
+
 		$http.post("api/parties", '{"pseudo": "'+ htmlEntities($scope.pseudo) +'"}').then(function(response) {
 			if(response.data.token !== undefined) {
 				$scope.token = response.data.token;

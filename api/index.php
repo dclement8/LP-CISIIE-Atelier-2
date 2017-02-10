@@ -198,7 +198,6 @@ function (Request $req, Response $resp, $args)
  *
  * @apiSuccess (Succès : 200) {Number} id Identifiant de la destination
  * @apiSuccess (Succès : 200) {String} pseudo Pseudo du joueur
- * @apiSuccess (Succès : 200) {String} token Token de la partie
  * @apiSuccess (Succès : 200) {Number} score Score obtenu
  *
  * @apiSuccessExample {json} Exemple de réponse en cas de succès

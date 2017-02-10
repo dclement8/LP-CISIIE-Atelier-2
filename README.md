@@ -6,6 +6,12 @@ Lien vers le tableau de bord de suivi du projet (fichier Excel) : https://1drv.m
 
 ---------
 
+## Fonctionnalités avancées faites :
+  * Tableau des scores
+  * Niveaux de difficulté
+  * Authentification sur le backend
+
+
 ## Quelques précisions sur la structure des fichiers :
 *admin/* ==> Backend de gestion (pour vous authentifier sur le backend, le mot de passe est **174086** )
 

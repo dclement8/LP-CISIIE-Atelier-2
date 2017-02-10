@@ -2,14 +2,14 @@ app.controller("carteController", ["$scope", "$http", "leafletMapEvents",
 function($scope, $http, leafletMapEvents) {
 
 	/* Variables */
-	$scope.point = 0;
-	$scope.points = [];
-	$scope.destination;
-	$scope.token = false;
-	$scope.score = 0;
-	$scope.fini = false;
-	$scope.finJeu = false;
-	$scope.markers = new Array();
+	$scope.point = 0; // Nombre de points trouvés
+	$scope.points = []; // Tableau contenant tous les points (indices)
+	$scope.destination; // Données de la destination finale
+	$scope.token = false; // Token de la partie en cours
+	$scope.score = 0; // Score total
+	$scope.fini = false; // Fin de recherche des indices
+	$scope.finJeu = false; // Fin de jeu
+	$scope.markers = new Array(); // Tableau des marqueurs
 	$scope.paths = {
 		points: {
 			type: "polyline",
@@ -18,6 +18,9 @@ function($scope, $http, leafletMapEvents) {
 			latlngs: []
 		}
 	};
+	
+	$scope.D = 4; // Valeur de D en km (distance) pour le trouver la destination finale (par défaut : difficulté facile)
+	$scope.distancePoints = 40; // Valeur distance maximale en km tolérable entre deux points (par défaut : difficulté facile)
 
 	/* Génération de la carte */
 
@@ -142,6 +145,20 @@ function($scope, $http, leafletMapEvents) {
 		if($scope.pseudo == undefined) {
 			$scope.pseudo = "Anonyme";
 		}
+		
+		// Difficulté
+		if(document.getElementById("difficulte").checked)
+		{
+			// Niveau difficile
+			$scope.D = 2;
+			$scope.distancePoints = 20;
+		}
+		else
+		{
+			// Niveau facile
+			$scope.D = 4;
+			$scope.distancePoints = 40;
+		}
 
 		$http.post("api/parties", '{"pseudo": "'+ htmlEntities($scope.pseudo) +'"}').then(function(response) {
 			if(response.data.token !== undefined) {
@@ -235,8 +252,7 @@ function($scope, $http, leafletMapEvents) {
 		// On vérifie p1 par rapport à p2
 		var distance = getDistance(p1, p2);
 
-		// 40 Km = valeur maximale tolérable entre deux points .
-		if(distance <= 40)
+		if(distance <= $scope.distancePoints)
 		{
 			// Créer marqueur au point trouvé
 			$scope.ajouterMarker(p2[0], p2[1]);
@@ -274,26 +290,48 @@ function($scope, $http, leafletMapEvents) {
 
 		$scope.relierPoint({lat: p2[0], lng: p2[1]});
 
-		// D = 4 Km : valeur score max .
-		var D = 4;
 
-		if(distance < D) {
+		if(distance < $scope.D) {
 			$scope.score = 10;
 		}
-		else if(distance < (2*D)) {
+		else if(distance < (2*$scope.D)) {
 			$scope.score = 8;
 		}
-		else if(distance < (3*D)) {
+		else if(distance < (3*$scope.D)) {
 			$scope.score = 6;
 		}
-		else if(distance < (5*D)) {
+		else if(distance < (5*$scope.D)) {
 			$scope.score = 3;
 		}
-		else if(distance < (10*D)) {
+		else if(distance < (10*$scope.D)) {
 			$scope.score = 1;
 		}
 		else {
 			$scope.score = 0;
+		}
+		
+		// Difficulté = difficile
+		if(document.getElementById("difficulte").checked)
+		{
+			// Niveau difficile = bonus de points accordé si >= 6 pts
+			if($scope.score == 10)
+			{
+				$scope.score = $scope.score + 5;
+			}
+			else
+			{
+				if($scope.score == 8)
+				{
+					$scope.score = $scope.score + 3;
+				}
+				else
+				{
+					if($scope.score == 6)
+					{
+						$scope.score = $scope.score + 1;
+					}
+				}
+			}
 		}
 
 		$scope.finJeu = true;

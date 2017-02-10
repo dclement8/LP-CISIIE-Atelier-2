@@ -81,10 +81,6 @@ function($scope, $http, $location, leafletMapEvents) {
 		console.log(e);
 	}
 
-	var htmlEntities = function(str) {
-		return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-	};
-
 	// Evenement lors du clic sur la carte
 	$scope.$on("leafletDirectiveMap.click", function(event, args) {
 		var leafEvent = args.leafletEvent;
@@ -155,6 +151,7 @@ function($scope, $http, $location, leafletMapEvents) {
 				}
 			};
 			$("#tabscores").html("");
+			$location.path('/creerPartie');
 		}
 	};
 

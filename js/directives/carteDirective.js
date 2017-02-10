@@ -1,12 +1,15 @@
-angular.module("carte")
-	.directive("carteDirective", [function() {
-		return {
-			/*restrict: "E",
-			templateUrl: "js/templates/carteTemplate.html",
-			link: function(scope, element, attrs) {
-				scope.creer = function() {
-				}
-			}*/
-		};
-	}
-]);
+app.directive("goto", function($location) {
+	return function(scope, element, attrs) {
+    	var path;
+
+	    attrs.$observe('goto', function(val) {
+	    	path = val;
+	    });
+
+	    element.bind('click', function() {
+	    	scope.$apply(function() {
+	    		$location.path(path);
+	    	});
+	    });
+	};
+});

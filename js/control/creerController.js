@@ -18,6 +18,14 @@ function($scope, $http, $location) {
 		return false;
 	}
 
+    var htmlEntities = function(str) {
+		return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	};
+
+    var errorHandler = function(e) {
+		console.log(e);
+	}
+
     $scope.creerPartie = function() {
 		if($scope.pseudo == undefined) {
 			$scope.pseudo = "Anonyme";
@@ -27,8 +35,6 @@ function($scope, $http, $location) {
 			if(response.data.token !== undefined) {
 				$scope.token = response.data.token;
 				localStorage.setItem('carteToken', $scope.token);
-
-				$scope.point = 0;
 
 				$("#indication").css('color', 'black');
                 $location.path('/jeu');
@@ -41,14 +47,8 @@ function($scope, $http, $location) {
 	};
 
     /* Initialisation */
-    if(!localStorage.getItem('carteToken')) {
-        // Nouvelle partie
-        console.log("Nouvelle partie");
-    }
-    else {
-        // Partie en cours ? on initialise token
-        console.log("Partie en cours");
-        $scope.token = localStorage.getItem('carteToken');
+    if(localStorage.getItem('carteToken')) {
+        // Partie en cours ? redirection
         $location.path('/jeu');
     }
 }]);

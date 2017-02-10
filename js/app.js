@@ -16,6 +16,10 @@ app.config(['$locationProvider', '$routeProvider', function config($locationProv
             templateUrl: "pages/jeu.html",
             controller: "carteController"
         }).
+        when('/scores', {
+            templateUrl: "pages/scores.html",
+            controller: "scoresController"
+        }).
         otherwise({redirectTo: '/'});
     }
 ]);

@@ -141,13 +141,6 @@
           },
           {
             "group": "Succès : 200",
-            "type": "String",
-            "optional": false,
-            "field": "token",
-            "description": "<p>Token de la partie</p>"
-          },
-          {
-            "group": "Succès : 200",
             "type": "Number",
             "optional": false,
             "field": "score",

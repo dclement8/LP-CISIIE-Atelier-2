@@ -1,15 +1,15 @@
-app.controller("carteController", ["$scope", "$http", "leafletMapEvents",
-function($scope, $http, leafletMapEvents) {
+app.controller("carteController", ["$scope", "$http", "$location", "leafletMapEvents",
+function($scope, $http, $location, leafletMapEvents) {
 
 	/* Variables */
-	$scope.point = 0;
-	$scope.points = [];
-	$scope.destination;
-	$scope.token = false;
-	$scope.score = 0;
-	$scope.fini = false;
-	$scope.finJeu = false;
-	$scope.markers = new Array();
+	$scope.point = 0; // Nombre de points trouvés
+	$scope.points = []; // Tableau contenant tous les points (indices)
+	$scope.destination; // Données de la destination finale
+	$scope.token = false; // Token de la partie en cours
+	$scope.score = 0; // Score total
+	$scope.fini = false; // Fin de recherche des indices
+	$scope.finJeu = false; // Fin de jeu
+	$scope.markers = new Array(); // Tableau des marqueurs
 	$scope.paths = {
 		points: {
 			type: "polyline",
@@ -18,6 +18,9 @@ function($scope, $http, leafletMapEvents) {
 			latlngs: []
 		}
 	};
+
+	$scope.D = 4; // Valeur de D en km (distance) pour le trouver la destination finale (par défaut : difficulté facile)
+	$scope.distancePoints = 40; // Valeur distance maximale en km tolérable entre deux points (par défaut : difficulté facile)
 
 	/* Génération de la carte */
 
@@ -81,10 +84,6 @@ function($scope, $http, leafletMapEvents) {
 		console.log(e);
 	}
 
-	var htmlEntities = function(str) {
-		return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-	};
-
 	// Evenement lors du clic sur la carte
 	$scope.$on("leafletDirectiveMap.click", function(event, args) {
 		var leafEvent = args.leafletEvent;
@@ -138,32 +137,10 @@ function($scope, $http, leafletMapEvents) {
 		setTimeout(function(){ $("#message").fadeOut(); }, time);
 	}
 
-	$scope.creerPartie = function() {
-		if($scope.pseudo == undefined) {
-			$scope.pseudo = "Anonyme";
-		}
-
-		$http.post("api/parties", '{"pseudo": "'+ htmlEntities($scope.pseudo) +'"}').then(function(response) {
-			if(response.data.token !== undefined) {
-				$scope.token = response.data.token;
-				localStorage.setItem('carteToken', $scope.token);
-
-				$scope.getPoints();
-				$scope.getDestination();
-				$scope.point = 0;
-
-				$("#indication").css('color', 'black');
-			}
-			else {
-				// Erreur
-				alert('Impossible de créer un compte !');
-			}
-		}, errorHandler);
-	};
-
 	$scope.supprimerPartie = function() {
 		if(confirm("Voulez-vous vraiment commencer une nouvelle partie ?")) {
 			localStorage.removeItem("carteToken");
+			localStorage.removeItem("difficulte");
 			$scope.token = false;
 			$("#indices").html("");
 			$scope.fini = false;
@@ -178,6 +155,7 @@ function($scope, $http, leafletMapEvents) {
 				}
 			};
 			$("#tabscores").html("");
+			$location.path('/creerPartie');
 		}
 	};
 
@@ -235,8 +213,7 @@ function($scope, $http, leafletMapEvents) {
 		// On vérifie p1 par rapport à p2
 		var distance = getDistance(p1, p2);
 
-		// 40 Km = valeur maximale tolérable entre deux points .
-		if(distance <= 40)
+		if(distance <= $scope.distancePoints)
 		{
 			// Créer marqueur au point trouvé
 			$scope.ajouterMarker(p2[0], p2[1]);
@@ -274,26 +251,48 @@ function($scope, $http, leafletMapEvents) {
 
 		$scope.relierPoint({lat: p2[0], lng: p2[1]});
 
-		// D = 4 Km : valeur score max .
-		var D = 4;
 
-		if(distance < D) {
+		if(distance < $scope.D) {
 			$scope.score = 10;
 		}
-		else if(distance < (2*D)) {
+		else if(distance < (2*$scope.D)) {
 			$scope.score = 8;
 		}
-		else if(distance < (3*D)) {
+		else if(distance < (3*$scope.D)) {
 			$scope.score = 6;
 		}
-		else if(distance < (5*D)) {
+		else if(distance < (5*$scope.D)) {
 			$scope.score = 3;
 		}
-		else if(distance < (10*D)) {
+		else if(distance < (10*$scope.D)) {
 			$scope.score = 1;
 		}
 		else {
 			$scope.score = 0;
+		}
+
+		// Difficulté = difficile
+		if(localStorage.getItem('difficulte') == "difficile")
+		{
+			// Niveau difficile = bonus de points accordé si >= 6 pts
+			if($scope.score == 10)
+			{
+				$scope.score = $scope.score + 5;
+			}
+			else
+			{
+				if($scope.score == 8)
+				{
+					$scope.score = $scope.score + 3;
+				}
+				else
+				{
+					if($scope.score == 6)
+					{
+						$scope.score = $scope.score + 1;
+					}
+				}
+			}
 		}
 
 		$scope.finJeu = true;
@@ -303,22 +302,6 @@ function($scope, $http, leafletMapEvents) {
 		$scope.sendScore();
 	};
 
-	$scope.getBestScores = function() {
-		// Affichage des meilleurs scores
-		$http.get("api/parties").then(function(response) {
-			if(response.status == 200) {
-				$("#tabscores").append("<h2>Tableau des meilleurs scores :</h2><table class='responsive-table'><tr><th>Position</th><th>Pseudo</th><th>Score</th></tr>");
-				for(var i = 0; i < response.data.scores.length; i++) {
-					$("#tabscores").append("<tr><td>" + (i + 1) + "</td><td>" + response.data.scores[i].pseudo + "</td><td>" + response.data.scores[i].score + "</td></tr>");
-				}
-				$("#tabscores").append("</table>");
-			}
-			else {
-				console.log("Erreur : mauvais status http");
-			}
-		}, errorHandler);
-	};
-
 	$scope.sendScore = function() {
 		// Envoi du score
 		$scope.score = typeof $scope.score !== 'undefined' ? $scope.score : 0;
@@ -326,7 +309,8 @@ function($scope, $http, leafletMapEvents) {
 			if(response.status == 201) {
 				showMsg("Score envoyé ! Vous remportez " + $scope.score + " points.", "rgba(0,0,128,0.9)", 5000);
 				// On affiche les meilleurs scores
-				$scope.getBestScores();
+				$scope.getScores();
+				$("#tabscores").show();
 			}
 			else {
 				console.log("Erreur : mauvais status http");
@@ -338,15 +322,44 @@ function($scope, $http, leafletMapEvents) {
 		});
 	};
 
+	$scope.getScores = function() {
+		// Affichage des meilleurs scores
+	    var tab = '';
+	    $http.get("api/parties").then(function(response) {
+	        if(response.status == 200) {
+	            tab += "<h2>Tableau des meilleurs scores :</h2><table class='responsive-table'><tr><th>Position</th><th>Pseudo</th><th>Score</th></tr>";
+	            for(var i = 0; i < response.data.scores.length; i++) {
+	                tab += "<tr><td>" + (i + 1) + "</td><td>" + response.data.scores[i].pseudo + "</td><td>" + response.data.scores[i].score + "</td></tr>";
+	            }
+	            tab += "</table>";
+	            $scope.tabScores = tab;
+	        }
+	        else {
+	            console.log("Erreur : mauvais status http");
+	        }
+	    }, errorHandler);
+	};
+
 	/* Initialisation */
-	if(!localStorage.getItem('carteToken')) {
+	if(!localStorage.getItem('carteToken') && !localStorage.getItem('difficulte')) {
 		// Nouvelle partie
-		console.log("Nouvelle partie");
+		$location.path('/creerPartie');
 	}
 	else {
 		// Partie en cours ? on initialise token
 		console.log("Partie en cours");
 		$scope.token = localStorage.getItem('carteToken');
+
+		if(localStorage.getItem('difficulte') == "difficile") {
+			$scope.D = 2;
+			$scope.distancePoints = 20;
+		}
+		else {
+			$scope.D = 4;
+			$scope.distancePoints = 40;
+		}
+
+		$scope.point = 0;
 		$scope.getPoints();
 		$scope.getDestination();
 	}

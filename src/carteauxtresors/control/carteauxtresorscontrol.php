@@ -73,9 +73,9 @@ class carteauxtresorscontrol
     public function scorePartie(Request $req, Response $resp, $args) 
     {
         $obj = json_decode($req->getBody());
-        if(isset($obj->score) || isset($obj->token))
+        if(isset($obj->score) && isset($obj->token))
 		{
-            if((filter_var($obj->score, FILTER_SANITIZE_NUMBER_INT) != false) || ($obj->score == 0)) 
+            if((filter_var($obj->score, FILTER_SANITIZE_NUMBER_INT) != false) || ($obj->score === 0)) 
             {
                 $score = filter_var($obj->score, FILTER_SANITIZE_NUMBER_INT);
                 $token = filter_var($obj->token, FILTER_SANITIZE_FULL_SPECIAL_CHARS);

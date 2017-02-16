@@ -161,7 +161,7 @@ class admincontrol
 	
 	public function supprimerDestination(Request $req, Response $resp, $args)
 	{
-		if(isset($_POST["coche"]))
+		if(isset($_POST["coche2"]))
 		{
 			for($i = 0; $i < count($_POST["coche2"]); $i++)
 			{

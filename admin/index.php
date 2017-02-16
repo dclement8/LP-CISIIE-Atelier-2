@@ -8,7 +8,17 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $configuration = [
 	'settings' => [
-		'displayErrorDetails' => true ]
+		'displayErrorDetails' => true ] ,
+	'notFoundHandler' => function($c) {
+		return (function($req, $resp) {
+			$args = null;
+			$resp = $resp->withStatus(404);
+			
+			$_SESSION["message"] = "Erreur 404 : la page que vous avez demandé est introuvable !";
+			
+			return (new carteauxtresors\control\admincontrol(null))->accueil($req, $resp, $args);
+		});
+	}
 ];
 $c = new\Slim\Container($configuration);
 $app = new \Slim\App($c);

@@ -8,7 +8,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $configuration = [
 	'settings' => [
-		'displayErrorDetails' => true ]
+		'displayErrorDetails' => true ] 
 ];
 $c = new\Slim\Container($configuration);
 $app = new \Slim\App($c);
